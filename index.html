@@ -332,6 +332,9 @@ fetch('cikkek.json')
   .then(r => r.json())
   .then(data => {
     cikkek = data;
+    renderCikkLista("kezdolap-lista", cikkek.slice(0, 3));
+    renderCikkLista("friss-lista", cikkek.slice(0, 5));
+    renderCikkLista("osszes-lista", cikkek);
   });
 
 const dokumentumok = [
@@ -411,9 +414,6 @@ function renderDokumentumok() {
   `).join("");
 }
 
-renderCikkLista("kezdolap-lista", cikkek.slice(0, 3));
-renderCikkLista("friss-lista", cikkek.slice(0, 5));
-renderCikkLista("osszes-lista", cikkek);
 renderDokumentumok();
 </script>
 
