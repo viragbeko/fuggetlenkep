@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Független Kép</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: #f7f7f5;
+    color: #2c2c2a;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  header {
+    background: #fff;
+    border-bottom: 1px solid #e0dfd8;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+
+  .logo {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: #2c2c2a;
+  }
+
+  .logo span {
+    color: #888780;
+    font-weight: 400;
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    background: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: #2c2c2a;
+    transition: all 0.2s;
+  }
+
+  nav {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  nav a {
+    font-size: 14px;
+    color: #5f5e5a;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  nav a:hover, nav a.active {
+    background: #f1efe8;
+    color: #2c2c2a;
+  }
+
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #2c2c2a;
+  }
+
+  .article-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .article-card {
+    background: #fff;
+    border: 0.5px solid #e0dfd8;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .article-card:hover { border-color: #b4b2a9; }
+
+  .article-card .meta {
+    font-size: 12px;
+    color: #888780;
+    margin-bottom: 6px;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .article-card .tag {
+    background: #f1efe8;
+    color: #5f5e5a;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+  }
+
+  .article-card h2 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .article-card p {
+    font-size: 14px;
+    color: #5f5e5a;
+    line-height: 1.5;
+  }
+
+  .article-detail { max-width: 640px; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #5f5e5a;
+    margin-bottom: 1.5rem;
+    padding: 6px 12px;
+    border: 0.5px solid #e0dfd8;
+    border-radius: 7px;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.15s;
+  }
+
+  .back-btn:hover { background: #f1efe8; }
+
+  .article-detail .meta {
+    font-size: 13px;
+    color: #888780;
+    margin-bottom: 1rem;
+  }
+
+  .article-detail h1 {
+    font-size: 22px;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .article-detail .body {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #2c2c2a;
+    margin-top: 1.5rem;
+  }
+
+  .article-detail .body p { margin-bottom: 1rem; }
+
+  .doc-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .doc-item {
+    background: #fff;
+    border: 0.5px solid #e0dfd8;
+    border-radius: 10px;
+    padding: 0.875rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .doc-item span { font-size: 14px; color: #5f5e5a; }
+
+  .doc-item a {
+    font-size: 13px;
+    padding: 5px 12px;
+    border: 0.5px solid #d3d1c7;
+    border-radius: 6px;
+    color: #5f5e5a;
+    transition: background 0.15s;
+  }
+
+  .doc-item a:hover { background: #f1efe8; }
+
+  .contact-card {
+    background: #fff;
+    border: 0.5px solid #e0dfd8;
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 480px;
+  }
+
+  .contact-card p { font-size: 15px; margin-bottom: 0.75rem; color: #5f5e5a; }
+  .contact-card a { color: #2c2c2a; text-decoration: underline; text-underline-offset: 3px; }
+
+  .suti-block {
+    background: #fff;
+    border: 0.5px solid #e0dfd8;
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 640px;
+  }
+
+  .suti-block p { font-size: 15px; color: #5f5e5a; line-height: 1.7; margin-bottom: 0.75rem; }
+
+  .empty {
+    font-size: 14px;
+    color: #888780;
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .hamburger { display: flex; }
+
+    nav {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-bottom: 1px solid #e0dfd8;
+      padding: 0.5rem;
+      gap: 2px;
+    }
+
+    nav.open { display: flex; }
+
+    nav a { font-size: 15px; padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Független<span>Kép</span></div>
+    <button class="hamburger" id="hamburger" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="nav">
+      <a href="#" data-page="kezdolap" class="active">Kezdőlap</a>
+      <a href="#" data-page="friss">Friss hírek</a>
+      <a href="#" data-page="osszes">Összes hír</a>
+      <a href="#" data-page="dokumentumtar">Dokumentumtár</a>
+      <a href="#" data-page="kapcsolat">Kapcsolat</a>
+      <a href="#" data-page="suti">Sütikezelés</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+  <div id="page-kezdolap" class="page active">
+    <h1>Üdvözöljük</h1>
+    <p style="color:#5f5e5a; font-size:15px; max-width:560px; margin-bottom:2rem;">
+      Tényalapú, drámamentes politikai összefoglalók. Naponta frissítve.
+    </p>
+    <div id="kezdolap-lista" class="article-list"></div>
+  </div>
+
+  <div id="page-friss" class="page">
+    <h1>Friss hírek</h1>
+    <div id="friss-lista" class="article-list"></div>
+  </div>
+
+  <div id="page-osszes" class="page">
+    <h1>Összes hír</h1>
+    <div id="osszes-lista" class="article-list"></div>
+  </div>
+
+  <div id="page-cikk" class="page">
+    <div class="article-detail">
+      <button class="back-btn" id="back-btn">← Vissza</button>
+      <div id="cikk-tartalom"></div>
+    </div>
+  </div>
+
+  <div id="page-dokumentumtar" class="page">
+    <h1>Dokumentumtár</h1>
+    <div class="doc-list" id="doc-lista"></div>
+  </div>
+
+  <div id="page-kapcsolat" class="page">
+    <h1>Kapcsolat</h1>
+    <div class="contact-card">
+      <p>Észrevételt, javaslatot szívesen fogadunk.</p>
+      <p>Email: <a href="mailto:hello@fuggetlenkep.hu">hello@fuggetlenkep.hu</a></p>
+    </div>
+  </div>
+
+  <div id="page-suti" class="page">
+    <h1>Sütikezelés</h1>
+    <div class="suti-block">
+      <p>Ez az oldal nem használ nyomkövető sütiket, és nem helyez el reklámokat.</p>
+      <p>Kizárólag az oldal működéséhez szükséges, technikai jellegű adatokat tárolunk, amelyek a munkamenet végén törlődnek.</p>
+      <p>Személyes adatot nem gyűjtünk, harmadik félnek nem adunk át semmilyen adatot.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const cikkek = [
+  {
+    id: 1,
+    cim: "Példa cikk: Magyar Péter első nyilatkozata a választás után",
+    datum: "2026-04-13",
+    tag: "Belpolitika",
+    bevezeto: "A Tisza Párt elnöke a győzelmi beszédében vázolta a következő hetek teendőit.",
+    tartalom: `<p>Ez egy példa cikk. Ide kerül majd a tényleges tartalom.</p>
+    <p>A cikkeket a <strong>cikkek.json</strong> fájlban szerkesztheted, vagy közvetlenül ebben az index.html-ben a <code>cikkek</code> tömbben.</p>`
+  },
+  {
+    id: 2,
+    cim: "Gazdasági reakciók: a forint négy éves csúcson a választás után",
+    datum: "2026-04-12",
+    tag: "Gazdaság",
+    bevezeto: "A piacok azonnal reagáltak a Tisza kétharmados győzelmére.",
+    tartalom: `<p>Ez egy második példa cikk. Töltsd fel saját tartalommal.</p>`
+  }
+];
+
+const dokumentumok = [
+  {
+    nev: "Tisza Párt — Kormányprogram 2026",
+    url: "#"
+  }
+];
+
+let elozo_oldal = "kezdolap";
+
+function renderCikkLista(kontener_id, lista) {
+  const el = document.getElementById(kontener_id);
+  if (!lista.length) { el.innerHTML = '<p class="empty">Hamarosan...</p>'; return; }
+  el.innerHTML = lista.map(c => `
+    <div class="article-card" onclick="cikkMegnyit(${c.id})">
+      <div class="meta">
+        <span>${c.datum}</span>
+        <span class="tag">${c.tag}</span>
+      </div>
+      <h2>${c.cim}</h2>
+      <p>${c.bevezeto}</p>
+    </div>
+  `).join("");
+}
+
+function cikkMegnyit(id) {
+  const c = cikkek.find(x => x.id === id);
+  if (!c) return;
+  elozo_oldal = document.querySelector("nav a.active")?.dataset.page || "kezdolap";
+  document.getElementById("cikk-tartalom").innerHTML = `
+    <div class="meta">${c.datum} — <span class="tag" style="display:inline-block;margin-left:4px">${c.tag}</span></div>
+    <h1>${c.cim}</h1>
+    <div class="body">${c.tartalom}</div>
+  `;
+  lapValt("cikk");
+  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+}
+
+function lapValt(lap) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-" + lap).classList.add("active");
+  window.scrollTo(0, 0);
+  if (window.innerWidth <= 600) {
+    document.getElementById("nav").classList.remove("open");
+  }
+}
+
+document.getElementById("back-btn").addEventListener("click", () => {
+  lapValt(elozo_oldal);
+  document.querySelectorAll("nav a").forEach(a => {
+    a.classList.toggle("active", a.dataset.page === elozo_oldal);
+  });
+});
+
+document.querySelectorAll("nav a").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+    link.classList.add("active");
+    lapValt(link.dataset.page);
+  });
+});
+
+document.getElementById("hamburger").addEventListener("click", () => {
+  document.getElementById("nav").classList.toggle("open");
+});
+
+function renderDokumentumok() {
+  const el = document.getElementById("doc-lista");
+  if (!dokumentumok.length) { el.innerHTML = '<p class="empty">Hamarosan...</p>'; return; }
+  el.innerHTML = dokumentumok.map(d => `
+    <div class="doc-item">
+      <span>${d.nev}</span>
+      <a href="${d.url}" target="_blank">Letöltés</a>
+    </div>
+  `).join("");
+}
+
+renderCikkLista("kezdolap-lista", cikkek.slice(0, 3));
+renderCikkLista("friss-lista", cikkek.slice(0, 5));
+renderCikkLista("osszes-lista", cikkek);
+renderDokumentumok();
+</script>
+
+</body>
+</html>
