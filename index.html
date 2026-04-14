@@ -409,7 +409,7 @@ function renderDokumentumok() {
   el.innerHTML = dokumentumok.map(d => `
     <div class="doc-item">
       <span>${d.nev}</span>
-      <a href="${d.url}" target="_blank">Letöltés</a>
+      <a href="${d.url}" target="_blank" rel="noopener">Letöltés</a>
     </div>
   `).join("");
 }
