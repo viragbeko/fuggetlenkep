@@ -326,25 +326,13 @@
 </main>
 
 <script>
-const cikkek = [
-  {
-    id: 1,
-    cim: "Példa cikk: Magyar Péter első nyilatkozata a választás után",
-    datum: "2026-04-13",
-    tag: "Belpolitika",
-    bevezeto: "A Tisza Párt elnöke a győzelmi beszédében vázolta a következő hetek teendőit.",
-    tartalom: `<p>Ez egy példa cikk. Ide kerül majd a tényleges tartalom.</p>
-    <p>A cikkeket a <strong>cikkek.json</strong> fájlban szerkesztheted, vagy közvetlenül ebben az index.html-ben a <code>cikkek</code> tömbben.</p>`
-  },
-  {
-    id: 2,
-    cim: "Gazdasági reakciók: a forint négy éves csúcson a választás után",
-    datum: "2026-04-12",
-    tag: "Gazdaság",
-    bevezeto: "A piacok azonnal reagáltak a Tisza kétharmados győzelmére.",
-    tartalom: `<p>Ez egy második példa cikk. Töltsd fel saját tartalommal.</p>`
-  }
-];
+let cikkek = [];
+
+fetch('cikkek.json')
+  .then(r => r.json())
+  .then(data => {
+    cikkek = data;
+  });
 
 const dokumentumok = [
   {
