@@ -268,7 +268,7 @@
       <a href="#" data-page="friss">Friss hírek</a>
       <a href="#" data-page="osszes">Összes hír</a>
       <a href="#" data-page="dokumentumtar">Dokumentumtár</a>
-      <a href="#" data-page="kapcsolat">Kapcsolat</a>
+      <a href="#" data-page="Impresszum">Impresszum</a>
       
     </nav>
   </div>
@@ -277,10 +277,10 @@
 <main class="main">
 
   <div id="page-kezdolap" class="page active">
-    <h1>A honeychat (mára halott) társkereső oldal fejlesztőjétől. Hehe.</h1>
+    <h1></h1>
     <p style="color:#5f5e5a; font-size:15px; max-width:560px; margin-bottom:2rem;">
-    <p>  Ez az oldal azoknak készült, akiket érdekelnek a politikai tények, de van annyira érdekes életük, hogy inkább azzal foglalkoznának szabadidejükben, nem a körülötte lévő állandó drámajelenséggel.
-</p><p>A kormányváltás után tiszta lappal indulok. Azt írom le, ami ténylegesen történik — magamnak, és azoknak, akik hasonlóan állnak a politikához, mint én.
+    <p>  Ez az oldal azoknak készült, akiket érdekelnek a politikai hírek, de a körülötte lévő állandó drámajelenség nem.</p>
+    <p> A cikkek tartalma igyekezik a tényeket bemutatni bárminemű álláspont képviselete nélkül — mindazoknak, akik hasonlóan állnak a politikához.
     </p> <br>
     <div id="kezdolap-lista" class="article-list"></div>
   </div>
@@ -307,8 +307,8 @@
     <div class="doc-list" id="doc-lista"></div>
   </div>
 
-  <div id="page-kapcsolat" class="page">
-    <h1>Kapcsolat</h1>
+  <div id="page-Impresszum" class="page">
+    <h1>Impresszum</h1>
     <div class="contact-card">
  <p>Ez az oldal magánszemélyként üzemeltetett, nonprofit tájékoztató felület.</p> 
 <p> Nem végez kereskedelmi tevékenységet, személyes adatot nem gyűjt,
@@ -418,5 +418,14 @@ function renderDokumentumok() {
 renderDokumentumok();
 </script>
 
+<footer style="margin-top:4rem; border-top:0.5px solid #e0dfd8; padding:1.5rem 1rem; text-align:center;">
+  <div style="max-width:860px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; font-size:13px; color:#888780;">
+    <span>© 2026 Bekő Virág — FüggetlenKép</span>
+    <a href="#" data-page="kapcsolat" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Kapcsolat</a>
+    <a href="#" data-page="suti" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Sütikezelés</a>
+    <a href="#" data-page="impresszum" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Impresszum</a>
+  </div>
+</footer>
+ 
 </body>
 </html>
