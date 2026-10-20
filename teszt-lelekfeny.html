@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Melyik Lélekfény vagy? – Lélekfény</title>
+<meta name="description" content="Tizenegy rövid kérdés a múltadról és a mai önmagadról. A végén megkapod a Lélekfényedet: egy nevet, egy színt és pár támogató mondatot.">
+<link rel="canonical" href="https://fuggetlenkep.hu/teszt-lelekfeny">
+<meta name="theme-color" content="#1E2A44">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Lélekfény">
+<meta property="og:title" content="Melyik Lélekfény vagy? – tízféle fény, te melyik vagy?">
+<meta property="og:description" content="Tizenegy rövid kérdés a múltadról és a mai önmagadról. A végén megkapod a Lélekfényedet: egy nevet, egy színt és pár támogató mondatot.">
+<meta property="og:url" content="https://fuggetlenkep.hu/teszt-lelekfeny">
+<meta property="og:image" content="https://fuggetlenkep.hu/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+<div class="sky sky--page">
+<header class="wrap bar">
+<a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Lélekfény</a>
+<nav class="nav" aria-label="Főmenü">
+<a href="/tesztek" aria-current="page">Tesztek</a>
+<a href="/tortenetek">Történetek</a>
+</nav>
+</header>
+<section class="pagehead">
+<div class="wrap">
+<h1>Melyik Lélekfény vagy?</h1>
+<p class="lead">Tizenegy rövid kérdés. Nincs rossz válasz.</p>
+</div>
+</section>
+</div>
+<main id="tartalom">
+<section class="band">
+<div class="wrap">
+<div class="quiz" id="kviz">
+<noscript><p>A teszt működéséhez JavaScript kell. Kapcsold be a böngésződben, és töltsd újra az oldalt.</p></noscript>
+<div id="start" class="prose">
+<p>Tizenegy rövid kérdés lesz, nagyjából három percig tart. Nincs jó vagy rossz válasz, és bármelyik kérdést kihagyhatod.</p>
+<p>A válaszaid nem hagyják el a böngésződet: nem küldjük el és nem tároljuk el őket.</p>
+<p class="actions"><button type="button" class="btn" id="go">Kezdjük</button></p>
+</div>
+<div id="qbox" hidden>
+<p class="progress" id="prog" aria-live="polite"></p>
+<div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
+<h2 id="qtext" tabindex="-1"></h2>
+<p class="hint" id="hint" hidden></p>
+<div class="opts" id="opts"></div>
+<div class="qtools">
+<button type="button" class="linkbtn" id="skipq">Inkább nem válaszolok</button>
+<button type="button" class="linkbtn" id="back" hidden>Vissza az előző kérdésre</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function () {
+  var D = {"q": [{"q": "Fiatalon mit mondtak rólad leggyakrabban a körülötted élők?", "h": null, "o": [{"t": "Hogy valahogy mindig megnyugszanak mellettem.", "s": 0}, {"t": "Hogy ügyes vagyok, és mindig kitalálok valamit.", "s": 1}, {"t": "Hogy rám mindig számíthatnak.", "s": 2}, {"t": "Hogy jó nálam lenni, mert törődöm velük.", "s": 7}]}, {"q": "Ha egy nehéz időszakban volt valami, ami átsegített, az mi volt?", "h": null, "o": [{"t": "Hogy nem álltam meg: mentem tovább, ahogy lehetett.", "s": 3}, {"t": "Az otthon, vagy valaki, akihez hazamehettem.", "s": 4}, {"t": "Egy-egy apró öröm: egy dal, egy kávé, egy kis nevetés.", "s": 5}, {"t": "A csend, és az, hogy volt időm átgondolni mindent.", "s": 6}]}, {"q": "Melyik napszak volt mindig a legkedvesebb?", "h": null, "o": [{"t": "A kora reggel, amikor még előttem az egész nap.", "s": 8}, {"t": "A késő este, amikor végre becsukhatom magam mögött az ajtót.", "s": 9}, {"t": "Az alkonyat, amikor kigyulladnak az első csillagok.", "s": 0}, {"t": "A délután, amikor a család egy asztalhoz ül.", "s": 2}]}, {"q": "Ha régen valami elromlott, mit tettél először?", "h": null, "o": [{"t": "Kitaláltam egy másik megoldást.", "s": 1}, {"t": "Megkerestem, merre lehet tovább menni.", "s": 3}, {"t": "Először azokra gondoltam, akiket ez megviselhet, és őket nyugtattam.", "s": 7}, {"t": "Megpróbáltam nevetni rajta, mert attól kisebbnek tűnik.", "s": 5}]}, {"q": "Melyik emléket veszed elő a legszívesebben?", "h": null, "o": [{"t": "Egy utazást vagy egy hazatérést.", "s": 4}, {"t": "Egy csendes beszélgetést valakivel, aki igazán értett engem.", "s": 6}, {"t": "Valami új kezdetét: egy első napot, egy költözést, egy nagy változást.", "s": 8}, {"t": "Egy pillanatot, amikor valaki végre megnyílt előttem, és én is neki.", "s": 9}]}, {"q": "Ha visszagondolsz az életedre, melyik időszak ül rajtad a legnagyobb súllyal?", "h": "Bármelyiket választhatod, vagy kihagyhatod a kérdést. A válaszod nem hagyja el a böngésződet.", "o": [{"t": "Akiket elvesztettem", "th": "veszteseg"}, {"t": "A magányos évek", "th": "magany"}, {"t": "Amit másokért vállaltam", "th": "aldozat"}, {"t": "Amikor újra kellett kezdenem", "th": "ujrakezdes"}, {"t": "Amit nem tehettem meg, pedig szerettem volna", "th": "alom"}]}, {"q": "Mit szerettek benned a legjobban a barátaid?", "h": null, "o": [{"t": "Hogy csendben is ott vagyok mellettük.", "s": 0}, {"t": "Hogy tartom a szavamat.", "s": 2}, {"t": "Hogy észreveszem a kis szépségeket, és őket is rávezetem.", "s": 5}, {"t": "Hogy könnyen alkalmazkodom, bárhová elmegyek velük.", "s": 3}]}, {"q": "Ha egy kis ünnepet rendeznél, mit tennél a legszívesebben?", "h": null, "o": [{"t": "Valami meglepőt főznék, és mesélnék egy jó történetet.", "s": 1}, {"t": "Megvendégelnék mindenkit, hogy senki ne maradjon éhen vagy egyedül.", "s": 7}, {"t": "Leültetném őket, és meghallgatnám, ki mivel jött.", "s": 6}, {"t": "Hazahívnék mindenkit, aki messze él, hogy újra együtt legyünk.", "s": 4}]}, {"q": "Mit jelent neked az, hogy „holnap”?", "h": null, "o": [{"t": "Egy újabb esélyt, amiért érdemes felkelni.", "s": 8}, {"t": "Még egy napot, amit a magam tempójában, nyugodtan élhetek.", "s": 9}, {"t": "Ugyanazt a jó rendet, amit megszoktam, és ami tart.", "s": 2}, {"t": "Valami újat, amit még ki kell találnom.", "s": 1}]}, {"q": "Ha egy zsúfolt teremben vagy, mit teszel?", "h": null, "o": [{"t": "Megnézem, ki ül egyedül, és odamegyek hozzá.", "s": 7}, {"t": "Örülök a társaságnak, de a gondolataim már otthon járnak.", "s": 4}, {"t": "Kicsit visszahúzódva figyelek, és akkor szólalok meg, ha már megbízom valakiben.", "s": 9}, {"t": "Közelebb lépek, mert valaki biztosan mond valami újat.", "s": 8}]}, {"q": "Ha egy fiatalnak adhatnál egy tanácsot, mi lenne az?", "h": null, "o": [{"t": "Ne félj, vannak, akik látnak és szeretnek akkor is, ha te nem hiszed.", "s": 0}, {"t": "Ne ragadj le, minden akadály körül van út.", "s": 3}, {"t": "Hallgass többet, mint beszélsz, a válaszok bent vannak.", "s": 6}, {"t": "Nevess minél többet, a kis dolgok adják az életet.", "s": 5}]}], "p": {"0": 6, "6": 0, "1": 5, "5": 1, "2": 9, "9": 2, "3": 4, "4": 3, "7": 8, "8": 7}, "s": ["hold", "ravasz-roka", "oreg-tolgy", "patak", "fecske", "szentjanosbogar", "kerti-kut", "gyertyalang", "hajnal", "suni"], "fb": 7};
+  var $ = function (id) { return document.getElementById(id); };
+  var total = D.q.length, i = 0, answers = [];
+
+  function show() {
+    var q = D.q[i], k;
+    $('prog').textContent = (i + 1) + ' / ' + total;
+    $('fill').style.width = (i / total * 100) + '%';
+    $('qtext').textContent = q.q;
+    var hint = $('hint');
+    hint.textContent = q.h || '';
+    hint.hidden = !q.h;
+    var opts = $('opts');
+    opts.innerHTML = '';
+    for (k = 0; k < q.o.length; k++) {
+      (function (k) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opt' + (answers[i] === k ? ' on' : '');
+        b.textContent = q.o[k].t;
+        b.addEventListener('click', function () { answers[i] = k; next(); });
+        opts.appendChild(b);
+      })(k);
+    }
+    $('back').hidden = (i === 0);
+    $('qtext').focus();
+  }
+
+  function next() {
+    if (i < total - 1) { i++; show(); } else { finish(); }
+  }
+
+  function finish() {
+    var sc = [], theme = 'altalanos', sum = 0, any = false, t, qi;
+    for (t = 0; t < 10; t++) sc.push(0);
+    for (qi = 0; qi < total; qi++) {
+      var a = answers[qi];
+      if (a === undefined || a < 0) continue;
+      var o = D.q[qi].o[a];
+      if (o.th) { theme = o.th; }
+      else { sc[o.s] += 2; sc[D.p[o.s]] += 1; any = true; sum += a + qi; }
+    }
+    var pick = D.fb;
+    if (any) {
+      var mx = Math.max.apply(null, sc), ties = [];
+      for (t = 0; t < 10; t++) if (sc[t] === mx) ties.push(t);
+      pick = ties[sum % ties.length];
+    }
+    $('fill').style.width = '100%';
+    location.assign('/eredmeny-' + D.s[pick] + '#' + theme);
+  }
+
+  $('go').addEventListener('click', function () { $('start').hidden = true; $('qbox').hidden = false; show(); });
+  $('skipq').addEventListener('click', function () { answers[i] = -1; next(); });
+  $('back').addEventListener('click', function () { if (i > 0) { i--; show(); } });
+})();
+</script>
+</main>
+<footer class="foot">
+<div class="wrap">
+<ul class="foot-links">
+<li><a href="/adatvedelem">Adatvédelem</a></li>
+<li><a href="/impresszum">Impresszum</a></li>
+<li><a href="/kapcsolat">Kapcsolat</a></li>
+</ul>
+<p>© 2026 Lélekfény</p>
+</div>
+</footer>
+</body>
+</html>

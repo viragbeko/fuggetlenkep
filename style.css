@@ -105,7 +105,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;letter-spac
 .sky--page{--dome:28rem}
 .sky>*{position:relative;z-index:1}
 .sky::after{content:"";position:absolute;z-index:0;left:var(--dome-x,50%);bottom:calc(var(--dome) / -2);width:var(--dome);height:var(--dome);margin-left:calc(var(--dome) / -2);border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,var(--lamp-pale) 0,var(--lamp) 18%,rgba(244,184,96,.42) 36%,rgba(244,184,96,0) 62%);
+  background:radial-gradient(circle,var(--g1,var(--lamp-pale)) 0,var(--g2,var(--lamp)) 18%,var(--g3,rgba(244,184,96,.42)) 36%,var(--g0,rgba(244,184,96,0)) 62%);
   animation:breathe 9s ease-in-out infinite}
 @media (min-width:60rem){.sky{--dome-x:74%}}
 @keyframes breathe{0%,100%{opacity:.86}50%{opacity:1}}
@@ -174,3 +174,30 @@ h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;letter-spac
 .foot-links a{display:inline-block;padding:.5rem 0}
 .foot p{max-width:40rem;margin:0 0 1rem}
 .foot :focus-visible{outline-color:var(--lamp-pale)}
+
+[hidden]{display:none!important}
+.eyebrow{margin:0 0 .5rem;font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lamp-pale)}
+button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
+.btn.btn--ghost{background:transparent;border:2px solid var(--link);color:var(--link)!important}
+.btn.btn--ghost:hover{background:#E8EEF8}
+
+/* teszt */
+.quiz{max-width:38rem}
+.progress{margin:0 0 .5rem;color:var(--muted);font-size:1rem;font-weight:700}
+.track{height:.5rem;margin:0 0 1.75rem;background:#DDE4EE;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--lamp);border-radius:99px;transition:width .3s}
+.quiz h2{font-size:clamp(1.6rem,5.5vw,2.1rem);margin-bottom:1.25rem}
+#qtext:focus{outline:none}
+.hint{margin:-.5rem 0 1.25rem;color:var(--muted);font-size:1.05rem}
+.opts{display:grid;gap:.75rem}
+.opt{display:block;width:100%;min-height:3.5rem;padding:.9rem 1.1rem;font:inherit;font-size:1.15rem;line-height:1.4;text-align:left;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem;cursor:pointer}
+.opt:hover{border-color:var(--lamp)}
+.opt.on{border-color:var(--lamp);background:#FFF6E2}
+.qtools{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;margin-top:1.25rem}
+.linkbtn{min-height:2.75rem;padding:.6rem 0;font:inherit;font-size:1.05rem;font-weight:700;color:var(--link);background:none;border:0;text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+
+/* eredmény */
+.gift{margin:1.25rem 0 2rem;padding:1.3rem 1.4rem;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--lamp);border-radius:.25rem;font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.5}
+.sharebar{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 .5rem}
+.typelist,.prose .typelist{list-style:none;margin:0 0 1.5rem;padding:0}
+.typelist a{display:inline-block;padding:.45rem 0;font-weight:700}
