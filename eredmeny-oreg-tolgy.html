@@ -20,6 +20,8 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/style.css">
+<script>window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3638506663290697" crossorigin="anonymous"></script>
 </head>
 <body>
 <a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
@@ -51,6 +53,11 @@
 <blockquote class="gift" data-theme="aldozat" hidden>A tölgy sok madárnak ad otthont, és sosem számolja, hány fészek van rajta. Amit másokért vállaltál, az az életükben ma is él, mint egy fa, amit te ültettél. Itt az ideje, hogy te is megpihenj az árnyékodban.</blockquote>
 <blockquote class="gift" data-theme="ujrakezdes" hidden>A tölgy minden tavasszal újra kihajt, akármilyen kemény volt a tél. Ahányszor újra kellett kezdened, a gyökereid ott voltak alattad, és tartottak. A tavaszok azért jöttek, mert te kitartottál.</blockquote>
 <blockquote class="gift" data-theme="alom" hidden>A tölgy lassan nő, évtizedek alatt éri el a nagyságát. Amit nem tehettél meg, az nem tesz kevesebbé: a kitartásod, a megbízhatóságod és a szeretteid mind a te lombkoronád ágai. Gyönyörű fa vagy.</blockquote>
+<div id="tanacs" hidden>
+<h2>Amit a fiatalabbaknak üzensz</h2>
+<blockquote class="gift" id="tanacs-text"></blockquote>
+<p class="meta">Ez a te saját tanácsod, csak a te böngésződben látszik, a megosztott linkben nincs benne. Aki ilyet tud üzenni, az tudja, mit ér az élet tapasztalata, és ebből is látszik, mennyi fény van benned.</p>
+</div>
 <h2>Amit mások szeretnek benned</h2>
 <ul>
 <li>Megbízhatóság, amire mindig lehet építeni</li>
@@ -97,6 +104,14 @@
   for (k = 0; k < items.length; k++) if (items[k].getAttribute('data-theme') === h) found = true;
   if (found) for (k = 0; k < items.length; k++) items[k].hidden = items[k].getAttribute('data-theme') !== h;
 
+  try {
+    var adv = sessionStorage.getItem('lf_tanacs');
+    if (adv && found) {
+      document.getElementById('tanacs-text').textContent = '\u201E' + adv + '\u201D';
+      document.getElementById('tanacs').hidden = false;
+    }
+  } catch (e) {}
+
   var box = document.getElementById('share');
   var url = box.getAttribute('data-url'), title = box.getAttribute('data-title');
   var cp = document.getElementById('copy'), nat = document.getElementById('native'), msg = document.getElementById('copied');
@@ -127,9 +142,11 @@
 <li><a href="/adatvedelem">Adatvédelem</a></li>
 <li><a href="/impresszum">Impresszum</a></li>
 <li><a href="/kapcsolat">Kapcsolat</a></li>
+<li id="sutik" hidden><a href="javascript:window.googlefc.showRevocationMessage();">Süti- és adatvédelmi beállítások</a></li>
 </ul>
 <p>© 2026 Lélekfény</p>
 </div>
 </footer>
+<script>window.googlefc.callbackQueue.push({'CONSENT_API_READY':function(){var e=document.getElementById('sutik');if(e)e.hidden=false;}});</script>
 </body>
 </html>
