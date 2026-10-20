@@ -1,431 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hu">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Független Kép</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    background: #f7f7f5;
-    color: #2c2c2a;
-  }
-
-  a { color: inherit; text-decoration: none; }
-
-  header {
-    background: #fff;
-    border-bottom: 1px solid #e0dfd8;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-inner {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
-  }
-
-  .logo {
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: -0.3px;
-    color: #2c2c2a;
-  }
-
-  .logo span {
-    color: #888780;
-    font-weight: 400;
-  }
-
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 6px;
-    border: none;
-    background: none;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 1.5px;
-    background: #2c2c2a;
-    transition: all 0.2s;
-  }
-
-  nav {
-    display: flex;
-    gap: 0.25rem;
-  }
-
-  nav a {
-    font-size: 14px;
-    color: #5f5e5a;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  nav a:hover, nav a.active {
-    background: #f1efe8;
-    color: #2c2c2a;
-  }
-
-  .main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  h1 {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    color: #2c2c2a;
-  }
-
-  .article-list { display: flex; flex-direction: column; gap: 1rem; }
-
-  .article-card {
-    background: #fff;
-    border: 0.5px solid #e0dfd8;
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-
-  .article-card:hover { border-color: #b4b2a9; }
-
-  .article-card .meta {
-    font-size: 12px;
-    color: #888780;
-    margin-bottom: 6px;
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .article-card .tag {
-    background: #f1efe8;
-    color: #5f5e5a;
-    padding: 2px 8px;
-    border-radius: 5px;
-    font-size: 11px;
-  }
-
-  .article-card h2 {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    line-height: 1.4;
-  }
-
-  .article-card p {
-    font-size: 14px;
-    color: #5f5e5a;
-    line-height: 1.5;
-  }
-
-  .article-detail { max-width: 640px; }
-
-  .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: #5f5e5a;
-    margin-bottom: 1.5rem;
-    padding: 6px 12px;
-    border: 0.5px solid #e0dfd8;
-    border-radius: 7px;
-    cursor: pointer;
-    background: #fff;
-    transition: background 0.15s;
-  }
-
-  .back-btn:hover { background: #f1efe8; }
-
-  .article-detail .meta {
-    font-size: 13px;
-    color: #888780;
-    margin-bottom: 1rem;
-  }
-
-  .article-detail h1 {
-    font-size: 22px;
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-  }
-
-  .article-detail .body {
-    font-size: 16px;
-    line-height: 1.75;
-    color: #2c2c2a;
-    margin-top: 1.5rem;
-  }
-
-  .article-detail .body p { margin-bottom: 1rem; }
-
-  .doc-list { display: flex; flex-direction: column; gap: 0.75rem; }
-
-  .doc-item {
-    background: #fff;
-    border: 0.5px solid #e0dfd8;
-    border-radius: 10px;
-    padding: 0.875rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .doc-item span { font-size: 14px; color: #5f5e5a; }
-
-  .doc-item a {
-    font-size: 13px;
-    padding: 5px 12px;
-    border: 0.5px solid #d3d1c7;
-    border-radius: 6px;
-    color: #5f5e5a;
-    transition: background 0.15s;
-  }
-
-  .doc-item a:hover { background: #f1efe8; }
-
-  .contact-card {
-    background: #fff;
-    border: 0.5px solid #e0dfd8;
-    border-radius: 10px;
-    padding: 1.5rem;
-    max-width: 480px;
-  }
-
-  .contact-card p { font-size: 15px; margin-bottom: 0.75rem; color: #5f5e5a; }
-  .contact-card a { color: #2c2c2a; text-decoration: underline; text-underline-offset: 3px; }
-
-  .suti-block {
-    background: #fff;
-    border: 0.5px solid #e0dfd8;
-    border-radius: 10px;
-    padding: 1.5rem;
-    max-width: 640px;
-  }
-
-  .suti-block p { font-size: 15px; color: #5f5e5a; line-height: 1.7; margin-bottom: 0.75rem; }
-
-  .empty {
-    font-size: 14px;
-    color: #888780;
-    padding: 2rem 0;
-  }
-
-  @media (max-width: 600px) {
-    .hamburger { display: flex; }
-
-    nav {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 52px;
-      left: 0;
-      right: 0;
-      background: #fff;
-      border-bottom: 1px solid #e0dfd8;
-      padding: 0.5rem;
-      gap: 2px;
-    }
-
-    nav.open { display: flex; }
-
-    nav a { font-size: 15px; padding: 10px 12px; }
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adatvédelmi tájékoztató – Lélekfény</title>
+<meta name="description" content="Milyen adatokat kezel a Lélekfény, hogyan használ sütiket és hirdetéseket, és milyen jogaid vannak.">
+<link rel="canonical" href="https://fuggetlenkep.hu/adatvedelem/">
+<meta name="theme-color" content="#1E2A44">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Lélekfény">
+<meta property="og:title" content="Adatvédelmi tájékoztató – Lélekfény">
+<meta property="og:description" content="Milyen adatokat kezel a Lélekfény, hogyan használ sütiket és hirdetéseket, és milyen jogaid vannak.">
+<meta property="og:url" content="https://fuggetlenkep.hu/adatvedelem/">
+<meta property="og:image" content="https://fuggetlenkep.hu/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
-
-<header>
-  <div class="header-inner">
-    <div class="logo">Független<span>Kép</span></div>
-    <button class="hamburger" id="hamburger" aria-label="Menü">
-      <span></span><span></span><span></span>
-    </button>
-    <nav id="nav">
-      <a href="#" data-page="kezdolap" class="active">Kezdőlap</a>
-      <a href="#" data-page="friss">Friss hírek</a>
-      <a href="#" data-page="osszes">Összes hír</a>
-      <a href="#" data-page="dokumentumtar">Dokumentumtár</a>
-      <a href="#" data-page="Impresszum">Impresszum</a>
-      
-    </nav>
-  </div>
+<a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+<div class="sky sky--page">
+<header class="wrap bar">
+<a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Lélekfény</a>
+<nav class="nav" aria-label="Főmenü">
+<a href="/tesztek/">Tesztek</a>
+<a href="/tortenetek/">Történetek</a>
+</nav>
 </header>
-
-<main class="main">
-
-  <div id="page-kezdolap" class="page active">
-    <h1></h1>
-    <p style="color:#5f5e5a; font-size:15px; max-width:560px; margin-bottom:2rem;">
-    <p>  Ez az oldal azoknak készült, akiket érdekelnek a politikai hírek, de a körülötte lévő állandó drámajelenség nem.</p>
-    <p> A cikkek célja a tények bemutatása bármiféle álláspont képviselete nélkül – mindazok számára, akik hasonlóan viszonyulnak a politikához.
-    </p> <br>
-    <div id="kezdolap-lista" class="article-list"></div>
-  </div>
-
-  <div id="page-friss" class="page">
-    <h1>Friss hírek</h1>
-    <div id="friss-lista" class="article-list"></div>
-  </div>
-
-  <div id="page-osszes" class="page">
-    <h1>Összes hír</h1>
-    <div id="osszes-lista" class="article-list"></div>
-  </div>
-
-  <div id="page-cikk" class="page">
-    <div class="article-detail">
-      <button class="back-btn" id="back-btn">← Vissza</button>
-      <div id="cikk-tartalom"></div>
-    </div>
-  </div>
-
-  <div id="page-dokumentumtar" class="page">
-    <h1>Dokumentumtár</h1>
-    <div class="doc-list" id="doc-lista"></div>
-  </div>
-
-  <div id="page-Impresszum" class="page">
-    <h1>Impresszum</h1>
-    <div class="contact-card">
- <p>Ez az oldal magánszemélyként üzemeltetett, nonprofit tájékoztató felület.</p> 
-<p> Nem végez kereskedelmi tevékenységet, személyes adatot nem gyűjt,
-sütikett nem használ, hirdetést nem tartalmaz.</p> 
-
-<p> A tartalmakért az üzemeltető felel.</p> 
-<p> Megjelenített információk kizárólag tájékoztató jellegűek.</p> 
-    <p> Üzemeltető: Bekő Virág</p> 
-     <br>
-     <p>Email: <a href="virag.beko@outlook.hu">virag.beko@outlook.hu</a></p>
-    </div>
-  </div>
-
-
-
+<section class="pagehead">
+<div class="wrap">
+<h1>Adatvédelmi tájékoztató</h1>
+<p class="lead">Mit kezelünk, mit nem, és mit kérhetsz.</p>
+</div>
+</section>
+</div>
+<main id="tartalom">
+<section class="band">
+<div class="wrap">
+<div class="prose">
+<p class="meta">Utolsó frissítés: 2026. október 20.</p>
+<h2>Ki kezeli az adataidat?</h2>
+<address>
+Adatkezelő: Bekő Virág<br>
+Lakcím: <mark class="todo">KITÖLTENDŐ: lakcím</mark><br>
+E-mail: <a href="mailto:virag.beko@outlook.hu">virag.beko@outlook.hu</a>
+</address>
+<h2>Milyen adatokat kezelünk?</h2>
+<p>Az oldal látogatásához nem kell regisztrálnod, és nem kérünk tőled személyes adatot.</p>
+<ul>
+<li><strong>Látogatás.</strong> Az oldalt a GitHub Pages szolgáltatja (GitHub, Inc.). A szolgáltató technikai adatokat, például IP-címet, böngészőtípust és időpontot naplózhat. Ezekhez az üzemeltető nem fér hozzá; kezelésükről a <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub adatvédelmi tájékoztatója</a> szól.</li>
+<li><strong>Tesztek.</strong> A tesztek a böngésződben futnak. A válaszaidat nem küldjük el sehova, és nem tároljuk el.</li>
+<li><strong>E-mail.</strong> Ha írsz nekem, az üzeneted tartalmát és az e-mail-címedet a válaszadás idejére kezelem. Jogalap: az üzenetedre adott válasz jogos érdeke (GDPR 6. cikk (1) f)).</li>
+</ul>
+<h2>Sütik</h2>
+<p>Az oldal alapesetben nem használ sütit. Ha hirdetési vagy mérési szolgáltatást (például Google AdSense vagy Google Analytics) kapcsolunk be, azok harmadik féltől származó sütiket helyezhetnek el. Ezeket csak a hozzájárulásoddal helyezzük el, és a hozzájárulásodat bármikor visszavonhatod. A böngésződ beállításaiban a sütiket bármikor törölheted.</p>
+<h2>Hirdetések</h2>
+<p>Az oldalon Google AdSense hirdetések jelenhetnek meg. A Google a hirdetések megjelenítéséhez és személyre szabásához sütiket és hasonló technológiákat használhat. A személyre szabott hirdetéseket a <a href="https://adssettings.google.com">Google hirdetési beállításaiban</a> kapcsolhatod ki, a Google hirdetési adatkezeléséről pedig <a href="https://policies.google.com/technologies/ads">itt</a> olvashatsz.</p>
+<h2>Jogaid</h2>
+<p>Kérhetsz tájékoztatást a rólad kezelt adatokról, kérheted azok helyesbítését, törlését vagy korlátozását, tiltakozhatsz a kezelésük ellen, és kérheted az adataid hordozhatóságát. Kérésedet a fenti e-mail-címre küldheted.</p>
+<p>Ha úgy érzed, hogy az adataid kezelése sérti a jogaidat, panaszt tehetsz a Nemzeti Adatvédelmi és Információszabadság Hatóságnál (NAIH): 1055 Budapest, Falk Miksa utca 9–11., levelezési cím: 1363 Budapest, Pf. 9., e-mail: ugyfelszolgalat@naih.hu, honlap: <a href="https://naih.hu">naih.hu</a>. Bírósághoz is fordulhatsz.</p>
+</div>
+</div>
+</section>
 </main>
-
-<script>
-let cikkek = [];
-
-fetch('cikkek.json')
-  .then(r => r.json())
-  .then(data => {
-    cikkek = data;
-    renderCikkLista("kezdolap-lista", cikkek.slice(0, 3));
-    renderCikkLista("friss-lista", cikkek.slice(0, 5));
-    renderCikkLista("osszes-lista", cikkek);
-  });
-
-const dokumentumok = [
-  {
-    nev: "Tisza Párt — Kormányprogram 2026",
-    url: "https://cdn.tisza.work/A%20m%C5%B1k%C3%B6d%C5%91%20%C3%A9s%20embers%C3%A9ges%20Magyarorsz%C3%A1g%20alapjai.pdf"
-  }
-];
-
-let elozo_oldal = "kezdolap";
-
-function renderCikkLista(kontener_id, lista) {
-  const el = document.getElementById(kontener_id);
-  if (!lista.length) { el.innerHTML = '<p class="empty">Hamarosan...</p>'; return; }
-  el.innerHTML = lista.map(c => `
-    <div class="article-card" onclick="cikkMegnyit(${c.id})">
-      <div class="meta">
-        <span>${c.datum}</span>
-        <span class="tag">${c.tag}</span>
-      </div>
-      <h2>${c.cim}</h2>
-      <p>${c.bevezeto}</p>
-    </div>
-  `).join("");
-}
-
-function cikkMegnyit(id) {
-  const c = cikkek.find(x => x.id === id);
-  if (!c) return;
-  elozo_oldal = document.querySelector("nav a.active")?.dataset.page || "kezdolap";
-  document.getElementById("cikk-tartalom").innerHTML = `
-    <div class="meta">${c.datum} — <span class="tag" style="display:inline-block;margin-left:4px">${c.tag}</span></div>
-    <h1>${c.cim}</h1>
-    <div class="body">${c.tartalom}</div>
-  `;
-  lapValt("cikk");
-  document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
-}
-
-function lapValt(lap) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page-" + lap).classList.add("active");
-  window.scrollTo(0, 0);
-  if (window.innerWidth <= 600) {
-    document.getElementById("nav").classList.remove("open");
-  }
-}
-
-document.getElementById("back-btn").addEventListener("click", () => {
-  lapValt(elozo_oldal);
-  document.querySelectorAll("nav a").forEach(a => {
-    a.classList.toggle("active", a.dataset.page === elozo_oldal);
-  });
-});
-
-document.querySelectorAll("nav a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
-    link.classList.add("active");
-    lapValt(link.dataset.page);
-  });
-});
-
-document.getElementById("hamburger").addEventListener("click", () => {
-  document.getElementById("nav").classList.toggle("open");
-});
-
-function renderDokumentumok() {
-  const el = document.getElementById("doc-lista");
-  if (!dokumentumok.length) { el.innerHTML = '<p class="empty">Hamarosan...</p>'; return; }
-  el.innerHTML = dokumentumok.map(d => `
-    <div class="doc-item">
-      <span>${d.nev}</span>
-      <a href="${d.url}" target="_blank" rel="noopener">Letöltés</a>
-    </div>
-  `).join("");
-}
-
-renderDokumentumok();
-</script>
-
-<footer style="margin-top:4rem; border-top:0.5px solid #e0dfd8; padding:1.5rem 1rem; text-align:center;">
-  <div style="max-width:860px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; font-size:13px; color:#888780;">
-    <span>© 2026 Bekő Virág — FüggetlenKép</span>
-    <a href="#" data-page="kapcsolat" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Kapcsolat</a>
-    <a href="#" data-page="suti" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Sütikezelés</a>
-    <a href="#" data-page="impresszum" style="color:#888780; text-decoration:underline; text-underline-offset:3px;">Impresszum</a>
-  </div>
+<footer class="foot">
+<div class="wrap">
+<ul class="foot-links">
+<li><a href="/adatvedelem/">Adatvédelem</a></li>
+<li><a href="/impresszum/">Impresszum</a></li>
+<li><a href="/kapcsolat/">Kapcsolat</a></li>
+</ul>
+<p>Ha nehéz napod van, a Lelki Elsősegély Telefonszolgálat éjjel-nappal hívható: <a href="tel:116123">116-123</a>.</p>
+<p>© 2026 Lélekfény</p>
+</div>
 </footer>
- 
 </body>
 </html>
