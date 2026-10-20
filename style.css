@@ -154,6 +154,20 @@ h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;letter-spac
 .tag{display:inline-block;margin-bottom:.6rem;padding:.05rem .65rem;border-radius:99px;background:#E1E8F2;color:var(--ink);font-size:.95rem;font-weight:700}
 .mail{display:inline-block;margin:.25rem 0 1rem;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,5vw,1.9rem);word-break:break-all}
 
+.story h2{margin:2.2rem 0 .6rem}
+.verse{margin:2rem 0;padding:.2rem 0 .2rem 1.25rem;border-left:4px solid var(--lamp)}
+.verse p{margin:0;font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.4}
+.verse footer{margin-top:.6rem;color:var(--muted);font-size:1rem}
+.story-nav{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--rule);font-size:1.05rem}
+.story-nav a{display:inline-block;padding:.45rem 0;font-weight:700}
+.storylist{list-style:none;margin:1.75rem 0 0;padding:0;max-width:38rem}
+.storylist li{padding:1.1rem 0;border-bottom:1px solid var(--rule)}
+.storylist li:first-child{border-top:1px solid var(--rule)}
+.storylist a{font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:1.2;color:var(--ink);text-decoration:none}
+.storylist a:hover{text-decoration:underline;text-decoration-color:var(--lamp);text-decoration-thickness:.12em}
+.storylist .ref{display:block;margin:.2rem 0 .1rem;color:var(--muted);font-size:1rem}
+.storylist .note{display:block}
+
 .foot{background:var(--dusk-deep);color:#C5D0E2;font-size:1rem;line-height:1.6;padding-block:2.5rem}
 .foot a{color:#E6ECF6}
 .foot-links{display:flex;flex-wrap:wrap;gap:.1rem 1.5rem;margin:0 0 1.25rem;padding:0;list-style:none}
