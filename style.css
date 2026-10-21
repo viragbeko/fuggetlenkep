@@ -266,7 +266,7 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .tk{display:block;width:100%;height:auto;overflow:visible}
 .tk-face{animation:tkflick 3.6s ease-in-out var(--d,0s) infinite}
 @keyframes tkflick{0%,100%{opacity:1}35%{opacity:.88}65%{opacity:.96}}
-@media (prefers-reduced-motion:reduce){.tk-face{animation:none}.tk-card.is-new{animation:none}}
+@media (prefers-reduced-motion:reduce){.tk-face{animation:none}}
 .tk-intro{max-width:38rem;margin:0}
 .tk-home{margin:1rem 0 0;font-size:1.15rem}
 .tk-home a{font-weight:700}
@@ -277,15 +277,34 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .tk-garden h2:focus{outline:none}
 .tk-garden .meta{color:#B8C4D8}
 .tk-garden :focus-visible{outline-color:var(--lamp-pale)}
+.tk-lay{display:grid;gap:1.5rem 2rem;grid-template-columns:minmax(0,1fr);margin-top:1.25rem}
+.tk-yard{position:relative;width:100%;max-width:44rem;aspect-ratio:1027/675;overflow:hidden;container-type:inline-size;background:var(--dusk-deep) url(/tokkert-kert.jpg) center/100% 100% no-repeat;border-radius:.5rem;box-shadow:0 .5rem 1.5rem rgba(0,0,0,.4)}
+.tk-card{position:absolute;transform:translate(-50%,-100%);margin:0;padding:0}
+.tk-card::before{content:"";position:absolute;left:-28%;right:-28%;top:6%;bottom:-8%;background:radial-gradient(closest-side,rgba(255,200,90,.30),rgba(255,200,90,0));pointer-events:none}
+.tk-card.is-mine::before{background:radial-gradient(closest-side,rgba(255,226,168,.5),rgba(255,226,168,0))}
+.tk-bob{position:relative;transform-origin:50% 100%}
+.tk-name{position:absolute;left:50%;bottom:100%;transform:translateX(calc(-50% + var(--sx,0px)));max-width:12em;margin:0 0 .1em;padding:.08em .55em;border-radius:1em;background:rgba(14,20,38,.78);color:#fff;font-size:clamp(.62rem,3.2cqw,.95rem);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:1}
+.tk-badge{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:.1em;padding:0 .6em;border-radius:1em;background:rgba(255,226,168,.92);color:#141C30;font-size:clamp(.6rem,3cqw,.8rem);font-weight:700;line-height:1.5;white-space:nowrap}
+/* a szellem fején álló tök: ferdén ül, nincs árnyéka, a neve a bal oldalán áll */
+.tk-card.on-ghost .tk-shadow{display:none}
+.tk-card.on-ghost .tk-bob svg{transform:rotate(12deg);transform-origin:50% 100%}
+.tk-card.on-ghost .tk-name{bottom:auto;top:10%;left:auto;right:100%;transform:none;margin:0 .5em 0 0}
+.tk-empty{position:absolute;left:8%;right:8%;top:36%;margin:0;padding:.6rem .9rem;border-radius:.5rem;background:rgba(14,20,38,.7);text-align:center;font-size:1.05rem}
+.tk-side{min-width:0}
+.tk-side .tk-share{margin-top:0}
+
+/* mozgás: finom rugózás (a tök kissé összenyomódik és visszarugózik), pislogás, a száj kis mozgása; az orr áll */
+.tk-live .tk-bob,.tk-card .tk-bob{animation:tkspring var(--p,4s) ease-in-out var(--d,0s) infinite}
+.tk-card.is-new .tk-bob{animation:tkpop .6s ease-out,tkspring var(--p,4s) ease-in-out .6s infinite}
+@keyframes tkspring{0%,52%,100%{transform:scale(1,1)}8%{transform:scale(1.03,.96)}19%{transform:scale(.985,1.03)}30%{transform:scale(1.01,.99)}41%{transform:scale(.997,1.005)}}
+@keyframes tkpop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
+.tk-live .tk-eye,.tk-card .tk-eye{transform-box:fill-box;transform-origin:50% 50%;animation:tkblink 4.6s ease-in-out calc(var(--d,0s) * 1.7) infinite}
+@keyframes tkblink{0%,92%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.08)}}
+.tk-live .tk-mouth,.tk-card .tk-mouth{transform-box:fill-box;transform-origin:50% 0;animation:tkmouth 3.4s ease-in-out calc(var(--d,0s) * .6) infinite}
+@keyframes tkmouth{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,1.09)}}
+@media (prefers-reduced-motion:reduce){.tk-live .tk-bob,.tk-card .tk-bob,.tk-card.is-new .tk-bob,.tk-live .tk-eye,.tk-card .tk-eye,.tk-live .tk-mouth,.tk-card .tk-mouth{animation:none}}
+@media (min-width:56rem){.tk-lay{grid-template-columns:minmax(0,40rem) minmax(0,1fr);align-items:start}}
 .tk-state{margin:1rem 0 0;font-size:1.15rem}
-.tk-grid{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1.25rem 1rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,9.5rem),1fr))}
-.tk-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:.5rem .4rem .7rem;border-radius:.5rem;border:1px solid transparent}
-.tk-card .tk{max-width:9rem}
-.tk-name{margin:.35rem 0 0;font-size:1.05rem;line-height:1.35;overflow-wrap:anywhere}
-.tk-badge{display:inline-block;margin-top:.3rem;padding:.1rem .6rem;border-radius:1rem;background:rgba(255,226,168,.16);color:var(--lamp-pale);font-size:.9rem;font-weight:700}
-.tk-card.is-mine{border-color:rgba(255,226,168,.35);background:rgba(255,255,255,.05)}
-.tk-card.is-new{animation:tkpop .7s ease-out}
-@keyframes tkpop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
 .tk-share{max-width:38rem;margin-top:2rem;padding:1.3rem 1.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,226,168,.28);border-radius:.5rem}
 .tk-share h3{margin:0 0 .4rem;font-size:1.4rem}
 .tk-share p{margin:0 0 1rem}

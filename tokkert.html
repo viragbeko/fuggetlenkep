@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tökkert – faragj tököt Halloweenre</title>
-<meta name="description" content="Faragj virtuális tököt Halloweenre, és hívd meg az ismerőseidet a közös tökkertbe. Ingyenes, regisztráció nélkül.">
+<meta name="description" content="Faragd ki a saját tököd, és tedd ismerősöd tökkertjébe. Ingyenes, regisztráció nélkül.">
 <link rel="canonical" href="https://fuggetlenkep.hu/tokkert">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1E2A44">
@@ -13,10 +13,10 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="hu_HU">
 <meta property="og:site_name" content="Lélekfény">
-<meta property="og:title" content="Tökkert – faragj tököt Halloweenre">
-<meta property="og:description" content="Faragj virtuális tököt Halloweenre, és hívd meg az ismerőseidet a közös tökkertbe. Ingyenes, regisztráció nélkül.">
+<meta property="og:title" content="Csatlakozz ismerősöd tökkertjébe!">
+<meta property="og:description" content="Faragd ki a saját tököd, és tedd ismerősöd tökkertjébe. Ingyenes, regisztráció nélkül.">
 <meta property="og:url" content="https://fuggetlenkep.hu/tokkert">
-<meta property="og:image" content="https://fuggetlenkep.hu/og-tokkert.png">
+<meta property="og:image" content="https://fuggetlenkep.hu/og-tokkert-kert.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -52,8 +52,11 @@
 <div class="wrap">
 <h2 id="tk-garden-h" tabindex="-1">A tökkert</h2>
 <p id="tk-count" class="meta"></p>
-<p id="tk-state" class="tk-state" role="status"></p>
-<ul id="tk-grid" class="tk-grid"></ul>
+<div class="tk-lay">
+<div id="tk-field" class="tk-yard" role="group" aria-label="A tökkert">
+<p id="tk-state" class="tk-empty" role="status" hidden></p>
+</div>
+<div class="tk-side">
 <div id="tk-share" class="tk-share" hidden>
 <h3>Hívd meg az ismerőseidet a kertbe</h3>
 <p>Küldd el a linket: aki megnyitja, látja a kertedet, és faraghat mellé egy saját tököt.</p>
@@ -70,6 +73,8 @@
 <p><a class="linkbtn" href="/tokkert">Új tökkert indítása</a></p>
 </div>
 </div>
+</div>
+</div>
 </section>
 <section id="tk-studio-sec" class="band" aria-labelledby="tk-studio-h">
 <div class="wrap">
@@ -77,7 +82,7 @@
 <form id="tk-form" novalidate>
 <div class="tk-studio">
 <div class="tk-stage">
-<div id="tk-prev"></div>
+<div id="tk-prev" class="tk-live"></div>
 <button id="tk-rand" class="btn btn--light" type="button">Véletlen tök</button>
 </div>
 <div id="tk-groups"></div>
@@ -184,16 +189,16 @@ var TK = (function () {
   function svg(cfg, vb, label) {
     var col = COLORS[cfg.c];
     var face = "";
-    var eye = '<path d="' + EYES[cfg.e] + '"/>';
+    var eye = '<path class="tk-eye" d="' + EYES[cfg.e] + '"/>';
     face += '<g class="tk-face" fill="url(#tk-glow)" stroke="rgba(110,45,8,.5)" stroke-width="1.5" stroke-linejoin="round">';
     face += eye + '<g transform="translate(200 0) scale(-1 1)">' + eye + '</g>';
-    if (NOSES[cfg.n]) { face += '<path d="' + NOSES[cfg.n] + '"/>'; }
-    face += '<path d="' + MOUTHS[cfg.m] + '"/>';
+    if (NOSES[cfg.n]) { face += '<path class="tk-nose" d="' + NOSES[cfg.n] + '"/>'; }
+    face += '<path class="tk-mouth" d="' + MOUTHS[cfg.m] + '"/>';
     face += "</g>";
     var hat = cfg.x === 1 || cfg.x === 4;
     var stem = hat ? "" : '<path d="M92 48 Q90 26 106 12 Q111 30 109 48 Z" fill="' + col.stem + '" stroke="rgba(0,0,0,.25)" stroke-width="1.2" stroke-linejoin="round"/>';
     return '<svg class="tk" viewBox="' + (vb || "0 -26 200 216") + '" role="img" aria-label="' + (label || "Faragott tök") + '" focusable="false">' +
-      '<ellipse cx="100" cy="186" rx="76" ry="8" fill="rgba(0,0,0,.3)"/>' +
+      '<ellipse class="tk-shadow" cx="100" cy="186" rx="76" ry="8" fill="rgba(0,0,0,.3)"/>' +
       '<g stroke="' + col.shade + '" stroke-width="2.5">' +
       '<ellipse cx="46" cy="116" rx="40" ry="62" fill="' + col.shade + '"/><ellipse cx="154" cy="116" rx="40" ry="62" fill="' + col.shade + '"/>' +
       '<ellipse cx="72" cy="115" rx="44" ry="68" fill="' + col.base + '"/><ellipse cx="128" cy="115" rx="44" ry="68" fill="' + col.base + '"/>' +
@@ -298,7 +303,7 @@ var TK = (function () {
     fs.appendChild(row);
     groupsBox.appendChild(fs);
   });
-  function paint() { $("tk-prev").innerHTML = TK.svg(cfg, null, "A te tököd"); }
+  function paint() { $("tk-prev").innerHTML = '<div class="tk-bob">' + TK.svg(cfg, null, "A te tököd") + "</div>"; }
   function syncRadios() {
     GROUPS.forEach(function (g) {
       var r = groupsBox.querySelectorAll('input[name="tk-' + g.k + '"]'), i;
@@ -309,7 +314,7 @@ var TK = (function () {
   $("tk-rand").addEventListener("click", function () { cfg = TK.random(); syncRadios(); paint(); });
 
   /* ------------------------------------------------ nézetek */
-  var gardenSec = $("tk-garden"), studioSec = $("tk-studio-sec"), grid = $("tk-grid"), stateEl = $("tk-state"), countEl = $("tk-count");
+  var gardenSec = $("tk-garden"), studioSec = $("tk-studio-sec"), field = $("tk-field"), stateEl = $("tk-state"), countEl = $("tk-count");
   var share = $("tk-share"), delBtn = $("tk-del"), askBox = $("tk-del-ask"), delMsg = $("tk-del-msg");
 
   function merged() {
@@ -320,31 +325,100 @@ var TK = (function () {
     }
     return list;
   }
-  function card(it, isNew) {
-    var li = el("li", "tk-card"), own = mineFor(code), holder = el("div", null);
-    holder.innerHTML = TK.svg(TK.parse(it.cfg), null, "Faragott tök");
-    var svg = holder.firstChild;
-    svg.style.setProperty("--d", "-" + (Math.random() * 3).toFixed(2) + "s");
-    svg.setAttribute("aria-label", "Faragott tök: " + (it.name || "névtelen"));
-    li.appendChild(holder);
-    li.appendChild(el("p", "tk-name", it.name || "Névtelen tök"));
-    if (own && own.id === it.id) { li.classList.add("is-mine"); li.appendChild(el("span", "tk-badge", "A te tököd")); }
-    if (isNew) { li.classList.add("is-new"); }
-    return li;
+  /* a tök helye véletlen, de a tök azonosítójából számolt: mindenkinél ugyanott áll, és a későbbi tökök nem tolják arrébb a korábbiakat */
+  function hash(s) { var h = 2166136261, i; for (i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function prng(seed) {
+    return function () {
+      seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
   }
-  function render() {
-    var list = merged(), i, fresh = loaded;
-    grid.textContent = "";
+  /* a kert képe 1027x675 (3:2); minden érték a kép szélességének/magasságának törtrésze */
+  var ASP = 1027 / 675;
+  var YMIN = 0.47, YMAX = 0.93;                                  // a fű, ahol a tök talpa állhat (távoli -> közeli)
+  var POND = { x: 0.78, y: 0.635, rx: 0.30, ry: 0.105 };        // a tó: ide nem kerül tök
+  var GHOST = { x: 0.936, y: 0.150, w: 0.062 };                 // a szellem feje: ide is kerülhet egy tök
+  function sizeAt(y) { return 0.105 + (y - YMIN) / (YMAX - YMIN) * 0.075; }
+  function inPond(x, y) { var a = (x - POND.x) / POND.rx, b = (y - POND.y) / POND.ry; return a * a + b * b < 1; }
+  function layout(list) {
+    var placed = [], out = [], ghost = false, i, j;
     for (i = 0; i < list.length; i++) {
-      grid.appendChild(card(list[i], fresh && !known[list[i].id]));
+      var id = list[i].id, r = prng(hash(id)), best = null, bs = -1, got = 0, tries = 0, pos;
+      if (!ghost && hash(id + "g") % 3 === 0) {                  // a sorrendben az első ilyen tök a szellem fejére kerül
+        ghost = true;
+        pos = { x: GHOST.x, y: GHOST.y, w: GHOST.w, ghost: true };
+      } else {
+        while (got < 40 && tries < 240) {
+          tries += 1;
+          var y = YMIN + r() * (YMAX - YMIN), w = sizeAt(y), m = w * 0.5 + 0.015, x = m + r() * (1 - 2 * m);
+          if (inPond(x, y)) { continue; }
+          got += 1;
+          var sc = 99;
+          for (j = 0; j < placed.length; j++) {
+            var q = placed[j], aw = (w + q.w) / 2, dx = (x - q.x) / aw, dy = (y - q.y) / ASP / (aw * 0.7), dd = Math.sqrt(dx * dx + dy * dy);
+            if (dd < sc) { sc = dd; }
+          }
+          if (sc > bs) { bs = sc; best = { x: x, y: y, w: w }; }
+        }
+        pos = best || { x: 0.2, y: 0.8, w: sizeAt(0.8) };
+        placed.push(pos);
+      }
+      pos.p = 3.2 + r() * 2.2;
+      pos.d = -(r() * 5);
+      out.push(pos);
+    }
+    return out;
+  }
+  function card(it, pos, isNew) {
+    var d = el("div", "tk-card"), own = mineFor(code), bob = el("div", "tk-bob");
+    d.style.left = (pos.x * 100).toFixed(2) + "%";
+    d.style.top = (pos.y * 100).toFixed(2) + "%";
+    d.style.width = (pos.w * 100).toFixed(2) + "%";
+    d.style.zIndex = String(Math.round(pos.y * 1000));
+    d.style.setProperty("--p", pos.p.toFixed(2) + "s");
+    d.style.setProperty("--d", pos.d.toFixed(2) + "s");
+    bob.innerHTML = TK.svg(TK.parse(it.cfg), null, "Faragott tök");   // csak a saját, állandó rajzaink
+    bob.firstChild.setAttribute("aria-label", "Faragott tök: " + (it.name || "névtelen"));
+    d.appendChild(el("span", "tk-name", it.name || "Névtelen tök"));
+    d.appendChild(bob);
+    if (pos.ghost) { d.classList.add("on-ghost"); }
+    if (own && own.id === it.id) { d.classList.add("is-mine"); d.appendChild(el("span", "tk-badge", "A te tököd")); }
+    if (isNew) { d.classList.add("is-new"); }
+    return d;
+  }
+  /* a név a tök fölött áll; ha kilógna a képből, oldalra tolom */
+  function fitNames() {
+    var cards = field.querySelectorAll(".tk-card"), fr = field.getBoundingClientRect(), i, rects = [], n;
+    for (i = 0; i < cards.length; i++) { n = cards[i].querySelector(".tk-name"); if (n) { n.style.setProperty("--sx", "0px"); } }
+    for (i = 0; i < cards.length; i++) { n = cards[i].querySelector(".tk-name"); rects.push(n && !cards[i].classList.contains("on-ghost") ? n.getBoundingClientRect() : null); }
+    for (i = 0; i < cards.length; i++) {
+      if (!rects[i]) { continue; }
+      var s = 0;
+      if (rects[i].left < fr.left + 3) { s = fr.left + 3 - rects[i].left; }
+      else if (rects[i].right > fr.right - 3) { s = fr.right - 3 - rects[i].right; }
+      if (s) { cards[i].querySelector(".tk-name").style.setProperty("--sx", s.toFixed(1) + "px"); }
+    }
+  }
+  var fitQueued = false;
+  function queueFit() { if (fitQueued) { return; } fitQueued = true; (window.requestAnimationFrame || setTimeout)(function () { fitQueued = false; fitNames(); }); }
+  window.addEventListener("resize", queueFit);
+  if (window.ResizeObserver) { new ResizeObserver(queueFit).observe(field); }
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(queueFit); }
+  function render() {
+    var list = merged(), pos = layout(list), i, fresh = loaded, olds = field.querySelectorAll(".tk-card");
+    for (i = 0; i < olds.length; i++) { olds[i].parentNode.removeChild(olds[i]); }
+    for (i = 0; i < list.length; i++) {
+      field.appendChild(card(list[i], pos[i], fresh && !known[list[i].id]));
       known[list[i].id] = true;
     }
     countEl.textContent = list.length === 1 ? "1 tök van a kertben." : list.length + " tök van a kertben.";
-    stateEl.hidden = list.length > 0 || !loadFailed;
     if (!list.length) {
       stateEl.hidden = false;
       stateEl.textContent = loadFailed ? "A tökkert most nem érhető el. Próbáld újra egy kicsit később." : "Még üres a kert. Faragd ki az elsőt.";
-    }
+    } else { stateEl.hidden = true; }
+    queueFit();
   }
   function view() {
     var own = mineFor(code);
@@ -398,13 +472,14 @@ var TK = (function () {
     if (!document.hidden && code) { loadGarden(); if (!timer) { startPolling(); } }
   });
 
+  function pendingLocal() { return merged().length > 0; }
   function open(c) {
     code = c; items = []; known = {}; loaded = false; loadFailed = false;
     pending = null;
     view();
     if (code) {
       render();
-      stateEl.hidden = false; stateEl.textContent = "A tökkert betöltése…";
+      if (!pendingLocal()) { stateEl.hidden = false; stateEl.textContent = "A tökkert betöltése…"; }
       loadGarden(); startPolling();
     }
   }
