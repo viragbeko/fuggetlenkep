@@ -175,7 +175,7 @@
   var form = $("gy-form"), area = $("gy-text"), alias = $("gy-alias"), hp = $("gy-hp"), ok = $("gy-ok");
   var msg = $("gy-msg"), btn = $("gy-send"), left = $("gy-left"), done = $("gy-done");
   var main = $("gy-done-main"), gone = $("gy-done-gone"), share = $("gy-share"), ask = $("gy-del-ask"), dmsg = $("gy-share-msg");
-  var mine = null;
+  var mine = null;      // a most beküldött gyertya: {id, tok, saved, off}
   $("gy-share-fb").href = fbUrl("");
 
   function fail(text, el) { msg.textContent = text; if (el) { el.focus(); } }
@@ -194,11 +194,10 @@
     if (Date.now() - readNum("lf_gy_last") < 60000) { return fail("Az előbb már gyújtottál egyet. Kérlek, várj egy percet.", null); }
     btn.disabled = true; btn.textContent = "Küldés…";
     var id = "g" + hex(4).slice(0, 7), tok = "t" + hex(8);
-    call({ a: "add", id: id, tok: tok, text: text, alias: by, hp: "", t: Date.now() - t0 }).then(function (res) {
-      if (!res || res.ok !== true) { throw res || {}; }
-      writeNum("lf_gy_last", Date.now());
-      addMine(id, tok);
-      mine = { id: id, tok: tok };
+    var payload = { a: "add", id: id, tok: tok, text: text, alias: by, hp: "", t: Date.now() - t0 };
+    var job = { id: id, tok: tok, saved: false, off: false };
+    function showDone() {
+      mine = job;
       $("gy-done-text").textContent = text;
       $("gy-done-by").textContent = by ? "— " + by : "";
       main.hidden = false; gone.hidden = true; share.hidden = false; ask.hidden = true; dmsg.textContent = "";
@@ -206,9 +205,33 @@
       $("gy-done-h").focus();
       area.value = ""; alias.value = ""; ok.checked = false; updLeft();
       btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
+    }
+    function saved() { job.saved = true; writeNum("lf_gy_last", Date.now()); addMine(id, tok); }
+    // Ha a küldés nem sikerül, a látogató akkor is a megosztáshoz jut, a háttérben pedig még kétszer újrapróbáljuk
+    // (a kliens által adott azonosító miatt az újrapróbálás nem hoz létre másodikat).
+    function retry(n) {
+      if (n > 2 || job.off) { return; }
+      setTimeout(function () {
+        if (job.off) { return; }
+        call(payload).then(function (res) {
+          if (res && res.ok === true) {
+            if (job.off) { call({ a: "del", id: id, tok: tok }).catch(function () {}); } else { saved(); }
+          } else if (res && (res.err === "short" || res.err === "forbidden")) { return; }
+          else { throw res || {}; }
+        }).catch(function () { retry(n + 1); });
+      }, n === 1 ? 4000 : 12000);
+    }
+    call(payload).then(function (res) {
+      if (res && res.ok === true) { saved(); showDone(); return; }
+      if (res && (res.err === "short" || res.err === "forbidden")) {   // ezt a látogató ki tudja javítani
+        fail(errText(res.err), null);
+        btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
+        return;
+      }
+      throw res || {};
     }).catch(function (e) {
-      fail(errText(e && e.err), null);
-      btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
+      if (e && (e.err === "short" || e.err === "forbidden")) { return; }
+      showDone(); retry(1);
     });
   });
   function again() { done.hidden = true; form.hidden = false; area.focus(); }
@@ -218,15 +241,20 @@
   /* a most beküldött gyertya törlése */
   $("gy-del").addEventListener("click", function () { share.hidden = true; ask.hidden = false; $("gy-del-no").focus(); });
   $("gy-del-no").addEventListener("click", function () { ask.hidden = true; share.hidden = false; $("gy-del").focus(); });
+  function goneView() { main.hidden = true; gone.hidden = false; $("gy-gone-h").focus(); }
   $("gy-del-yes").addEventListener("click", function () {
     if (!mine) { return; }
+    var j = mine;
+    j.off = true;         // a még függő újrapróbálkozást leállítjuk
+    if (!j.saved) { mine = null; goneView(); return; }   // a szerverre még nem jutott el, nincs mit törölni
     var b = $("gy-del-yes"); b.disabled = true; b.textContent = "Törlés…";
-    call({ a: "del", id: mine.id, tok: mine.tok }).then(function (res) {
+    call({ a: "del", id: j.id, tok: j.tok }).then(function (res) {
       if (!res || (res.ok !== true && res.err !== "bad")) { throw res || {}; }   // "bad": már nincs meg, az is törölt
-      dropMine(mine.id); mine = null;
-      main.hidden = true; gone.hidden = false; $("gy-gone-h").focus();
+      dropMine(j.id); mine = null;
+      goneView();
       b.disabled = false; b.textContent = "Igen, törlöm";
     }).catch(function () {
+      j.off = false;
       dmsg.textContent = "Most nem sikerült törölni. Próbáld újra egy kicsit később.";
       ask.hidden = true; share.hidden = false;
       b.disabled = false; b.textContent = "Igen, törlöm";

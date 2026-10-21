@@ -3,7 +3,9 @@
 // Mit csinál:
 //  - a /gyertya oldal ide küldi a beküldött gyertyákat (doPost, "add"), és a "Én is gyújtok" kattintásokat ("light")
 //  - a fal innen kéri le a JÓVÁHAGYOTT gyertyákat (doGet, "list")
-//  - a bejegyzéseket a táblázatban jóváhagyod: az E oszlop jelölőnégyzete = megjelenhet a falon
+//  - a bejegyzéseket a táblázatban jóváhagyod: az F oszlop jelölőnégyzete = megjelenhet a falon
+//  - ha valaki a "Gyertyám törlése" gombbal törli a gyertyáját, az A oszlopba "igen" kerül, a sor pirosra színeződik,
+//    és a gyertya azonnal eltűnik a faláról. A sort te törölheted a táblázatból, amikor ráérsz.
 //
 // Beállítás: egyszer futtasd a setup() függvényt, aztán Üzembe helyezés > Új üzembe helyezés > Webalkalmazás
 // (Futtatás: én, Hozzáférés: bárki). Az így kapott /exec végű URL kell az oldalnak.
@@ -21,6 +23,10 @@ var LIGHT_PER_MINUTE = 60;   // és ennyi "Én is gyújtok" kattintást
 var DEL_PER_MINUTE = 30;     // és ennyi törlést
 var PENDING_CAP = 400;       // ennyi jóváhagyásra váró bejegyzés fölött nem fogadunk újat
 var MIN_FILL_MS = 3000;      // ennél gyorsabban kitöltött űrlap robot
+
+// Beküldések lap oszlopai (1-től): törlendő | azonosító | időpont | becenév | szöveg | jóváhagyva | megjegyzés | törlőkulcs
+var C_DEL = 1, C_ID = 2, C_TS = 3, C_ALIAS = 4, C_TEXT = 5, C_OK = 6, C_NOTE = 7, C_TOK = 8, NCOLS = 8;
+var MAXR = 5000;
 
 // Ugyanezek a szabályok vannak az oldalon is (a látogató így azonnal visszajelzést kap).
 var RE_LINK = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|hu|net|org|ru|info|biz)\b)/i;
@@ -63,9 +69,11 @@ function validateAdd(body) {
   return { ok: true, text: text, alias: alias, id: id, tok: tok };
 }
 
-// entries: [[id, időpont(Date), becenév, szöveg, jóváhagyva(true/false)], ...]
+// entries: [[törlendő, id, időpont(Date), becenév, szöveg, jóváhagyva(true/false)], ...]
 // lights:  [[id, ...], ...]
 // fmt:     Date -> "2026. 10." szöveg
+function isDeleted(v) { return String(v == null ? '' : v).trim().toLowerCase() === 'igen'; }
+
 function buildList(entries, lights, limit, fmt) {
   var counts = {};
   for (var i = 0; i < lights.length; i++) {
@@ -75,11 +83,11 @@ function buildList(entries, lights, limit, fmt) {
   var approved = [];
   for (var j = 0; j < entries.length; j++) {
     var r = entries[j];
-    if (r[4] === true && r[0] && r[3]) approved.push(r);
+    if (r[5] === true && r[1] && r[4] && !isDeleted(r[0])) approved.push(r);
   }
-  approved.sort(function (a, b) { return new Date(b[1]).getTime() - new Date(a[1]).getTime(); });
+  approved.sort(function (a, b) { return new Date(b[2]).getTime() - new Date(a[2]).getTime(); });
   return approved.slice(0, limit).map(function (r) {
-    return { id: String(r[0]), alias: String(r[2] || ''), text: String(r[3]), ts: fmt(new Date(r[1])), n: 1 + (counts[String(r[0])] || 0) };
+    return { id: String(r[1]), alias: String(r[3] || ''), text: String(r[4]), ts: fmt(new Date(r[2])), n: 1 + (counts[String(r[1])] || 0) };
   });
 }
 
@@ -96,19 +104,48 @@ function out(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
+// Az utolsó ténylegesen kitöltött sor az azonosító oszlop alapján. A getLastRow() nem jó erre:
+// az előre kitett jelölőnégyzetek is "tartalomnak" számítanak, és ezért a végére (5000. sor) mutatna.
+function lastDataRow(sh) {
+  var top = sh.getLastRow();
+  if (top < 2) return 1;
+  var ids = sh.getRange(2, C_ID, top - 1, 1).getValues();
+  for (var i = ids.length - 1; i >= 0; i--) {
+    if (ids[i][0] !== '' && ids[i][0] != null) return i + 2;
+  }
+  return 1;
+}
+
+function readEntries(sh, n) {
+  return n > 1 ? sh.getRange(2, 1, n - 1, NCOLS).getValues() : [];
+}
+
 function setup() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var entries = ss.getSheetByName(SHEET_ENTRIES) || ss.insertSheet(SHEET_ENTRIES);
-  entries.getRange(1, 1, 1, 7).setValues([['azonosító', 'időpont', 'becenév', 'szöveg', 'jóváhagyva', 'megjegyzés (nem látszik)', 'törlőkulcs (ne módosítsd)']]).setFontWeight('bold');
-  entries.getRange('A2:A5000').setNumberFormat('@');
-  entries.getRange('G2:G5000').setNumberFormat('@');
-  entries.getRange('C2:D5000').setNumberFormat('@');
-  entries.getRange('B2:B5000').setNumberFormat('yyyy.mm.dd hh:mm');
-  entries.getRange('E2:E5000').insertCheckboxes();
+  // régi elrendezés (az A oszlopban az azonosító van): beszúrjuk elé a "törlendő" oszlopot
+  if (String(entries.getRange(1, 1).getValue()) === 'azonosító') entries.insertColumnBefore(1);
+  if (entries.getMaxRows() < MAXR) entries.insertRowsAfter(entries.getMaxRows(), MAXR - entries.getMaxRows());
+  var n = lastDataRow(entries);
+
+  entries.getRange(1, 1, 1, NCOLS).setValues([['törlendő', 'azonosító', 'időpont', 'becenév', 'szöveg', 'jóváhagyva', 'megjegyzés (nem látszik)', 'törlőkulcs (ne módosítsd)']]).setFontWeight('bold');
+  entries.getRange(2, C_DEL, MAXR - 1, 2).setNumberFormat('@');          // A:B szöveg
+  entries.getRange(2, C_TS, MAXR - 1, 1).setNumberFormat('yyyy.mm.dd hh:mm');
+  entries.getRange(2, C_ALIAS, MAXR - 1, 2).setNumberFormat('@');       // D:E szöveg
+  entries.getRange(2, C_TOK, MAXR - 1, 1).setNumberFormat('@');
+  // az üres sorokból kitakarítjuk a korábbi, előre kitett jelölőnégyzetek FALSE értékét, majd a jelölőnégyzet-szabályt
+  // úgy tesszük fel, hogy a meglévő jóváhagyások megmaradjanak
+  if (n < MAXR) entries.getRange(n + 1, C_OK, MAXR - n, 1).clearContent();
+  entries.getRange(2, C_OK, MAXR - 1, 1).setDataValidation(SpreadsheetApp.newDataValidation().requireCheckbox().build());
   entries.setFrozenRows(1);
-  entries.setColumnWidth(1, 90); entries.setColumnWidth(2, 130); entries.setColumnWidth(3, 130);
-  entries.setColumnWidth(4, 520); entries.setColumnWidth(5, 90); entries.setColumnWidth(6, 220); entries.setColumnWidth(7, 180);
-  entries.getRange('D2:D5000').setWrap(true).setVerticalAlignment('top');
+  entries.setColumnWidth(C_DEL, 80); entries.setColumnWidth(C_ID, 90); entries.setColumnWidth(C_TS, 130); entries.setColumnWidth(C_ALIAS, 130);
+  entries.setColumnWidth(C_TEXT, 520); entries.setColumnWidth(C_OK, 90); entries.setColumnWidth(C_NOTE, 220); entries.setColumnWidth(C_TOK, 180);
+  entries.getRange(2, C_TEXT, MAXR - 1, 1).setWrap(true).setVerticalAlignment('top');
+  // a törlésre kijelölt sor piros
+  var rule = SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied('=LOWER($A2)="igen"').setBackground('#F4C7C3')
+    .setRanges([entries.getRange(2, 1, MAXR - 1, NCOLS)]).build();
+  entries.setConditionalFormatRules([rule]);
 
   var lights = ss.getSheetByName(SHEET_LIGHTS) || ss.insertSheet(SHEET_LIGHTS);
   lights.getRange(1, 1, 1, 2).setValues([['azonosító', 'időpont']]).setFontWeight('bold');
@@ -119,17 +156,6 @@ function setup() {
   var extra = ss.getSheetByName('Munkalap1') || ss.getSheetByName('Sheet1');
   if (extra && extra.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(extra);
   SpreadsheetApp.flush();
-}
-
-function deleteLights(ss, id) {
-  var ls = ss.getSheetByName(SHEET_LIGHTS);
-  var n = ls.getLastRow();
-  if (n < 2) return;
-  var rows = ls.getRange(2, 1, n - 1, 2).getValues();
-  var keep = rows.filter(function (r) { return String(r[0]) !== id; });
-  if (keep.length === rows.length) return;
-  ls.getRange(2, 1, n - 1, 2).clearContent();
-  if (keep.length) ls.getRange(2, 1, keep.length, 2).setValues(keep);
 }
 
 function doPost(e) {
@@ -146,22 +172,21 @@ function doPost(e) {
       if (!v.ok) return out(v);
       if (!bumpCounter(cache, 'add_' + minute, ADD_PER_MINUTE)) return out({ ok: false, err: 'rate' });
       var sh = ss.getSheetByName(SHEET_ENTRIES);
-      var last = sh.getLastRow();
-      if (last > 1) {
-        var existing = sh.getRange(2, 1, last - 1, 7).getValues();
-        var pending = 0;
-        for (var i = 0; i < existing.length; i++) {
-          if (existing[i][4] !== true) pending++;
-          if (v.id && String(existing[i][0]) === v.id) {
-            // ugyanaz a beküldés újra (pl. megszakadt kapcsolat után): nem hozunk létre másodikat
-            return String(existing[i][6]) === v.tok ? out({ ok: true, dup: true }) : out({ ok: false, err: 'bad' });
-          }
+      var n = lastDataRow(sh);
+      var existing = readEntries(sh, n);
+      var pending = 0;
+      for (var i = 0; i < existing.length; i++) {
+        if (existing[i][C_OK - 1] !== true && !isDeleted(existing[i][C_DEL - 1])) pending++;
+        if (v.id && String(existing[i][C_ID - 1]) === v.id) {
+          // ugyanaz a beküldés újra (pl. megszakadt kapcsolat után): nem hozunk létre másodikat
+          return String(existing[i][C_TOK - 1]) === v.tok ? out({ ok: true, dup: true }) : out({ ok: false, err: 'bad' });
         }
-        if (pending >= PENDING_CAP) return out({ ok: false, err: 'full' });
       }
+      if (pending >= PENDING_CAP) return out({ ok: false, err: 'full' });
       var id = v.id || ('g' + Utilities.getUuid().replace(/-/g, '').slice(0, 7));
-      sh.appendRow([id, new Date(), v.alias, v.text, false, '', v.tok]);
-      sh.getRange(sh.getLastRow(), 5).insertCheckboxes();
+      if (n + 1 > sh.getMaxRows()) sh.insertRowsAfter(sh.getMaxRows(), 200);
+      sh.getRange(n + 1, 1, 1, NCOLS).setValues([['', id, new Date(), v.alias, v.text, false, '', v.tok]]);
+      sh.getRange(n + 1, C_OK).setDataValidation(SpreadsheetApp.newDataValidation().requireCheckbox().build());
       cache.remove('list');
       return out({ ok: true });
     }
@@ -171,11 +196,11 @@ function doPost(e) {
       if (!lid) return out({ ok: false, err: 'bad' });
       if (!bumpCounter(cache, 'light_' + minute, LIGHT_PER_MINUTE)) return out({ ok: false, err: 'rate' });
       var es = ss.getSheetByName(SHEET_ENTRIES);
-      var n = es.getLastRow();
-      if (n < 2) return out({ ok: false, err: 'bad' });
-      var rows = es.getRange(2, 1, n - 1, 5).getValues();
+      var rows = readEntries(es, lastDataRow(es));
       var found = false;
-      for (var k = 0; k < rows.length; k++) if (String(rows[k][0]) === lid && rows[k][4] === true) { found = true; break; }
+      for (var k = 0; k < rows.length; k++) {
+        if (String(rows[k][C_ID - 1]) === lid && rows[k][C_OK - 1] === true && !isDeleted(rows[k][C_DEL - 1])) { found = true; break; }
+      }
       if (!found) return out({ ok: false, err: 'bad' });
       ss.getSheetByName(SHEET_LIGHTS).appendRow([lid, new Date()]);
       return out({ ok: true });
@@ -187,14 +212,11 @@ function doPost(e) {
       if (!/^g[a-f0-9]{7}$/.test(did) || !/^t[a-f0-9]{16}$/.test(dtok)) return out({ ok: false, err: 'bad' });
       if (!bumpCounter(cache, 'del_' + minute, DEL_PER_MINUTE)) return out({ ok: false, err: 'rate' });
       var ds = ss.getSheetByName(SHEET_ENTRIES);
-      var dn = ds.getLastRow();
-      if (dn < 2) return out({ ok: false, err: 'bad' });
-      var drows = ds.getRange(2, 1, dn - 1, 7).getValues();
+      var drows = readEntries(ds, lastDataRow(ds));
       for (var r = 0; r < drows.length; r++) {
-        if (String(drows[r][0]) === did) {
-          if (String(drows[r][6]) !== dtok) return out({ ok: false, err: 'bad' });
-          ds.deleteRow(r + 2);
-          deleteLights(ss, did);
+        if (String(drows[r][C_ID - 1]) === did) {
+          if (String(drows[r][C_TOK - 1]) !== dtok) return out({ ok: false, err: 'bad' });
+          if (!isDeleted(drows[r][C_DEL - 1])) ds.getRange(r + 2, C_DEL).setValue('igen');   // a sort te törlöd, ha ráérsz
           cache.remove('list');
           return out({ ok: true });
         }
@@ -219,7 +241,7 @@ function doGet(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var es = ss.getSheetByName(SHEET_ENTRIES);
   var ls = ss.getSheetByName(SHEET_LIGHTS);
-  var entries = es.getLastRow() > 1 ? es.getRange(2, 1, es.getLastRow() - 1, 5).getValues() : [];
+  var entries = readEntries(es, lastDataRow(es));
   var lights = ls.getLastRow() > 1 ? ls.getRange(2, 1, ls.getLastRow() - 1, 1).getValues() : [];
   var items = buildList(entries, lights, LIST_LIMIT, function (d) { return Utilities.formatDate(d, TZ, 'yyyy. MM.'); });
   var json = JSON.stringify({ ok: true, items: items });
