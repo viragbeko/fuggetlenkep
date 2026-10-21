@@ -16,7 +16,7 @@
 <meta property="og:title" content="Gyertyafal – Lélekfény">
 <meta property="og:description" content="Gyújts gyertyát valakiért, aki hiányzik, vagy magadért. A gyertyák a falra kerülnek, ahol mások is gyújthatnak érte egyet.">
 <meta property="og:url" content="https://fuggetlenkep.hu/gyertya">
-<meta property="og:image" content="https://fuggetlenkep.hu/og.png">
+<meta property="og:image" content="https://fuggetlenkep.hu/og-gyertya.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,6 +71,11 @@
 <p class="gy-done-text" id="gy-done-text"></p>
 <p id="gy-done-by"></p>
 <p>Elolvasom, és ha rendben van, kikerül a falra. Ez eltarthat egy-két napig.</p>
+<div class="gy-share">
+<button id="gy-share-img" class="btn" type="button">Kép letöltése</button>
+<a id="gy-share-fb" class="btn btn--light" href="#" target="_blank" rel="noopener noreferrer">Megosztás Facebookon</a>
+</div>
+<p id="gy-share-msg" class="gy-share-msg" role="status"></p>
 <button id="gy-again" class="linkbtn" type="button">Gyújtok még egyet</button>
 </div>
 <div class="gy-safe">
@@ -119,12 +124,96 @@
     return fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) });
   }
 
+  var SITE = "https://fuggetlenkep.hu/gyertya";
+  function fbUrl(id) { return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + (id ? "#" + id : "")); }
+  var canFile = false;
+  try { canFile = !!(navigator.canShare && navigator.share && navigator.canShare({ files: [new File(["x"], "gyertya.png", { type: "image/png" })] })); } catch (e) {}
+
+  function fontsReady() {
+    if (!document.fonts || !document.fonts.load) { return Promise.resolve(); }
+    return Promise.all([
+      document.fonts.load("600 40px Fraunces", "őűáéíóöüú"),
+      document.fonts.load("700 30px Fraunces", "Lélekfény"),
+      document.fonts.load("400 30px 'Atkinson Hyperlegible'", "őűáéíóöüú")
+    ]).catch(function () {});
+  }
+  function wrap(ctx, text, maxW) {
+    var out = [];
+    String(text).split("\n").forEach(function (par) {
+      var words = par.split(/\s+/).filter(Boolean), line = "";
+      if (!words.length) { out.push(""); return; }
+      words.forEach(function (w) {
+        while (ctx.measureText(w).width > maxW) {
+          var k = w.length;
+          while (k > 1 && ctx.measureText(w.slice(0, k)).width > maxW) { k--; }
+          if (line) { out.push(line); line = ""; }
+          out.push(w.slice(0, k)); w = w.slice(k);
+        }
+        var t = line ? line + " " + w : w;
+        if (ctx.measureText(t).width <= maxW) { line = t; } else { out.push(line); line = w; }
+      });
+      out.push(line);
+    });
+    return out;
+  }
+  function drawCard(text, by) {
+    var W = 1080, H = 1350, SER = "Fraunces, Georgia, 'Times New Roman', serif", SANS = "'Atkinson Hyperlegible', system-ui, sans-serif";
+    var c = document.createElement("canvas"); c.width = W; c.height = H;
+    var x = c.getContext("2d");
+    var g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#141C30"); g.addColorStop(1, "#1E2A44");
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    var s = 5.4, ox = 540 - 16 * s, oy = 110;
+    var gl = x.createRadialGradient(540, oy + 22 * s, 0, 540, oy + 22 * s, 430);
+    gl.addColorStop(0, "rgba(255,226,168,.55)"); gl.addColorStop(1, "rgba(244,184,96,0)");
+    x.fillStyle = gl; x.fillRect(0, 0, W, 760);
+    x.save(); x.translate(ox, oy); x.scale(s, s);
+    x.fillStyle = "#F1E3C2"; x.fillRect(9, 38, 14, 36);
+    x.fillStyle = "#E2CFA2"; x.fillRect(9, 38, 14, 5);
+    x.strokeStyle = "#4A3A28"; x.lineWidth = 1.6; x.lineCap = "round"; x.beginPath(); x.moveTo(16, 31); x.lineTo(16, 38); x.stroke();
+    var fg = x.createLinearGradient(0, 31, 0, 6); fg.addColorStop(0, "#F4B860"); fg.addColorStop(.55, "#FFD98A"); fg.addColorStop(1, "#FFF3CC");
+    x.fillStyle = fg; x.fill(new Path2D("M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z"));
+    x.restore();
+    var maxW = 860, top = 600, bottom = by ? 1120 : 1160, size = 58, lines;
+    x.textAlign = "center"; x.textBaseline = "top";
+    for (;; size -= 2) {
+      x.font = "600 " + size + "px " + SER;
+      lines = wrap(x, text, maxW);
+      if (lines.length * size * 1.35 <= bottom - top || size <= 30) { break; }
+    }
+    var th = lines.length * size * 1.35, y = top + Math.max(0, (bottom - top - th) / 2);
+    x.fillStyle = "#FFFFFF";
+    lines.forEach(function (ln, i) { x.fillText(ln, 540, y + i * size * 1.35); });
+    if (by) { x.font = "400 36px " + SANS; x.fillStyle = "#DCE4F0"; x.fillText("— " + by, 540, Math.min(y + th + 20, 1150)); }
+    x.fillStyle = "#FFE2A8"; x.font = "700 40px " + SER; x.fillText("Lélekfény", 540, 1220);
+    x.fillStyle = "#B8C4D8"; x.font = "400 30px " + SANS; x.fillText("fuggetlenkep.hu/gyertya", 540, 1278);
+    return new Promise(function (res) { c.toBlob(res, "image/png"); });
+  }
+  function shareImage(text, by, msgEl) {
+    if (msgEl) { msgEl.textContent = ""; }
+    return fontsReady().then(function () { return drawCard(text, by); }).then(function (blob) {
+      if (!blob) { throw new Error("nincs kép"); }
+      if (canFile) {
+        var file = new File([blob], "gyertya.png", { type: "image/png" });
+        return navigator.share({ files: [file] }).catch(function (e) { if (!e || e.name !== "AbortError") { throw e; } });
+      }
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "gyertya.png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    }).catch(function () { if (msgEl) { msgEl.textContent = "A kép most nem készíthető el. Próbáld újra."; } });
+  }
+  window.__gyDraw = drawCard;   // csak ellenőrzéshez
+
   var lit = readList("lf_gy_lit");
   var items = [], shown = 0;
 
   /* ------------------------------------------------ űrlap */
   var form = $("gy-form"), area = $("gy-text"), alias = $("gy-alias"), hp = $("gy-hp"), ok = $("gy-ok");
   var msg = $("gy-msg"), btn = $("gy-send"), left = $("gy-left"), done = $("gy-done");
+  var mine = null, shareBtn = $("gy-share-img"), shareMsg = $("gy-share-msg");
+  $("gy-share-fb").href = fbUrl("");
+  shareBtn.textContent = canFile ? "Megosztás képként" : "Kép letöltése";
+  shareBtn.addEventListener("click", function () { if (mine) { shareImage(mine.text, mine.by, shareMsg); } });
 
   function fail(text, el) { msg.textContent = text; if (el) el.focus(); }
   function updLeft() { left.textContent = "Még " + (300 - area.value.length) + " karakter írható."; }
@@ -145,6 +234,7 @@
       writeNum("lf_gy_last", Date.now());
       $("gy-done-text").textContent = text;
       $("gy-done-by").textContent = by ? "— " + by : "";
+      mine = { text: text, by: by };
       form.hidden = true; done.hidden = false;
       $("gy-done-h").focus();
       area.value = ""; alias.value = ""; ok.checked = false; updLeft();
@@ -162,6 +252,7 @@
   function card(it) {
     var li = document.createElement("li");
     li.className = "cd";
+    li.setAttribute("data-id", String(it.id));
     var fl = document.createElement("span");
     fl.innerHTML = CANDLE;                 // csak az oldal saját, állandó SVG-je
     fl.style.setProperty("--d", "-" + (Math.random() * 3).toFixed(2) + "s");
@@ -184,7 +275,12 @@
       count += 1; paint(); mark();
       send({ a: "light", id: it.id }).catch(function () {});
     });
-    foot.appendChild(b); foot.appendChild(n); li.appendChild(foot);
+    var sb = document.createElement("button"); sb.type = "button"; sb.className = "linkbtn"; sb.textContent = "Megosztás";
+    sb.addEventListener("click", function () {
+      if (canFile) { shareImage(String(it.text || ""), it.alias ? String(it.alias) : "", null); }
+      else { window.open(fbUrl(it.id), "_blank", "noopener,noreferrer"); }
+    });
+    foot.appendChild(b); foot.appendChild(n); foot.appendChild(sb); li.appendChild(foot);
     return li;
   }
 
@@ -208,6 +304,18 @@
         list.textContent = ""; shown = 0;
         if (!items.length) { state.textContent = "Még nincs kint gyertya. Gyújtsd meg az elsőt."; more.hidden = true; return; }
         state.hidden = true; more_();
+        var want = (location.hash || "").replace("#", "");
+        if (want) {
+          var idx = -1;
+          for (var q = 0; q < items.length; q++) { if (items[q].id === want) { idx = q; break; } }
+          if (idx > -1) {
+            while (shown <= idx) { more_(); }
+            var kids = list.children;
+            for (var z = 0; z < kids.length; z++) {
+              if (kids[z].getAttribute("data-id") === want) { kids[z].classList.add("is-target"); kids[z].scrollIntoView({ block: "center" }); break; }
+            }
+          }
+        }
       })
       .catch(function () {
         clearTimeout(to);
