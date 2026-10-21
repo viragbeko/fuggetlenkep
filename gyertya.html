@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gyertyafal – Lélekfény</title>
+<meta name="description" content="Gyújts gyertyát valakiért, aki hiányzik, vagy magadért. A gyertyák a falra kerülnek, ahol mások is gyújthatnak érte egyet.">
+<link rel="canonical" href="https://fuggetlenkep.hu/gyertya">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1E2A44">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Lélekfény">
+<meta property="og:title" content="Gyertyafal – Lélekfény">
+<meta property="og:description" content="Gyújts gyertyát valakiért, aki hiányzik, vagy magadért. A gyertyák a falra kerülnek, ahol mások is gyújthatnak érte egyet.">
+<meta property="og:url" content="https://fuggetlenkep.hu/gyertya">
+<meta property="og:image" content="https://fuggetlenkep.hu/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+<div class="sky sky--page">
+<header class="wrap bar">
+<a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Lélekfény</a>
+<nav class="nav" aria-label="Főmenü">
+<a href="/tesztek">Tesztek</a>
+<a href="/tortenetek">Történetek</a>
+</nav>
+</header>
+<section class="pagehead">
+<div class="wrap">
+<h1>Gyújts gyertyát</h1>
+<p class="lead">Egy gyertya valakiért, aki hiányzik, vagy magadért. Egy mondat is elég.</p>
+</div>
+</section>
+</div>
+<main id="tartalom">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="gy-fl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F4B860"/><stop offset=".55" stop-color="#FFD98A"/><stop offset="1" stop-color="#FFF3CC"/></linearGradient>
+<radialGradient id="gy-gl"><stop offset="0" stop-color="#FFE2A8" stop-opacity=".55"/><stop offset="1" stop-color="#F4B860" stop-opacity="0"/></radialGradient>
+</defs></svg>
+<section class="band">
+<div class="wrap">
+<p class="gy-intro">Egy gyertya jelzés: rád gondolok, hiányzol nekem, vagy erőt kérek. Írj egy-két mondatot arról, kiért vagy miért gyújtod, és a gyertyád kikerül a falra, ahol mások is gyújthatnak érte egyet.</p>
+<form id="gy-form" class="gy-form" novalidate>
+<div class="gy-field">
+<label for="gy-text">Kiért vagy miért gyújtod a gyertyát?</label>
+<textarea id="gy-text" class="gy-area" maxlength="300" rows="4" autocomplete="off" aria-describedby="gy-left"></textarea>
+<p class="gy-help" id="gy-left"></p>
+</div>
+<div class="gy-field">
+<label for="gy-alias">Becenév (nem kötelező)</label>
+<input id="gy-alias" class="gy-input" type="text" maxlength="30" autocomplete="off" aria-describedby="gy-alias-h">
+<p class="gy-help" id="gy-alias-h">Ez jelenik meg a gyertyád alatt. Ha üresen hagyod, „Névtelen” lesz.</p>
+</div>
+<div class="gy-hp" aria-hidden="true"><label for="gy-hp">Ezt ne töltsd ki</label><input id="gy-hp" type="text" tabindex="-1" autocomplete="off"></div>
+<div class="gy-field">
+<label class="gy-check" for="gy-ok"><input id="gy-ok" type="checkbox"><span>Elfogadom, hogy az írásom (és a becenevem, ha megadtam) jóváhagyás után nyilvánosan megjelenik a gyertyafalon. Az adatkezelésről az <a href="/adatvedelem">Adatvédelem</a> oldalon olvashatsz.</span></label>
+</div>
+<button id="gy-send" class="btn" type="submit">Gyertyát gyújtok</button>
+<p id="gy-msg" class="gy-msg" role="alert"></p>
+</form>
+<div id="gy-done" class="gy-done" hidden>
+<svg class="flame" viewBox="0 0 32 76" aria-hidden="true" focusable="false"><circle class="glow" cx="16" cy="22" r="18" fill="url(#gy-gl)"/><rect x="9" y="38" width="14" height="36" rx="2.5" fill="#F1E3C2"/><rect x="9" y="38" width="14" height="5" rx="2.5" fill="#E2CFA2"/><line x1="16" y1="31" x2="16" y2="38" stroke="#4A3A28" stroke-width="1.6" stroke-linecap="round"/><path class="fl" d="M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z" fill="url(#gy-fl)"/></svg>
+<h2 id="gy-done-h" tabindex="-1">A gyertyád ég</h2>
+<p class="gy-done-text" id="gy-done-text"></p>
+<p id="gy-done-by"></p>
+<p>Elolvasom, és ha rendben van, kikerül a falra. Ez eltarthat egy-két napig.</p>
+<button id="gy-again" class="linkbtn" type="button">Gyújtok még egyet</button>
+</div>
+<div class="gy-safe">
+<p><strong>Mielőtt írsz:</strong> ne írj teljes nevet, lakcímet, telefonszámot, e-mail-címet vagy linket, és ne írj másokról egészségügyi adatot.</p>
+<p><strong>Ha úgy érzed, nem bírod tovább,</strong> vagy bajban vagy, hívd a Lelki Elsősegély Telefonszolgálatot a <strong>116-123</strong>-as számon (ingyenes, éjjel-nappal). Közvetlen veszély esetén hívd a <strong>112</strong>-t.</p>
+</div>
+<noscript><p>A gyertyafalhoz JavaScript kell.</p></noscript>
+</div>
+</section>
+<section class="band gy-wall" aria-labelledby="gy-wall-h">
+<div class="wrap">
+<h2 id="gy-wall-h">A gyertyafal</h2>
+<p class="meta">Itt mások gyertyái égnek. Ha egyik megérint, gyújts érte te is egyet.</p>
+<p id="gy-state" class="gy-state" role="status">A gyertyák betöltése…</p>
+<ul id="gy-list" class="gy-list"></ul>
+<p><button id="gy-more" class="btn btn--light" type="button" hidden>Több gyertya</button></p>
+</div>
+</section>
+<section class="band">
+<div class="wrap">
+<div class="prose">
+<h2>Hogyan működik?</h2>
+<p>Minden gyertyát elolvasok, mielőtt kikerül a falra. Nem jelenik meg a teljes név, a lakcím, a telefonszám, az e-mail-cím, a link, a reklám és a bántó vagy gyűlölködő szöveg.</p>
+<p>Ha a gyertyádat el szeretnéd tüntetni, írj a <a href="/kapcsolat">Kapcsolat</a> oldalon megadott címre, és add meg a gyertyád első sorát.</p>
+</div>
+</div>
+</section>
+<script>
+(function () {
+  "use strict";
+  var API = "https://script.google.com/macros/s/AKfycbwqUPgEmfT8d-muHDTQcLKXxmo6Afh2K7U0r4EJtMSXOxYnQFmmQa6BHCsM-eDwHPNZ/exec";
+  var CANDLE = "<svg class=\"flame\" viewBox=\"0 0 32 76\" aria-hidden=\"true\" focusable=\"false\"><circle class=\"glow\" cx=\"16\" cy=\"22\" r=\"18\" fill=\"url(#gy-gl)\"/><rect x=\"9\" y=\"38\" width=\"14\" height=\"36\" rx=\"2.5\" fill=\"#F1E3C2\"/><rect x=\"9\" y=\"38\" width=\"14\" height=\"5\" rx=\"2.5\" fill=\"#E2CFA2\"/><line x1=\"16\" y1=\"31\" x2=\"16\" y2=\"38\" stroke=\"#4A3A28\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path class=\"fl\" d=\"M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z\" fill=\"url(#gy-fl)\"/></svg>";
+  var STEP = 24;
+  var RE_LINK = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|hu|net|org|ru|info|biz)\b)/i;
+  var RE_MAIL = /\S+@\S+/;
+  var RE_PHONE = /(\d[\s.\/-]*){9,}/;
+  var $ = function (id) { return document.getElementById(id); };
+  var t0 = Date.now();
+
+  function readList(k) { try { var v = JSON.parse(localStorage.getItem(k) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+  function writeList(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function readNum(k) { try { return Number(localStorage.getItem(k)) || 0; } catch (e) { return 0; } }
+  function writeNum(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
+  function forbidden(s) { return RE_LINK.test(s) || RE_MAIL.test(s) || RE_PHONE.test(s); }
+  function send(obj) {
+    return fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) });
+  }
+
+  var lit = readList("lf_gy_lit");
+  var items = [], shown = 0;
+
+  /* ------------------------------------------------ űrlap */
+  var form = $("gy-form"), area = $("gy-text"), alias = $("gy-alias"), hp = $("gy-hp"), ok = $("gy-ok");
+  var msg = $("gy-msg"), btn = $("gy-send"), left = $("gy-left"), done = $("gy-done");
+
+  function fail(text, el) { msg.textContent = text; if (el) el.focus(); }
+  function updLeft() { left.textContent = "Még " + (300 - area.value.length) + " karakter írható."; }
+  area.addEventListener("input", updLeft);
+  updLeft();
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    msg.textContent = "";
+    if (hp.value) { return; }
+    var text = area.value.trim(), by = alias.value.trim();
+    if (text.length < 5) { return fail("Írj legalább néhány szót.", area); }
+    if (forbidden(text) || forbidden(by)) { return fail("Kérlek, ne írj be linket, e-mail-címet vagy telefonszámot.", area); }
+    if (!ok.checked) { return fail("Jelöld be a hozzájárulást, hogy a gyertyád kikerülhessen a falra.", ok); }
+    if (Date.now() - readNum("lf_gy_last") < 60000) { return fail("Az előbb már gyújtottál egyet. Kérlek, várj egy percet.", null); }
+    btn.disabled = true; btn.textContent = "Küldés…";
+    send({ a: "add", text: text, alias: by, hp: "", t: Date.now() - t0 }).then(function () {
+      writeNum("lf_gy_last", Date.now());
+      $("gy-done-text").textContent = text;
+      $("gy-done-by").textContent = by ? "— " + by : "";
+      form.hidden = true; done.hidden = false;
+      $("gy-done-h").focus();
+      area.value = ""; alias.value = ""; ok.checked = false; updLeft();
+      btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
+    }).catch(function () {
+      fail("Most nem sikerült elküldeni. Próbáld újra egy kicsit később.", null);
+      btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
+    });
+  });
+  $("gy-again").addEventListener("click", function () { done.hidden = true; form.hidden = false; area.focus(); });
+
+  /* ------------------------------------------------ fal */
+  var list = $("gy-list"), state = $("gy-state"), more = $("gy-more");
+
+  function card(it) {
+    var li = document.createElement("li");
+    li.className = "cd";
+    var fl = document.createElement("span");
+    fl.innerHTML = CANDLE;                 // csak az oldal saját, állandó SVG-je
+    fl.style.setProperty("--d", "-" + (Math.random() * 3).toFixed(2) + "s");
+    li.appendChild(fl);
+    var p = document.createElement("p"); p.className = "cd-text"; p.textContent = String(it.text || ""); li.appendChild(p);
+    var m = document.createElement("p"); m.className = "cd-meta";
+    m.textContent = (it.alias ? String(it.alias) : "Névtelen") + (it.ts ? " · " + String(it.ts) : "");
+    li.appendChild(m);
+    var foot = document.createElement("div"); foot.className = "cd-foot";
+    var b = document.createElement("button"); b.type = "button"; b.className = "linkbtn";
+    var n = document.createElement("span"); n.className = "cd-n";
+    var count = Number(it.n) > 0 ? Math.floor(Number(it.n)) : 1;
+    function paint() { n.textContent = count + " gyertya"; }
+    function mark() { b.textContent = "Gyújtottál érte gyertyát"; b.disabled = true; }
+    paint();
+    if (lit.indexOf(it.id) > -1) { mark(); } else { b.textContent = "Én is gyújtok érte"; }
+    b.addEventListener("click", function () {
+      if (lit.indexOf(it.id) > -1) { return; }
+      lit.push(it.id); writeList("lf_gy_lit", lit);
+      count += 1; paint(); mark();
+      send({ a: "light", id: it.id }).catch(function () {});
+    });
+    foot.appendChild(b); foot.appendChild(n); li.appendChild(foot);
+    return li;
+  }
+
+  function more_() {
+    var end = Math.min(items.length, shown + STEP);
+    for (var i = shown; i < end; i++) { list.appendChild(card(items[i])); }
+    shown = end;
+    more.hidden = shown >= items.length;
+  }
+
+  function loadWall() {
+    state.hidden = false; state.textContent = "A gyertyák betöltése…";
+    var ctl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctl) { ctl.abort(); } }, 10000);
+    fetch(API + (API.indexOf("?") > -1 ? "&" : "?") + "a=list", { cache: "no-store", signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        clearTimeout(to);
+        if (!d || d.ok !== true || !Array.isArray(d.items)) { throw new Error("bad"); }
+        items = d.items.filter(function (x) { return x && x.id && x.text; });
+        list.textContent = ""; shown = 0;
+        if (!items.length) { state.textContent = "Még nincs kint gyertya. Gyújtsd meg az elsőt."; more.hidden = true; return; }
+        state.hidden = true; more_();
+      })
+      .catch(function () {
+        clearTimeout(to);
+        state.hidden = false;
+        state.textContent = "A gyertyafal most nem érhető el. Próbáld újra egy kicsit később.";
+      });
+  }
+  more.addEventListener("click", more_);
+  loadWall();
+})();
+</script>
+</main>
+<footer class="foot">
+<div class="wrap">
+<ul class="foot-links">
+<li><a href="/adatvedelem">Adatvédelem</a></li>
+<li><a href="/impresszum">Impresszum</a></li>
+<li><a href="/kapcsolat">Kapcsolat</a></li>
+</ul>
+<p>© 2026 Lélekfény</p>
+</div>
+</footer>
+</body>
+</html>
