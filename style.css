@@ -253,3 +253,12 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .gy-share{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:1.25rem 0 .5rem}
 .gy-share-msg{min-height:1.4em;margin:0 0 .5rem;font-size:1rem;color:#FFB4A0}
 .cd.is-target{outline:3px solid var(--lamp);outline-offset:3px}
+.gy-note{margin:0 0 1.25rem;padding:.8rem 1rem;background:#F6EBD0;border-radius:.25rem;font-size:1.05rem;line-height:1.5}
+.gy-safe ul{margin:0 0 .6em;padding-left:1.3rem}
+.gy-safe li{margin:.2rem 0}
+.gy-ask-q{flex-basis:100%;margin:0;font-weight:700}
+.cd-ask{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem 1rem;margin-top:auto;padding-top:.3rem}
+.cd-ask p{flex-basis:100%;margin:0;font-weight:700}
+.cd-ask .cd-err{font-weight:400;color:#FFB4A0;font-size:1rem}
+.cd-ask .cd-err:empty{display:none}
+.gy-done [hidden],.cd [hidden]{display:none!important}

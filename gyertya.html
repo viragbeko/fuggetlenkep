@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gyertyafal – Lélekfény</title>
-<meta name="description" content="Gyújts gyertyát valakiért, aki hiányzik, vagy magadért. A gyertyák a falra kerülnek, ahol mások is gyújthatnak érte egyet.">
+<meta name="description" content="Emlékezzünk azokra, akik kedvesek voltak nekünk, mert amíg emlékeik élnek, ők is tovább élnek szívünkben. Gyújts gyertyát értük a Lélekfény gyertyafalán.">
 <link rel="canonical" href="https://fuggetlenkep.hu/gyertya">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1E2A44">
@@ -14,7 +14,7 @@
 <meta property="og:locale" content="hu_HU">
 <meta property="og:site_name" content="Lélekfény">
 <meta property="og:title" content="Gyertyafal – Lélekfény">
-<meta property="og:description" content="Gyújts gyertyát valakiért, aki hiányzik, vagy magadért. A gyertyák a falra kerülnek, ahol mások is gyújthatnak érte egyet.">
+<meta property="og:description" content="Emlékezzünk azokra, akik kedvesek voltak nekünk, mert amíg emlékeik élnek, ők is tovább élnek szívünkben. Gyújts gyertyát értük a Lélekfény gyertyafalán.">
 <meta property="og:url" content="https://fuggetlenkep.hu/gyertya">
 <meta property="og:image" content="https://fuggetlenkep.hu/og-gyertya.png">
 <meta property="og:image:width" content="1200">
@@ -35,7 +35,7 @@
 <section class="pagehead">
 <div class="wrap">
 <h1>Gyújts gyertyát</h1>
-<p class="lead">Egy gyertya valakiért, aki hiányzik, vagy magadért. Egy mondat is elég.</p>
+<p class="lead">Emlékezzünk azokra, akik kedvesek voltak nekünk, mert amíg emlékeik élnek, ők is tovább élnek szívünkben.</p>
 </div>
 </section>
 </div>
@@ -46,8 +46,9 @@
 </defs></svg>
 <section class="band">
 <div class="wrap">
-<p class="gy-intro">Egy gyertya jelzés: rád gondolok, hiányzol nekem, vagy erőt kérek. Írj egy-két mondatot arról, kiért vagy miért gyújtod, és a gyertyád kikerül a falra, ahol mások is gyújthatnak érte egyet.</p>
+<p class="gy-intro">Egy gyertya jelzés: rád gondolok, hiányzol nekem, vagy erőt kérek. Egy-két mondat is elég arról, kiért vagy miért gyújtod. A gyertyád kikerül a falra, ahol mások is gyújthatnak érte egyet.</p>
 <form id="gy-form" class="gy-form" novalidate>
+<p class="gy-note"><strong>Mielőtt írsz:</strong> ne írj teljes nevet, lakcímet, telefonszámot, e-mail-címet vagy linket, és ne írj másokról egészségügyi adatot.</p>
 <div class="gy-field">
 <label for="gy-text">Kiért vagy miért gyújtod a gyertyát?</label>
 <textarea id="gy-text" class="gy-area" maxlength="300" rows="4" autocomplete="off" aria-describedby="gy-left"></textarea>
@@ -66,21 +67,37 @@
 <p id="gy-msg" class="gy-msg" role="alert"></p>
 </form>
 <div id="gy-done" class="gy-done" hidden>
+<div id="gy-done-main">
 <svg class="flame" viewBox="0 0 32 76" aria-hidden="true" focusable="false"><circle class="glow" cx="16" cy="22" r="18" fill="url(#gy-gl)"/><rect x="9" y="38" width="14" height="36" rx="2.5" fill="#F1E3C2"/><rect x="9" y="38" width="14" height="5" rx="2.5" fill="#E2CFA2"/><line x1="16" y1="31" x2="16" y2="38" stroke="#4A3A28" stroke-width="1.6" stroke-linecap="round"/><path class="fl" d="M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z" fill="url(#gy-fl)"/></svg>
 <h2 id="gy-done-h" tabindex="-1">A gyertyád ég</h2>
 <p class="gy-done-text" id="gy-done-text"></p>
 <p id="gy-done-by"></p>
 <p>Elolvasom, és ha rendben van, kikerül a falra. Ez eltarthat egy-két napig.</p>
-<div class="gy-share">
-<button id="gy-share-img" class="btn" type="button">Kép letöltése</button>
-<a id="gy-share-fb" class="btn btn--light" href="#" target="_blank" rel="noopener noreferrer">Megosztás Facebookon</a>
+<div id="gy-share" class="gy-share">
+<a id="gy-share-fb" class="btn" href="#" target="_blank" rel="noopener noreferrer">Megosztás Facebookon</a>
+<button id="gy-del" class="btn btn--light" type="button">Gyertyám törlése</button>
+</div>
+<div id="gy-del-ask" class="gy-share" hidden>
+<p class="gy-ask-q">Biztosan törlöd a gyertyádat?</p>
+<button id="gy-del-yes" class="btn" type="button">Igen, törlöm</button>
+<button id="gy-del-no" class="btn btn--light" type="button">Mégse</button>
 </div>
 <p id="gy-share-msg" class="gy-share-msg" role="status"></p>
 <button id="gy-again" class="linkbtn" type="button">Gyújtok még egyet</button>
 </div>
+<div id="gy-done-gone" hidden>
+<h2 id="gy-gone-h" tabindex="-1">A gyertyádat töröltük.</h2>
+<p>Ha szeretnél, gyújthatsz újat.</p>
+<button id="gy-again2" class="btn" type="button">Gyújtok újat</button>
+</div>
+</div>
 <div class="gy-safe">
-<p><strong>Mielőtt írsz:</strong> ne írj teljes nevet, lakcímet, telefonszámot, e-mail-címet vagy linket, és ne írj másokról egészségügyi adatot.</p>
-<p><strong>Ha úgy érzed, nem bírod tovább,</strong> vagy bajban vagy, hívd a Lelki Elsősegély Telefonszolgálatot a <strong>116-123</strong>-as számon (ingyenes, éjjel-nappal). Közvetlen veszély esetén hívd a <strong>112</strong>-t.</p>
+<p><strong>Segítségre van szüksége?</strong> Ha Ön vagy valaki a környezetében krízishelyzetben van, magányosnak érzi magát, kérjen segítséget, ingyenesen és névtelenül hívható lelkisegély-szolgálatoktól:</p>
+<ul>
+<li>Felnőtt lelkisegély: <a href="tel:116123"><strong>116-123</strong></a></li>
+<li>Ifjúsági lelkisegély: <a href="tel:116111"><strong>116-111</strong></a></li>
+</ul>
+<p>A hívások ingyenesek.</p>
 </div>
 <noscript><p>A gyertyafalhoz JavaScript kell.</p></noscript>
 </div>
@@ -99,7 +116,7 @@
 <div class="prose">
 <h2>Hogyan működik?</h2>
 <p>Minden gyertyát elolvasok, mielőtt kikerül a falra. Nem jelenik meg a teljes név, a lakcím, a telefonszám, az e-mail-cím, a link, a reklám és a bántó vagy gyűlölködő szöveg.</p>
-<p>Ha a gyertyádat el szeretnéd tüntetni, írj a <a href="/kapcsolat">Kapcsolat</a> oldalon megadott címre, és add meg a gyertyád első sorát.</p>
+<p>A gyertyádat a beküldés után, ugyanazon a böngészőn a „Gyertyám törlése” gombbal bármikor törölheted. Ha ez nem megy, írj a <a href="/kapcsolat">Kapcsolat</a> oldalon megadott címre, és add meg a gyertyád első sorát.</p>
 </div>
 </div>
 </section>
@@ -109,6 +126,7 @@
   var API = "https://script.google.com/macros/s/AKfycbwqUPgEmfT8d-muHDTQcLKXxmo6Afh2K7U0r4EJtMSXOxYnQFmmQa6BHCsM-eDwHPNZ/exec";
   var CANDLE = "<svg class=\"flame\" viewBox=\"0 0 32 76\" aria-hidden=\"true\" focusable=\"false\"><circle class=\"glow\" cx=\"16\" cy=\"22\" r=\"18\" fill=\"url(#gy-gl)\"/><rect x=\"9\" y=\"38\" width=\"14\" height=\"36\" rx=\"2.5\" fill=\"#F1E3C2\"/><rect x=\"9\" y=\"38\" width=\"14\" height=\"5\" rx=\"2.5\" fill=\"#E2CFA2\"/><line x1=\"16\" y1=\"31\" x2=\"16\" y2=\"38\" stroke=\"#4A3A28\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><path class=\"fl\" d=\"M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z\" fill=\"url(#gy-fl)\"/></svg>";
   var STEP = 24;
+  var SITE = "https://fuggetlenkep.hu/gyertya";
   var RE_LINK = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|hu|net|org|ru|info|biz)\b)/i;
   var RE_MAIL = /\S+@\S+/;
   var RE_PHONE = /(\d[\s.\/-]*){9,}/;
@@ -120,102 +138,47 @@
   function readNum(k) { try { return Number(localStorage.getItem(k)) || 0; } catch (e) { return 0; } }
   function writeNum(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
   function forbidden(s) { return RE_LINK.test(s) || RE_MAIL.test(s) || RE_PHONE.test(s); }
-  function send(obj) {
-    return fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) });
-  }
-
-  var SITE = "https://fuggetlenkep.hu/gyertya";
   function fbUrl(id) { return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + (id ? "#" + id : "")); }
-  var canFile = false;
-  try { canFile = !!(navigator.canShare && navigator.share && navigator.canShare({ files: [new File(["x"], "gyertya.png", { type: "image/png" })] })); } catch (e) {}
-
-  function fontsReady() {
-    if (!document.fonts || !document.fonts.load) { return Promise.resolve(); }
-    return Promise.all([
-      document.fonts.load("600 40px Fraunces", "őűáéíóöüú"),
-      document.fonts.load("700 30px Fraunces", "Lélekfény"),
-      document.fonts.load("400 30px 'Atkinson Hyperlegible'", "őűáéíóöüú")
-    ]).catch(function () {});
-  }
-  function wrap(ctx, text, maxW) {
-    var out = [];
-    String(text).split("\n").forEach(function (par) {
-      var words = par.split(/\s+/).filter(Boolean), line = "";
-      if (!words.length) { out.push(""); return; }
-      words.forEach(function (w) {
-        while (ctx.measureText(w).width > maxW) {
-          var k = w.length;
-          while (k > 1 && ctx.measureText(w.slice(0, k)).width > maxW) { k--; }
-          if (line) { out.push(line); line = ""; }
-          out.push(w.slice(0, k)); w = w.slice(k);
-        }
-        var t = line ? line + " " + w : w;
-        if (ctx.measureText(t).width <= maxW) { line = t; } else { out.push(line); line = w; }
-      });
-      out.push(line);
-    });
+  function hex(bytes) {
+    var a = new Uint8Array(bytes), out = "", i;
+    var c = window.crypto || window.msCrypto;
+    if (c && c.getRandomValues) { c.getRandomValues(a); } else { for (i = 0; i < bytes; i++) { a[i] = Math.floor(Math.random() * 256); } }
+    for (i = 0; i < bytes; i++) { out += ("0" + a[i].toString(16)).slice(-2); }
     return out;
   }
-  function drawCard(text, by) {
-    var W = 1080, H = 1350, SER = "Fraunces, Georgia, 'Times New Roman', serif", SANS = "'Atkinson Hyperlegible', system-ui, sans-serif";
-    var c = document.createElement("canvas"); c.width = W; c.height = H;
-    var x = c.getContext("2d");
-    var g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#141C30"); g.addColorStop(1, "#1E2A44");
-    x.fillStyle = g; x.fillRect(0, 0, W, H);
-    var s = 5.4, ox = 540 - 16 * s, oy = 110;
-    var gl = x.createRadialGradient(540, oy + 22 * s, 0, 540, oy + 22 * s, 430);
-    gl.addColorStop(0, "rgba(255,226,168,.55)"); gl.addColorStop(1, "rgba(244,184,96,0)");
-    x.fillStyle = gl; x.fillRect(0, 0, W, 760);
-    x.save(); x.translate(ox, oy); x.scale(s, s);
-    x.fillStyle = "#F1E3C2"; x.fillRect(9, 38, 14, 36);
-    x.fillStyle = "#E2CFA2"; x.fillRect(9, 38, 14, 5);
-    x.strokeStyle = "#4A3A28"; x.lineWidth = 1.6; x.lineCap = "round"; x.beginPath(); x.moveTo(16, 31); x.lineTo(16, 38); x.stroke();
-    var fg = x.createLinearGradient(0, 31, 0, 6); fg.addColorStop(0, "#F4B860"); fg.addColorStop(.55, "#FFD98A"); fg.addColorStop(1, "#FFF3CC");
-    x.fillStyle = fg; x.fill(new Path2D("M16 6 C21.5 13 23.5 20 16 31 C8.5 20 10.5 13 16 6 Z"));
-    x.restore();
-    var maxW = 860, top = 600, bottom = by ? 1120 : 1160, size = 58, lines;
-    x.textAlign = "center"; x.textBaseline = "top";
-    for (;; size -= 2) {
-      x.font = "600 " + size + "px " + SER;
-      lines = wrap(x, text, maxW);
-      if (lines.length * size * 1.35 <= bottom - top || size <= 30) { break; }
-    }
-    var th = lines.length * size * 1.35, y = top + Math.max(0, (bottom - top - th) / 2);
-    x.fillStyle = "#FFFFFF";
-    lines.forEach(function (ln, i) { x.fillText(ln, 540, y + i * size * 1.35); });
-    if (by) { x.font = "400 36px " + SANS; x.fillStyle = "#DCE4F0"; x.fillText("— " + by, 540, Math.min(y + th + 20, 1150)); }
-    x.fillStyle = "#FFE2A8"; x.font = "700 40px " + SER; x.fillText("Lélekfény", 540, 1220);
-    x.fillStyle = "#B8C4D8"; x.font = "400 30px " + SANS; x.fillText("fuggetlenkep.hu/gyertya", 540, 1278);
-    return new Promise(function (res) { c.toBlob(res, "image/png"); });
+  function call(obj) {      // a választ is olvassuk, hogy valódi hibát tudjunk mutatni
+    var ctl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctl) { ctl.abort(); } }, 15000);
+    return fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { clearTimeout(to); return r.json(); })
+      .catch(function (e) { clearTimeout(to); throw e; });
   }
-  function shareImage(text, by, msgEl) {
-    if (msgEl) { msgEl.textContent = ""; }
-    return fontsReady().then(function () { return drawCard(text, by); }).then(function (blob) {
-      if (!blob) { throw new Error("nincs kép"); }
-      if (canFile) {
-        var file = new File([blob], "gyertya.png", { type: "image/png" });
-        return navigator.share({ files: [file] }).catch(function (e) { if (!e || e.name !== "AbortError") { throw e; } });
-      }
-      var a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = "gyertya.png";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-    }).catch(function () { if (msgEl) { msgEl.textContent = "A kép most nem készíthető el. Próbáld újra."; } });
+  function send(obj) {      // "Én is gyújtok": nem kell visszajelzés
+    return fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) });
   }
-  window.__gyDraw = drawCard;   // csak ellenőrzéshez
+  function errText(code) {
+    if (code === "short") { return "Írj legalább néhány szót."; }
+    if (code === "forbidden") { return "Kérlek, ne írj be linket, e-mail-címet vagy telefonszámot."; }
+    if (code === "rate" || code === "busy") { return "Most sokan gyújtanak gyertyát. Próbáld újra egy perc múlva."; }
+    if (code === "bot") { return "Nem sikerült elküldeni. Töltsd újra az oldalt, és próbáld újra."; }
+    return "Most nem sikerült elküldeni. Próbáld újra egy kicsit később.";
+  }
 
   var lit = readList("lf_gy_lit");
+  var mineList = readList("lf_gy_mine");          // csak {id, tok}: a gyertya szövegét nem őrizzük
+  function mineTok(id) { for (var i = 0; i < mineList.length; i++) { if (mineList[i].id === id) { return mineList[i].tok; } } return ""; }
+  function addMine(id, tok) { mineList.push({ id: id, tok: tok }); mineList = mineList.slice(-30); writeList("lf_gy_mine", mineList); }
+  function dropMine(id) { mineList = mineList.filter(function (m) { return m.id !== id; }); writeList("lf_gy_mine", mineList); }
   var items = [], shown = 0;
 
   /* ------------------------------------------------ űrlap */
   var form = $("gy-form"), area = $("gy-text"), alias = $("gy-alias"), hp = $("gy-hp"), ok = $("gy-ok");
   var msg = $("gy-msg"), btn = $("gy-send"), left = $("gy-left"), done = $("gy-done");
-  var mine = null, shareBtn = $("gy-share-img"), shareMsg = $("gy-share-msg");
+  var main = $("gy-done-main"), gone = $("gy-done-gone"), share = $("gy-share"), ask = $("gy-del-ask"), dmsg = $("gy-share-msg");
+  var mine = null;
   $("gy-share-fb").href = fbUrl("");
-  shareBtn.textContent = canFile ? "Megosztás képként" : "Kép letöltése";
-  shareBtn.addEventListener("click", function () { if (mine) { shareImage(mine.text, mine.by, shareMsg); } });
 
-  function fail(text, el) { msg.textContent = text; if (el) el.focus(); }
+  function fail(text, el) { msg.textContent = text; if (el) { el.focus(); } }
   function updLeft() { left.textContent = "Még " + (300 - area.value.length) + " karakter írható."; }
   area.addEventListener("input", updLeft);
   updLeft();
@@ -230,40 +193,63 @@
     if (!ok.checked) { return fail("Jelöld be a hozzájárulást, hogy a gyertyád kikerülhessen a falra.", ok); }
     if (Date.now() - readNum("lf_gy_last") < 60000) { return fail("Az előbb már gyújtottál egyet. Kérlek, várj egy percet.", null); }
     btn.disabled = true; btn.textContent = "Küldés…";
-    send({ a: "add", text: text, alias: by, hp: "", t: Date.now() - t0 }).then(function () {
+    var id = "g" + hex(4).slice(0, 7), tok = "t" + hex(8);
+    call({ a: "add", id: id, tok: tok, text: text, alias: by, hp: "", t: Date.now() - t0 }).then(function (res) {
+      if (!res || res.ok !== true) { throw res || {}; }
       writeNum("lf_gy_last", Date.now());
+      addMine(id, tok);
+      mine = { id: id, tok: tok };
       $("gy-done-text").textContent = text;
       $("gy-done-by").textContent = by ? "— " + by : "";
-      mine = { text: text, by: by };
+      main.hidden = false; gone.hidden = true; share.hidden = false; ask.hidden = true; dmsg.textContent = "";
       form.hidden = true; done.hidden = false;
       $("gy-done-h").focus();
       area.value = ""; alias.value = ""; ok.checked = false; updLeft();
       btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
-    }).catch(function () {
-      fail("Most nem sikerült elküldeni. Próbáld újra egy kicsit később.", null);
+    }).catch(function (e) {
+      fail(errText(e && e.err), null);
       btn.disabled = false; btn.textContent = "Gyertyát gyújtok";
     });
   });
-  $("gy-again").addEventListener("click", function () { done.hidden = true; form.hidden = false; area.focus(); });
+  function again() { done.hidden = true; form.hidden = false; area.focus(); }
+  $("gy-again").addEventListener("click", again);
+  $("gy-again2").addEventListener("click", again);
+
+  /* a most beküldött gyertya törlése */
+  $("gy-del").addEventListener("click", function () { share.hidden = true; ask.hidden = false; $("gy-del-no").focus(); });
+  $("gy-del-no").addEventListener("click", function () { ask.hidden = true; share.hidden = false; $("gy-del").focus(); });
+  $("gy-del-yes").addEventListener("click", function () {
+    if (!mine) { return; }
+    var b = $("gy-del-yes"); b.disabled = true; b.textContent = "Törlés…";
+    call({ a: "del", id: mine.id, tok: mine.tok }).then(function (res) {
+      if (!res || (res.ok !== true && res.err !== "bad")) { throw res || {}; }   // "bad": már nincs meg, az is törölt
+      dropMine(mine.id); mine = null;
+      main.hidden = true; gone.hidden = false; $("gy-gone-h").focus();
+      b.disabled = false; b.textContent = "Igen, törlöm";
+    }).catch(function () {
+      dmsg.textContent = "Most nem sikerült törölni. Próbáld újra egy kicsit később.";
+      ask.hidden = true; share.hidden = false;
+      b.disabled = false; b.textContent = "Igen, törlöm";
+    });
+  });
 
   /* ------------------------------------------------ fal */
   var list = $("gy-list"), state = $("gy-state"), more = $("gy-more");
 
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
+
   function card(it) {
-    var li = document.createElement("li");
-    li.className = "cd";
+    var li = el("li", "cd");
     li.setAttribute("data-id", String(it.id));
     var fl = document.createElement("span");
     fl.innerHTML = CANDLE;                 // csak az oldal saját, állandó SVG-je
     fl.style.setProperty("--d", "-" + (Math.random() * 3).toFixed(2) + "s");
     li.appendChild(fl);
-    var p = document.createElement("p"); p.className = "cd-text"; p.textContent = String(it.text || ""); li.appendChild(p);
-    var m = document.createElement("p"); m.className = "cd-meta";
-    m.textContent = (it.alias ? String(it.alias) : "Névtelen") + (it.ts ? " · " + String(it.ts) : "");
-    li.appendChild(m);
-    var foot = document.createElement("div"); foot.className = "cd-foot";
-    var b = document.createElement("button"); b.type = "button"; b.className = "linkbtn";
-    var n = document.createElement("span"); n.className = "cd-n";
+    li.appendChild(el("p", "cd-text", String(it.text || "")));
+    li.appendChild(el("p", "cd-meta", (it.alias ? String(it.alias) : "Névtelen") + (it.ts ? " · " + String(it.ts) : "")));
+    var foot = el("div", "cd-foot");
+    var b = el("button", "linkbtn"); b.type = "button";
+    var n = el("span", "cd-n");
     var count = Number(it.n) > 0 ? Math.floor(Number(it.n)) : 1;
     function paint() { n.textContent = count + " gyertya"; }
     function mark() { b.textContent = "Gyújtottál érte gyertyát"; b.disabled = true; }
@@ -275,12 +261,37 @@
       count += 1; paint(); mark();
       send({ a: "light", id: it.id }).catch(function () {});
     });
-    var sb = document.createElement("button"); sb.type = "button"; sb.className = "linkbtn"; sb.textContent = "Megosztás";
-    sb.addEventListener("click", function () {
-      if (canFile) { shareImage(String(it.text || ""), it.alias ? String(it.alias) : "", null); }
-      else { window.open(fbUrl(it.id), "_blank", "noopener,noreferrer"); }
-    });
-    foot.appendChild(b); foot.appendChild(n); foot.appendChild(sb); li.appendChild(foot);
+    var sh = el("a", "linkbtn", "Megosztás Facebookon");
+    sh.href = fbUrl(it.id); sh.target = "_blank"; sh.rel = "noopener noreferrer";
+    foot.appendChild(b); foot.appendChild(n); foot.appendChild(sh);
+    var tok = mineTok(it.id);
+    if (tok) {
+      var d = el("button", "linkbtn", "A gyertyám törlése"); d.type = "button";
+      var box = el("div", "cd-ask"); box.hidden = true;
+      var q = el("p", null, "Biztosan törlöd a gyertyádat?");
+      var yes = el("button", "linkbtn", "Igen, törlöm"); yes.type = "button";
+      var no = el("button", "linkbtn", "Mégse"); no.type = "button";
+      var note = el("p", "cd-err"); note.setAttribute("role", "status");
+      box.appendChild(q); box.appendChild(yes); box.appendChild(no); box.appendChild(note);
+      d.addEventListener("click", function () { foot.hidden = true; box.hidden = false; no.focus(); });
+      no.addEventListener("click", function () { box.hidden = true; foot.hidden = false; d.focus(); });
+      yes.addEventListener("click", function () {
+        yes.disabled = true; yes.textContent = "Törlés…"; note.textContent = "";
+        call({ a: "del", id: it.id, tok: tok }).then(function (res) {
+          if (!res || (res.ok !== true && res.err !== "bad")) { throw res || {}; }
+          dropMine(it.id);
+          items = items.filter(function (x) { return x.id !== it.id; });
+          li.remove(); shown = Math.max(0, shown - 1);
+          if (!items.length) { state.hidden = false; state.textContent = "Még nincs kint gyertya. Gyújtsd meg az elsőt."; }
+        }).catch(function () {
+          yes.disabled = false; yes.textContent = "Igen, törlöm";
+          note.textContent = "Most nem sikerült törölni. Próbáld újra egy kicsit később.";
+        });
+      });
+      foot.appendChild(d); li.appendChild(foot); li.appendChild(box);
+    } else {
+      li.appendChild(foot);
+    }
     return li;
   }
 
