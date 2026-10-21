@@ -138,7 +138,10 @@
   function readNum(k) { try { return Number(localStorage.getItem(k)) || 0; } catch (e) { return 0; } }
   function writeNum(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
   function forbidden(s) { return RE_LINK.test(s) || RE_MAIL.test(s) || RE_PHONE.test(s); }
-  function fbUrl(id) { return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + (id ? "#" + id : "")); }
+  function fbUrl(id, text) {     // a "quote" a gyertya szövegét is a megosztásba teszi, ha a Facebook megjeleníti
+    var q = text ? String(text).replace(/\s+/g, " ").trim().slice(0, 240) : "";
+    return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + (id ? "#" + id : "")) + (q ? "&quote=" + encodeURIComponent("\u201E" + q + "\u201D") : "");
+  }
   function hex(bytes) {
     var a = new Uint8Array(bytes), out = "", i;
     var c = window.crypto || window.msCrypto;
@@ -198,6 +201,7 @@
     var job = { id: id, tok: tok, saved: false, off: false };
     function showDone() {
       mine = job;
+      $("gy-share-fb").href = fbUrl(id, text);
       $("gy-done-text").textContent = text;
       $("gy-done-by").textContent = by ? "— " + by : "";
       main.hidden = false; gone.hidden = true; share.hidden = false; ask.hidden = true; dmsg.textContent = "";
@@ -290,7 +294,7 @@
       send({ a: "light", id: it.id }).catch(function () {});
     });
     var sh = el("a", "linkbtn", "Megosztás Facebookon");
-    sh.href = fbUrl(it.id); sh.target = "_blank"; sh.rel = "noopener noreferrer";
+    sh.href = fbUrl(it.id, it.text); sh.target = "_blank"; sh.rel = "noopener noreferrer";
     foot.appendChild(b); foot.appendChild(n); foot.appendChild(sh);
     var tok = mineTok(it.id);
     if (tok) {
