@@ -217,6 +217,7 @@
       if (n > 2 || job.off) { return; }
       setTimeout(function () {
         if (job.off) { return; }
+        payload.t = Date.now() - t0;
         call(payload).then(function (res) {
           if (res && res.ok === true) {
             if (job.off) { call({ a: "del", id: id, tok: tok }).catch(function () {}); } else { saved(); }

@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tökkert – faragj tököt Halloweenre</title>
+<meta name="description" content="Faragj virtuális tököt Halloweenre, és hívd meg az ismerőseidet a közös tökkertbe. Ingyenes, regisztráció nélkül.">
+<link rel="canonical" href="https://fuggetlenkep.hu/tokkert">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1E2A44">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Lélekfény">
+<meta property="og:title" content="Tökkert – faragj tököt Halloweenre">
+<meta property="og:description" content="Faragj virtuális tököt Halloweenre, és hívd meg az ismerőseidet a közös tökkertbe. Ingyenes, regisztráció nélkül.">
+<meta property="og:url" content="https://fuggetlenkep.hu/tokkert">
+<meta property="og:image" content="https://fuggetlenkep.hu/og-tokkert.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/style.css">
+<script>window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3638506663290697" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip" href="#tartalom">Ugrás a tartalomhoz</a>
+<div class="sky sky--page">
+<header class="wrap bar">
+<a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Lélekfény</a>
+<nav class="nav" aria-label="Főmenü">
+<a href="/tesztek">Tesztek</a>
+<a href="/tortenetek">Történetek</a>
+</nav>
+</header>
+<section class="pagehead">
+<div class="wrap">
+<h1>Faragd ki a tököd</h1>
+<p class="lead">Faragj egy saját tököt, és hívd meg az ismerőseidet a tökkertedbe.</p>
+</div>
+</section>
+</div>
+<main id="tartalom">
+<section class="band">
+<div class="wrap">
+<p class="tk-intro">Válassz szemet, orrot és szájat, nevezd el a tököd, és kész. Utána kapsz egy linket: aki megnyitja, látja a kertedet, és faraghat mellé egy saját tököt.</p>
+<p id="tk-home" class="tk-home" hidden><a id="tk-home-a" href="/tokkert">Vissza a tökkertembe</a></p>
+</div>
+</section>
+<section id="tk-garden" class="band tk-garden" aria-labelledby="tk-garden-h" hidden>
+<div class="wrap">
+<h2 id="tk-garden-h" tabindex="-1">A tökkert</h2>
+<p id="tk-count" class="meta"></p>
+<p id="tk-state" class="tk-state" role="status"></p>
+<ul id="tk-grid" class="tk-grid"></ul>
+<div id="tk-share" class="tk-share" hidden>
+<h3>Hívd meg az ismerőseidet a kertbe</h3>
+<p>Küldd el a linket: aki megnyitja, látja a kertedet, és faraghat mellé egy saját tököt.</p>
+<div class="tk-actions">
+<a id="tk-fb" class="btn" href="#" target="_blank" rel="noopener noreferrer">Megosztás Facebookon</a>
+<button id="tk-del" class="btn btn--light" type="button">Tököm törlése</button>
+</div>
+<div id="tk-del-ask" class="tk-ask" hidden>
+<p>Biztosan törlöd a tökődet?</p>
+<button id="tk-del-yes" class="btn" type="button">Igen, törlöm</button>
+<button id="tk-del-no" class="btn btn--light" type="button">Mégse</button>
+</div>
+<p id="tk-del-msg" class="tk-msg-light" role="status"></p>
+<p><a class="linkbtn" href="/tokkert">Új tökkert indítása</a></p>
+</div>
+</div>
+</section>
+<section id="tk-studio-sec" class="band" aria-labelledby="tk-studio-h">
+<div class="wrap">
+<h2 id="tk-studio-h" tabindex="-1">Faragd ki a tököd</h2>
+<form id="tk-form" novalidate>
+<div class="tk-studio">
+<div class="tk-stage">
+<div id="tk-prev"></div>
+<button id="tk-rand" class="btn btn--light" type="button">Véletlen tök</button>
+</div>
+<div id="tk-groups"></div>
+</div>
+<div class="tk-field">
+<label for="tk-name-in">A tök neve (nem kötelező)</label>
+<input id="tk-name-in" type="text" maxlength="20" autocomplete="off" aria-describedby="tk-name-h">
+<p id="tk-name-h" class="tk-help">Ez jelenik meg a tököd alatt. Ne írj teljes nevet, lakcímet, telefonszámot, e-mail-címet vagy linket.</p>
+</div>
+<div class="tk-hp" aria-hidden="true"><label for="tk-hp">Ezt ne töltsd ki</label><input id="tk-hp" type="text" tabindex="-1" autocomplete="off"></div>
+<button id="tk-send" class="btn" type="submit">Kész a tököm</button>
+<p id="tk-msg" class="tk-msg" role="alert"></p>
+<p class="tk-fine">A „Kész a tököm” gombbal a tököd és a neved (ha megadod) megjelenik a tökkertben, amelyet a linket ismerők látnak. Az <a href="/adatvedelem">Adatvédelem</a> oldalon olvashatsz róla.</p>
+</form>
+<noscript><p>A tökfaragáshoz JavaScript kell.</p></noscript>
+</div>
+</section>
+<script>/* Tök-renderelő: a cfg "szem orr száj szín extra" számjegyekből áll, pl. "21304" */
+var TK_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
+  '<linearGradient id="tk-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4C2"/><stop offset=".6" stop-color="#FFDB73"/><stop offset="1" stop-color="#FFB94A"/></linearGradient>' +
+  '<radialGradient id="tk-spill"><stop offset="0" stop-color="#FFE9A0" stop-opacity=".55"/><stop offset="1" stop-color="#FFC24A" stop-opacity="0"/></radialGradient>' +
+  '</defs></svg>';
+
+var TK = (function () {
+  function star(cx, cy, ro, ri) {
+    var p = [], i, a;
+    for (i = 0; i < 10; i++) {
+      a = -Math.PI / 2 + i * Math.PI / 5;
+      var r = i % 2 === 0 ? ro : ri;
+      p.push((cx + r * Math.cos(a)).toFixed(1) + " " + (cy + r * Math.sin(a)).toFixed(1));
+    }
+    return "M" + p.join(" L") + " Z";
+  }
+  // bal szem (a jobb a tükörképe)
+  var EYES = [
+    "M72 76 L90 106 L54 106 Z",
+    "M60 94 A12 12 0 1 0 84 94 A12 12 0 1 0 60 94 Z",
+    "M52 80 L92 94 L60 110 Z",
+    "M54 104 Q72 76 90 104 Q72 90 54 104 Z",
+    star(72, 94, 15, 6.5),
+    "M54 90 Q72 112 90 90 Q72 99 54 90 Z"
+  ];
+  var NOSES = [
+    "M100 106 L111 126 L89 126 Z",
+    "M93 117 A7 7 0 1 0 107 117 A7 7 0 1 0 93 117 Z",
+    "M100 128 C84 114 90 104 100 112 C110 104 116 114 100 128 Z",
+    ""
+  ];
+  var MOUTHS = [
+    "M52 128 L66 136 L77 127 L90 140 L100 129 L110 140 L123 127 L134 136 L148 128 Q136 166 100 166 Q64 166 52 128 Z",
+    "M56 128 Q100 176 144 128 Q100 152 56 128 Z",
+    "M54 144 L68 132 L83 146 L100 132 L117 146 L132 132 L146 144 L146 152 L132 140 L117 154 L100 140 L83 154 L68 140 L54 152 Z",
+    "M87 146 A13 16 0 1 0 113 146 A13 16 0 1 0 87 146 Z",
+    "M60 132 Q80 156 100 136 Q120 156 140 132 Q120 166 100 146 Q80 166 60 132 Z",
+    "M60 130 H140 Q140 160 100 160 Q60 160 60 130 Z"
+  ];
+  var COLORS = [
+    { base: "#F08A24", lobe: "#FFA845", shade: "#C4600F", stem: "#6E8B3D" },
+    { base: "#D9541C", lobe: "#F07A38", shade: "#A83E10", stem: "#5E7A33" },
+    { base: "#E7E0D2", lobe: "#F8F4EB", shade: "#BFB6A4", stem: "#7D9B4F" },
+    { base: "#86AE55", lobe: "#A8CC78", shade: "#5F8636", stem: "#4E6B2A" }
+  ];
+  var N = [6, 4, 6, 4, 5];
+  var LABELS = {
+    e: ["Háromszög", "Kerek", "Mérges", "Vidám", "Csillag", "Álmos"],
+    n: ["Háromszög", "Kerek", "Szív", "Nincs"],
+    m: ["Fogas", "Mosoly", "Cikkcakk", "Kerek", "Cica", "Fogatlan"],
+    c: ["Narancs", "Mély narancs", "Fehér", "Zöld"],
+    x: ["Nincs", "Kalap", "Denevér", "Pók", "Korona"]
+  };
+
+  function parse(s) {
+    s = String(s || "");
+    var o = [], i;
+    for (i = 0; i < 5; i++) { var v = Number(s.charAt(i)); o.push(v >= 0 && v < N[i] ? v : 0); }
+    return { e: o[0], n: o[1], m: o[2], c: o[3], x: o[4] };
+  }
+  function str(c) { return "" + c.e + c.n + c.m + c.c + c.x; }
+
+  function extra(x, col) {
+    if (x === 1) {
+      return '<ellipse cx="101" cy="47" rx="60" ry="10" fill="#2E2049"/>' +
+        '<path d="M72 46 Q94 14 112 -24 Q120 16 130 46 Z" fill="#3B2A5E"/>' +
+        '<path d="M73.5 38 Q101 47 128.5 38 L130 46 Q101 55 72 46 Z" fill="#F4B860"/>';
+    }
+    if (x === 2) {
+      return '<path d="M146 6 Q153 -6 161 6 Q168 -4 182 2 Q176 14 166 15 Q163 24 158 15 Q149 15 146 6 Z" fill="#2B2140"/>' +
+        '<circle cx="156.5" cy="6.5" r="1.4" fill="#FFE2A8"/><circle cx="162.5" cy="6.5" r="1.4" fill="#FFE2A8"/>';
+    }
+    if (x === 3) {
+      return '<line x1="36" y1="-26" x2="36" y2="26" stroke="#D8D2C4" stroke-width="1.6"/>' +
+        '<g stroke="#2B2140" stroke-width="2.4" stroke-linecap="round" fill="none">' +
+        '<path d="M31 29 L21 22 L17 30"/><path d="M31 32 L19 33 L15 41"/><path d="M41 29 L51 22 L55 30"/><path d="M41 32 L53 33 L57 41"/></g>' +
+        '<ellipse cx="36" cy="31" rx="8" ry="7" fill="#2B2140"/><circle cx="33" cy="29" r="1.6" fill="#FFE2A8"/><circle cx="39" cy="29" r="1.6" fill="#FFE2A8"/>';
+    }
+    if (x === 4) {
+      return '<path d="M71 47 L75 14 L88 31 L101 5 L114 31 L127 14 L131 47 Z" fill="#F4C34D" stroke="#C98A2B" stroke-width="2.5" stroke-linejoin="round"/>' +
+        '<circle cx="101" cy="30" r="4" fill="#D9541C"/><circle cx="82" cy="38" r="3" fill="#7BA05B"/><circle cx="120" cy="38" r="3" fill="#7BA05B"/>';
+    }
+    return "";
+  }
+
+  // cfg: {e,n,m,c,x}; vb: nézet ("x y w h"), alapértelmezés a teljes tök
+  function svg(cfg, vb, label) {
+    var col = COLORS[cfg.c];
+    var face = "";
+    var eye = '<path d="' + EYES[cfg.e] + '"/>';
+    face += '<g class="tk-face" fill="url(#tk-glow)" stroke="rgba(110,45,8,.5)" stroke-width="1.5" stroke-linejoin="round">';
+    face += eye + '<g transform="translate(200 0) scale(-1 1)">' + eye + '</g>';
+    if (NOSES[cfg.n]) { face += '<path d="' + NOSES[cfg.n] + '"/>'; }
+    face += '<path d="' + MOUTHS[cfg.m] + '"/>';
+    face += "</g>";
+    var hat = cfg.x === 1 || cfg.x === 4;
+    var stem = hat ? "" : '<path d="M92 48 Q90 26 106 12 Q111 30 109 48 Z" fill="' + col.stem + '" stroke="rgba(0,0,0,.25)" stroke-width="1.2" stroke-linejoin="round"/>';
+    return '<svg class="tk" viewBox="' + (vb || "0 -26 200 216") + '" role="img" aria-label="' + (label || "Faragott tök") + '" focusable="false">' +
+      '<ellipse cx="100" cy="186" rx="76" ry="8" fill="rgba(0,0,0,.3)"/>' +
+      '<g stroke="' + col.shade + '" stroke-width="2.5">' +
+      '<ellipse cx="46" cy="116" rx="40" ry="62" fill="' + col.shade + '"/><ellipse cx="154" cy="116" rx="40" ry="62" fill="' + col.shade + '"/>' +
+      '<ellipse cx="72" cy="115" rx="44" ry="68" fill="' + col.base + '"/><ellipse cx="128" cy="115" rx="44" ry="68" fill="' + col.base + '"/>' +
+      '<ellipse cx="100" cy="114" rx="38" ry="71" fill="' + col.lobe + '"/></g>' +
+      '<ellipse cx="100" cy="118" rx="62" ry="50" fill="url(#tk-spill)"/>' +
+      stem + face + extra(cfg.x, col) + "</svg>";
+  }
+  function random() {
+    var o = [], i;
+    for (i = 0; i < 5; i++) { o.push(Math.floor(Math.random() * N[i])); }
+    return { e: o[0], n: o[1], m: o[2], c: o[3], x: o[4] };
+  }
+  return { svg: svg, parse: parse, str: str, random: random, N: N, LABELS: LABELS, COLORS: COLORS };
+})();
+
+
+(function () {
+  "use strict";
+  var API = "https://script.google.com/macros/s/AKfycbwqUPgEmfT8d-muHDTQcLKXxmo6Afh2K7U0r4EJtMSXOxYnQFmmQa6BHCsM-eDwHPNZ/exec";
+  var SITE = "https://fuggetlenkep.hu/tokkert";
+  var ABC = "abcdefghjklmnpqrstuvwxyz23456789";
+  var RE_GARDEN = /^[a-hj-np-z2-9]{6}$/;
+  var RE_LINK = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|hu|net|org|ru|info|biz)\b)/i;
+  var RE_MAIL = /\S+@\S+/;
+  var RE_PHONE = /(\d[\s.\/-]*){9,}/;
+  var $ = function (id) { return document.getElementById(id); };
+  var t0 = Date.now();
+  document.body.insertAdjacentHTML("afterbegin", TK_DEFS);
+
+  function readObj(k) { try { var v = JSON.parse(localStorage.getItem(k) || "{}"); return v && typeof v === "object" && !Array.isArray(v) ? v : {}; } catch (e) { return {}; } }
+  function writeObj(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function readStr(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+  function writeStr(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
+  function forbidden(s) { return RE_LINK.test(s) || RE_MAIL.test(s) || RE_PHONE.test(s); }
+  function rnd(bytes) {
+    var a = new Uint8Array(bytes), i, c = window.crypto || window.msCrypto;
+    if (c && c.getRandomValues) { c.getRandomValues(a); } else { for (i = 0; i < bytes; i++) { a[i] = Math.floor(Math.random() * 256); } }
+    return a;
+  }
+  function hex(bytes) { var a = rnd(bytes), o = "", i; for (i = 0; i < bytes; i++) { o += ("0" + a[i].toString(16)).slice(-2); } return o; }
+  function newCode() { var a = rnd(6), o = "", i; for (i = 0; i < 6; i++) { o += ABC.charAt(a[i] % ABC.length); } return o; }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
+  function call(obj) {
+    var ctl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctl) { ctl.abort(); } }, 15000);
+    return fetch(API, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { clearTimeout(to); return r.json(); })
+      .catch(function (e) { clearTimeout(to); throw e; });
+  }
+  function fbUrl(code) {
+    return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + "#" + code) +
+      "&quote=" + encodeURIComponent("Faragtam egy tököt a tökkertembe. Gyere, tedd a tiédet is mellé!");
+  }
+
+  /* ------------------------------------------------ állapot */
+  var mine = readObj("lf_tk_mine");           // {kert: {id, tok}}
+  var code = "", items = [], known = {}, pending = null, polls = 0, timer = null, loaded = false, loadFailed = false;
+  function mineFor(c) { return c && mine[c] ? mine[c] : null; }
+  function setMine(c, id, tok) {
+    mine[c] = { id: id, tok: tok };
+    var keys = Object.keys(mine);
+    if (keys.length > 20) { delete mine[keys[0]]; }
+    writeObj("lf_tk_mine", mine);
+  }
+  function dropMine(c) { delete mine[c]; writeObj("lf_tk_mine", mine); }
+  function readCode() {
+    var h = (location.hash || "").replace("#", "").toLowerCase();
+    return RE_GARDEN.test(h) ? h : "";
+  }
+
+  /* ------------------------------------------------ faragó */
+  var cfg = TK.random();
+  var GROUPS = [
+    { k: "e", t: "Szem", vb: "40 66 120 52", base: { n: 3, m: 0 } },
+    { k: "n", t: "Orr", vb: "70 98 60 36", base: { e: 0, m: 0 } },
+    { k: "m", t: "Száj", vb: "44 120 112 52", base: { e: 0, n: 3 } },
+    { k: "c", t: "Szín", vb: "0 -26 200 216", base: { e: 3, n: 0, m: 1 } },
+    { k: "x", t: "Extra", vb: "0 -26 200 86", base: { e: 3, n: 0, m: 1 } }
+  ];
+  var groupsBox = $("tk-groups");
+  function thumb(g, i) {
+    var c = { e: 0, n: 0, m: 0, c: 0, x: 0 }, k;
+    for (k in g.base) { c[k] = g.base[k]; }
+    c[g.k] = i;
+    return TK.svg(c, g.vb, "");
+  }
+  GROUPS.forEach(function (g) {
+    var fs = el("fieldset", "tk-group"), lg = el("legend", null, g.t), row = el("div", "tk-opts"), i;
+    fs.appendChild(lg);
+    for (i = 0; i < TK.N[g.k === "e" ? 0 : g.k === "n" ? 1 : g.k === "m" ? 2 : g.k === "c" ? 3 : 4]; i++) {
+      (function (i) {
+        var lab = el("label", "tk-opt"), inp = document.createElement("input"), chip = el("span", "tk-chip"), holder = el("span", null);
+        inp.type = "radio"; inp.name = "tk-" + g.k; inp.value = String(i);
+        inp.checked = cfg[g.k] === i;
+        holder.innerHTML = thumb(g, i);        // csak a saját, állandó rajzaink
+        chip.appendChild(holder); chip.appendChild(el("span", null, TK.LABELS[g.k][i]));
+        lab.appendChild(inp); lab.appendChild(chip);
+        inp.addEventListener("change", function () { cfg[g.k] = i; paint(); });
+        row.appendChild(lab);
+      })(i);
+    }
+    fs.appendChild(row);
+    groupsBox.appendChild(fs);
+  });
+  function paint() { $("tk-prev").innerHTML = TK.svg(cfg, null, "A te tököd"); }
+  function syncRadios() {
+    GROUPS.forEach(function (g) {
+      var r = groupsBox.querySelectorAll('input[name="tk-' + g.k + '"]'), i;
+      for (i = 0; i < r.length; i++) { r[i].checked = Number(r[i].value) === cfg[g.k]; }
+    });
+  }
+  paint();
+  $("tk-rand").addEventListener("click", function () { cfg = TK.random(); syncRadios(); paint(); });
+
+  /* ------------------------------------------------ nézetek */
+  var gardenSec = $("tk-garden"), studioSec = $("tk-studio-sec"), grid = $("tk-grid"), stateEl = $("tk-state"), countEl = $("tk-count");
+  var share = $("tk-share"), delBtn = $("tk-del"), askBox = $("tk-del-ask"), delMsg = $("tk-del-msg");
+
+  function merged() {
+    var list = items.slice(), i, has = false;
+    if (pending && pending.garden === code) {
+      for (i = 0; i < list.length; i++) { if (list[i].id === pending.id) { has = true; break; } }
+      if (!has) { list.push({ id: pending.id, name: pending.name, cfg: pending.cfg }); }
+    }
+    return list;
+  }
+  function card(it, isNew) {
+    var li = el("li", "tk-card"), own = mineFor(code), holder = el("div", null);
+    holder.innerHTML = TK.svg(TK.parse(it.cfg), null, "Faragott tök");
+    var svg = holder.firstChild;
+    svg.style.setProperty("--d", "-" + (Math.random() * 3).toFixed(2) + "s");
+    svg.setAttribute("aria-label", "Faragott tök: " + (it.name || "névtelen"));
+    li.appendChild(holder);
+    li.appendChild(el("p", "tk-name", it.name || "Névtelen tök"));
+    if (own && own.id === it.id) { li.classList.add("is-mine"); li.appendChild(el("span", "tk-badge", "A te tököd")); }
+    if (isNew) { li.classList.add("is-new"); }
+    return li;
+  }
+  function render() {
+    var list = merged(), i, fresh = loaded;
+    grid.textContent = "";
+    for (i = 0; i < list.length; i++) {
+      grid.appendChild(card(list[i], fresh && !known[list[i].id]));
+      known[list[i].id] = true;
+    }
+    countEl.textContent = list.length === 1 ? "1 tök van a kertben." : list.length + " tök van a kertben.";
+    stateEl.hidden = list.length > 0 || !loadFailed;
+    if (!list.length) {
+      stateEl.hidden = false;
+      stateEl.textContent = loadFailed ? "A tökkert most nem érhető el. Próbáld újra egy kicsit később." : "Még üres a kert. Faragd ki az elsőt.";
+    }
+  }
+  function view() {
+    var own = mineFor(code);
+    gardenSec.hidden = !code;
+    studioSec.hidden = !!(code && own);
+    share.hidden = !(code && own);
+    $("tk-studio-h").textContent = code ? "Faragd ki a saját tököd, és tedd a kertbe" : "Faragd ki a tököd";
+    var home = readStr("lf_tk_home");
+    $("tk-home").hidden = !!code || !RE_GARDEN.test(home);
+    if (RE_GARDEN.test(home)) { $("tk-home-a").href = "/tokkert#" + home; }
+    if (code) { $("tk-fb").href = fbUrl(code); }
+  }
+
+  /* ------------------------------------------------ kert betöltése */
+  function loadGarden() {
+    if (!code) { return; }
+    var c = code, ctl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctl) { ctl.abort(); } }, 10000);
+    fetch(API + (API.indexOf("?") > -1 ? "&" : "?") + "a=garden&g=" + encodeURIComponent(c), { cache: "no-store", signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        clearTimeout(to);
+        if (c !== code) { return; }
+        if (!d || d.ok !== true || !Array.isArray(d.items)) { throw new Error("bad"); }
+        items = d.items.filter(function (x) { return x && x.id && /^[0-9]{5}$/.test(String(x.cfg)); });
+        loadFailed = false;
+        var own = mineFor(c);                    // ha a szerver már nem ismeri a tökömet (pl. máshol törölted), újra faraghatsz
+        if (own && !items.some(function (x) { return x.id === own.id; })) {
+          if (!pending || pending.id !== own.id) { dropMine(c); view(); }
+          else if (pending.saved) { dropMine(c); pending = null; view(); }
+        }
+        render(); loaded = true;
+      })
+      .catch(function () {
+        clearTimeout(to);
+        if (c !== code) { return; }
+        loadFailed = true; render();
+      });
+  }
+  function startPolling() {
+    if (timer) { clearInterval(timer); }
+    polls = 0;
+    timer = setInterval(function () {
+      if (document.hidden || !code) { return; }
+      polls += 1;
+      if (polls > 30) { clearInterval(timer); timer = null; return; }
+      loadGarden();
+    }, 30000);
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden && code) { loadGarden(); if (!timer) { startPolling(); } }
+  });
+
+  function open(c) {
+    code = c; items = []; known = {}; loaded = false; loadFailed = false;
+    pending = null;
+    view();
+    if (code) {
+      render();
+      stateEl.hidden = false; stateEl.textContent = "A tökkert betöltése…";
+      loadGarden(); startPolling();
+    }
+  }
+  window.addEventListener("hashchange", function () { open(readCode()); });
+
+  /* ------------------------------------------------ elküldés */
+  var form = $("tk-form"), nameIn = $("tk-name-in"), hp = $("tk-hp"), msg = $("tk-msg"), sendBtn = $("tk-send");
+
+  function resetSend() { sendBtn.disabled = false; sendBtn.textContent = "Kész a tököm"; }
+  function undo(c, text) {          // a szerver szerint javítani kell: vissza a faragóhoz
+    dropMine(c); pending = null; view(); render();
+    msg.textContent = text; resetSend();
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    msg.textContent = "";
+    if (hp.value) { return; }
+    var name = nameIn.value.trim();
+    if (forbidden(name)) { msg.textContent = "Kérlek, ne írj be linket, e-mail-címet vagy telefonszámot."; nameIn.focus(); return; }
+    var fresh = !code;
+    if (fresh && Date.now() - Number(readStr("lf_tk_last") || 0) < 15000) { msg.textContent = "Egy pillanat, mindjárt indíthatsz új kertet."; return; }
+    sendBtn.disabled = true; sendBtn.textContent = "Küldés…";
+    var g = code || newCode(), id = "p" + hex(4).slice(0, 7), tok = "t" + hex(8);
+    var payload = { a: "pk_add", garden: g, id: id, tok: tok, cfg: TK.str(cfg), name: name, hp: "", t: Date.now() - t0 };
+    var job = { garden: g, id: id, tok: tok, cfg: payload.cfg, name: name, saved: false, off: false };
+    pending = job; setMine(g, id, tok);
+    if (fresh) { writeStr("lf_tk_last", Date.now()); }
+    writeStr("lf_tk_home", g);
+    if (fresh) {
+      try { history.replaceState(null, "", location.pathname + "#" + g); } catch (e) { location.hash = g; }
+      code = g; items = []; known = {}; loaded = true; loadFailed = false; startPolling();
+    }
+    view(); render();
+    nameIn.value = "";
+    resetSend();
+    $("tk-garden-h").focus();
+    gardenSec.scrollIntoView({ block: "start" });
+
+    function done(res) {
+      if (job.off) { return true; }
+      if (res && res.ok === true) { job.saved = true; loadGarden(); return true; }
+      if (res && res.err === "forbidden") { undo(g, "Kérlek, ne írj be linket, e-mail-címet vagy telefonszámot."); return true; }
+      if (res && res.err === "full") { undo(g, "Ez a kert megtelt (30 tök). Indíts új tökkertet: töltsd be újra az oldalt a link nélkül."); return true; }
+      return false;
+    }
+    function retry(n) {
+      if (n > 2 || job.off) { return; }
+      setTimeout(function () {
+        if (job.off) { return; }
+        payload.t = Date.now() - t0;
+        call(payload).then(function (res) {
+          if (res && res.ok === true && job.off) { call({ a: "pk_del", garden: g, id: id, tok: tok }).catch(function () {}); return; }
+          if (!done(res)) { retry(n + 1); }
+        }).catch(function () { retry(n + 1); });
+      }, n === 1 ? 4000 : 12000);
+    }
+    call(payload).then(function (res) { if (!done(res)) { retry(1); } }).catch(function () { retry(1); });
+  });
+
+  /* ------------------------------------------------ törlés */
+  delBtn.addEventListener("click", function () { delBtn.hidden = true; askBox.hidden = false; $("tk-del-no").focus(); });
+  $("tk-del-no").addEventListener("click", function () { askBox.hidden = true; delBtn.hidden = false; delBtn.focus(); });
+  $("tk-del-yes").addEventListener("click", function () {
+    var own = mineFor(code);
+    if (!own) { return; }
+    var j = pending && pending.id === own.id ? pending : null, c = code;
+    if (j) { j.off = true; }
+    function finish() {
+      dropMine(c); pending = null;
+      askBox.hidden = true; delBtn.hidden = false; delMsg.textContent = "";
+      view(); render(); loadGarden();
+      $("tk-studio-h").focus();
+    }
+    if (j && !j.saved) { finish(); return; }
+    var b = $("tk-del-yes"); b.disabled = true; b.textContent = "Törlés…";
+    call({ a: "pk_del", garden: c, id: own.id, tok: own.tok }).then(function (res) {
+      if (!res || (res.ok !== true && res.err !== "bad")) { throw res || {}; }
+      b.disabled = false; b.textContent = "Igen, törlöm";
+      finish();
+    }).catch(function () {
+      if (j) { j.off = false; }
+      b.disabled = false; b.textContent = "Igen, törlöm";
+      askBox.hidden = true; delBtn.hidden = false;
+      delMsg.textContent = "Most nem sikerült törölni. Próbáld újra egy kicsit később.";
+    });
+  });
+
+  open(readCode());
+})();
+</script>
+</main>
+<footer class="foot">
+<div class="wrap">
+<ul class="foot-links">
+<li><a href="/adatvedelem">Adatvédelem</a></li>
+<li><a href="/impresszum">Impresszum</a></li>
+<li><a href="/kapcsolat">Kapcsolat</a></li>
+<li id="sutik" hidden><a href="javascript:window.googlefc.showRevocationMessage();">Süti- és adatvédelmi beállítások</a></li>
+</ul>
+<p>© 2026 Lélekfény</p>
+</div>
+</footer>
+<script>window.googlefc.callbackQueue.push({'CONSENT_API_READY':function(){var e=document.getElementById('sutik');if(e)e.hidden=false;}});</script>
+</body>
+</html>

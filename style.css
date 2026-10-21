@@ -262,3 +262,63 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .cd-ask .cd-err{font-weight:400;color:#FFB4A0;font-size:1rem}
 .cd-ask .cd-err:empty{display:none}
 .gy-done [hidden],.cd [hidden]{display:none!important}
+/* tökkert */
+.tk{display:block;width:100%;height:auto;overflow:visible}
+.tk-face{animation:tkflick 3.6s ease-in-out var(--d,0s) infinite}
+@keyframes tkflick{0%,100%{opacity:1}35%{opacity:.88}65%{opacity:.96}}
+@media (prefers-reduced-motion:reduce){.tk-face{animation:none}.tk-card.is-new{animation:none}}
+.tk-intro{max-width:38rem;margin:0}
+.tk-home{margin:1rem 0 0;font-size:1.15rem}
+.tk-home a{font-weight:700}
+
+.tk-garden{background:var(--dusk-deep);color:#EEF2F8}
+.band.tk-garden+.band{border-top:0}
+.tk-garden h2,.tk-garden h3{color:#fff}
+.tk-garden h2:focus{outline:none}
+.tk-garden .meta{color:#B8C4D8}
+.tk-garden :focus-visible{outline-color:var(--lamp-pale)}
+.tk-state{margin:1rem 0 0;font-size:1.15rem}
+.tk-grid{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1.25rem 1rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,9.5rem),1fr))}
+.tk-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:.5rem .4rem .7rem;border-radius:.5rem;border:1px solid transparent}
+.tk-card .tk{max-width:9rem}
+.tk-name{margin:.35rem 0 0;font-size:1.05rem;line-height:1.35;overflow-wrap:anywhere}
+.tk-badge{display:inline-block;margin-top:.3rem;padding:.1rem .6rem;border-radius:1rem;background:rgba(255,226,168,.16);color:var(--lamp-pale);font-size:.9rem;font-weight:700}
+.tk-card.is-mine{border-color:rgba(255,226,168,.35);background:rgba(255,255,255,.05)}
+.tk-card.is-new{animation:tkpop .7s ease-out}
+@keyframes tkpop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
+.tk-share{max-width:38rem;margin-top:2rem;padding:1.3rem 1.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,226,168,.28);border-radius:.5rem}
+.tk-share h3{margin:0 0 .4rem;font-size:1.4rem}
+.tk-share p{margin:0 0 1rem}
+.tk-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 .75rem}
+.tk-ask{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 .75rem}
+.tk-ask p{flex-basis:100%;margin:0;font-weight:700}
+.tk-msg-light{min-height:1.4em;margin:0 0 .5rem!important;color:#FFB4A0;font-size:1rem}
+.tk-share .linkbtn,.tk-garden .linkbtn{color:var(--lamp-pale)}
+.tk-garden [hidden]{display:none!important}
+
+.tk-studio{display:grid;gap:1.5rem;grid-template-columns:1fr;margin-top:1.25rem}
+.tk-stage{position:sticky;top:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:.75rem;background:var(--dusk-deep);border-radius:.5rem;box-shadow:0 .5rem 1rem rgba(20,28,48,.25)}
+.tk-stage #tk-prev{width:min(48vw,13rem)}
+.tk-stage .btn{min-height:2.75rem;padding:.4rem 1.1rem}
+.tk-group{margin:0 0 1.25rem;padding:0;border:0;min-width:0}
+.tk-group legend{padding:0;margin:0 0 .4rem;font-weight:700}
+.tk-opts{display:flex;flex-wrap:wrap;gap:.5rem}
+.tk-opt{position:relative;display:block;cursor:pointer}
+.tk-opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.tk-opt .tk-chip{display:flex;flex-direction:column;align-items:center;gap:.15rem;min-width:4.6rem;padding:.35rem .4rem .3rem;background:#fff;border:2px solid var(--rule);border-radius:.5rem;font-size:.9rem;line-height:1.2}
+.tk-opt .tk-chip .tk{width:4rem;overflow:hidden;border-radius:.25rem;background:var(--dusk-deep)}
+.tk-opt input:checked+.tk-chip{border-color:var(--link);box-shadow:0 0 0 2px var(--link);font-weight:700}
+.tk-opt input:focus-visible+.tk-chip{outline:3px solid var(--link);outline-offset:3px}
+.tk-field{max-width:26rem;margin:.5rem 0 1.25rem}
+.tk-field label{display:block;margin:0 0 .4rem;font-weight:700}
+.tk-field input[type=text]{display:block;width:100%;padding:.8rem 1rem;font:inherit;font-size:1.15rem;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem}
+.tk-field input[type=text]:focus{border-color:var(--link)}
+.tk-help{margin:.4rem 0 0;color:var(--muted);font-size:1rem}
+.tk-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.tk-msg{min-height:1.6em;margin:.9rem 0 0;font-weight:700;color:#8A2B12}
+.tk-fine{max-width:38rem;margin:1rem 0 0;color:var(--muted);font-size:1rem}
+@media (min-width:52rem){
+ .tk-studio{grid-template-columns:minmax(14rem,18rem) 1fr;align-items:start}
+ .tk-stage{top:1rem}
+ .tk-stage #tk-prev{width:15rem}
+}
