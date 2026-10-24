@@ -16,6 +16,13 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#17112b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3638506663290697" crossorigin="anonymous"></script>
+<script async src="https://fundingchoicesmessages.google.com/i/pub-3638506663290697?ers=1"></script>
+<script>(function(){function s(){if(!window.frames['googlefcPresent']){if(document.body){var i=document.createElement('iframe');i.style='width:0;height:0;border:none;z-index:-1000;left:-1000px;top:-1000px;';i.style.display='none';i.name='googlefcPresent';document.body.appendChild(i);}else{setTimeout(s,0);}}}s();})();</script>
 <style>
 :root{
   --bg:#17112b; --bg2:#231a44; --gold:#e3c16f; --text:#f1ebff; --muted:#b4a8d6; --card:#2d2257;
@@ -99,6 +106,11 @@ button.go:hover{filter:brightness(1.08)}
 .meaning h3{margin:0 0 4px;color:var(--gold);font-size:1.02rem}
 .meaning .tag{display:inline-block;font-size:.72rem;border:1px solid var(--muted);color:var(--muted);
   border-radius:20px;padding:1px 8px;margin-bottom:6px}
+.foot{margin-top:34px;padding-top:18px;border-top:1px solid rgba(227,193,111,.25);text-align:center;color:var(--muted);font-size:.9rem}
+.foot ul{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.foot a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.foot a:hover{color:var(--gold)}
+.foot p{margin:0}
 .note{color:var(--muted);font-size:.82rem;text-align:center;margin-top:30px}
 @media (max-width:760px){.spread.n5,.spread.n10,.spread.n12{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.spread{gap:8px}.meaning{font-size:.85rem}}
@@ -165,6 +177,17 @@ button.go:hover{filter:brightness(1.08)}
   </section>
 
   <div class="ad-slot">Hirdetés helye</div>
+
+  <footer class="foot">
+    <ul>
+      <li><a href="/">Lélekfény</a></li>
+      <li><a href="/adatvedelem">Adatvédelem</a></li>
+      <li><a href="/impresszum">Impresszum</a></li>
+      <li><a href="/kapcsolat">Kapcsolat</a></li>
+      <li id="sutik" hidden><a href="javascript:window.googlefc.showRevocationMessage();">Süti- és adatvédelmi beállítások</a></li>
+    </ul>
+    <p>© 2026 Lélekfény</p>
+  </footer>
 </div>
 
 <div class="ov" id="explainOv" role="dialog" aria-modal="true" aria-label="Tarot kártya elmagyarázva">
@@ -510,11 +533,9 @@ async function buildImage(){
   return new Promise(res=>cv.toBlob(res,"image/png"));
 }
 
-document.getElementById("shareFb").addEventListener("click",()=>T("facebook_megosztas"));
 document.getElementById("shareImg").addEventListener("click",async()=>{
   const hint = document.getElementById("shareHint");
   if(!lastShare) return;
-  T("kep_megosztas");
   hint.textContent = "Kép készítése…";
   try{
     const blob = await buildImage();
@@ -558,7 +579,6 @@ function render(picks, meta){
     }
   }
   document.getElementById("flipall").onclick = ()=>{
-    T("osszes_felfordit");
     flips.forEach((f,i)=>setTimeout(f,i*180));
   };
   picks.forEach((p,i)=>{
@@ -607,7 +627,7 @@ function render(picks, meta){
     counter.textContent = (cur+1)+" / "+slides.length;
     document.getElementById("slides").scrollTop = 0;
   }
-  function open(){ T("magyarazat"); show(0); ov.classList.add("open"); document.body.style.overflow="hidden"; }
+  function open(){ show(0); ov.classList.add("open"); document.body.style.overflow="hidden"; }
   function close(){ ov.classList.remove("open"); document.body.style.overflow=""; }
   document.getElementById("explainOpen").addEventListener("click",open);
   document.getElementById("explainClose").addEventListener("click",close);
@@ -640,5 +660,6 @@ document.getElementById("form").addEventListener("submit",e=>{
   render(draw(sign, topic, name, count), {name, signName:SIGNS[sign], spreadName:SPREAD_NAMES[count]});
 });
 </script>
+<script>window.googlefc.callbackQueue.push({'CONSENT_API_READY':function(){var e=document.getElementById('sutik');if(e)e.hidden=false;}});</script>
 </body>
 </html>
