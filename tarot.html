@@ -27,7 +27,17 @@ button.go:hover{filter:brightness(1.08)}
   display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.25);font-size:.8rem}
 #reading{display:none;margin-top:28px}
 .hint{text-align:center;color:var(--muted);margin-bottom:14px}
-.spread{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.spread{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 12px}
+.spread.n5,.spread.n10{grid-template-columns:repeat(5,1fr)}
+.spread.n12{grid-template-columns:repeat(4,1fr)}
+.flipall{display:block;margin:0 auto 18px;background:none;border:1px solid var(--gold);color:var(--gold);
+  border-radius:20px;padding:8px 18px;font-family:inherit;font-size:.95rem;cursor:pointer}
+.flipall:hover{background:rgba(227,193,111,.12)}
+.summary{display:none;margin-top:28px;padding:18px 20px;border:1px solid rgba(227,193,111,.35);border-radius:16px;
+  background:rgba(255,255,255,.05)}
+.summary h2{margin:0 0 8px;color:var(--gold);font-size:1.25rem}
+.summary p{margin:0 0 10px}
+.summary p:last-child{margin-bottom:0}
 .slot{text-align:center}
 .pos{color:var(--gold);font-size:.95rem;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
 .card{perspective:900px;cursor:pointer;aspect-ratio:300/520;width:100%;border:0;background:none;padding:0}
@@ -50,13 +60,14 @@ button.go:hover{filter:brightness(1.08)}
 .meaning .tag{display:inline-block;font-size:.72rem;border:1px solid var(--muted);color:var(--muted);
   border-radius:20px;padding:1px 8px;margin-bottom:6px}
 .note{color:var(--muted);font-size:.82rem;text-align:center;margin-top:30px}
+@media (max-width:760px){.spread.n5,.spread.n10,.spread.n12{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.spread{gap:8px}.meaning{font-size:.85rem}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Tarot jóslás</h1>
-  <p class="lead">Válaszd ki a csillagjegyed, és húzz három lapot. A lapokat a jegyed és a kérdésed hangolja: ha ma újra kitöltöd ugyanúgy, ugyanazt kapod, holnap új lapok jönnek.</p>
+  <p class="lead">Válaszd ki a csillagjegyed és a kirakást, és húzd ki a lapokat. A lapokat a jegyed és a kérdésed hangolja: ha ma újra kitöltöd ugyanúgy, ugyanazt kapod, holnap új lapok jönnek.</p>
 
   <form id="form">
     <label>Csillagjegyed
@@ -83,6 +94,14 @@ button.go:hover{filter:brightness(1.08)}
         <option value="munka">Munka, pénz</option>
       </select>
     </label>
+    <label>Kirakás
+      <select id="spreadType">
+        <option value="3">Gyors tanács – 3 lap</option>
+        <option value="5">Útkereső – 5 lap</option>
+        <option value="10">Kelta kereszt – 10 lap (részletes)</option>
+        <option value="12">Az elkövetkező 12 hónap – 12 lap</option>
+      </select>
+    </label>
     <label>A neved (nem kötelező)
       <input id="name" type="text" maxlength="40" autocomplete="given-name">
     </label>
@@ -93,11 +112,12 @@ button.go:hover{filter:brightness(1.08)}
 
   <section id="reading" aria-live="polite">
     <p class="hint">Koppints a lapokra, hogy felfordítsd őket.</p>
+    <button class="flipall" id="flipall" type="button">Összes lap felfordítása</button>
     <div class="spread" id="spread"></div>
+    <div class="summary" id="summary"></div>
   </section>
 
   <div class="ad-slot">Hirdetés helye</div>
-  <p class="note">A tarot szórakoztató és önreflexiós eszköz, nem jósol meg semmit biztosan. Fontos döntésekhez kérj szakember tanácsot.</p>
 </div>
 
 <script>
@@ -236,12 +256,12 @@ function weightOf(card, sign, topic){
   return w;
 }
 
-function draw(sign, topic, name){
-  const seedStr = [sign, topic, name.trim().toLowerCase(), todayStr()].join("|");
+function draw(sign, topic, name, count){
+  const seedStr = [sign, topic, name.trim().toLowerCase(), count, todayStr()].join("|");
   const rnd = mulberry32(xmur3(seedStr)());
   const pool = DECK.map(c=>({c, w:weightOf(c,sign,topic)}));
   const picks = [];
-  for(let n=0;n<3;n++){
+  for(let n=0;n<count;n++){
     const total = pool.reduce((a,b)=>a+b.w,0);
     let r = rnd()*total, idx=0;
     for(;idx<pool.length;idx++){ r-=pool[idx].w; if(r<=0) break; }
@@ -253,19 +273,91 @@ function draw(sign, topic, name){
 }
 
 /* ---------- MEGJELENÍTÉS ---------- */
-const POSITIONS = ["Helyzet","Kihívás","Tanács"];
-const POS_INTRO = [
-  "Ez van most körülötted:",
-  "Ez áll az utadban vagy ez tesz próbára:",
-  "Ezt érdemes szem előtt tartanod:"
-];
+const MONTHS = ["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"];
+function spreadPositions(count){
+  if(count===3) return [
+    ["Helyzet","Ez van most körülötted:"],
+    ["Kihívás","Ez áll az utadban vagy ez tesz próbára:"],
+    ["Tanács","Ezt érdemes szem előtt tartanod:"]];
+  if(count===5) return [
+    ["Múlt","Ez formálta a mostani helyzetedet:"],
+    ["Jelen","Ez van most körülötted:"],
+    ["Kihívás","Ez áll az utadban vagy ez tesz próbára:"],
+    ["Tanács","Ezt érdemes szem előtt tartanod:"],
+    ["Kimenetel","Ide vezet az út, ha így haladsz tovább:"]];
+  if(count===10) return [
+    ["1. Helyzet","A jelenlegi helyzeted lényege:"],
+    ["2. Kihívás","Ez keresztezi az utadat:"],
+    ["3. Alap","Ez van a helyzeted mélyén, tudat alatt:"],
+    ["4. Múlt","Ez maradt mögötted, de még hat rád:"],
+    ["5. Cél","Ezt szeretnéd, vagy ez a tudatos irány:"],
+    ["6. Közeljövő","Ez jön a következő hetekben:"],
+    ["7. Te magad","Így állsz most a helyzethez:"],
+    ["8. Környezet","Így hatnak rád mások és a körülmények:"],
+    ["9. Remények és félelmek","Ez foglalkoztat legbelül:"],
+    ["10. Kimenetel","Ide vezethet az út:"]];
+  const start = new Date().getMonth();
+  return Array.from({length:12},(_,i)=>[MONTHS[(start+i)%12],"Ez a hónap erről szól:"]);
+}
+
+function summaryHtml(picks){
+  const n = picks.length;
+  const majors = picks.filter(p=>p.card.major).length;
+  const rev = picks.filter(p=>p.reversed).length;
+  const cnt = {c:0,p:0,s:0,w:0};
+  picks.forEach(p=>{ if(p.card.suit) cnt[p.card.suit]++; });
+  const top = Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+  const parts = [];
+  if(majors >= Math.ceil(n*0.4)){
+    parts.push("Sok nagy arkánum került ki: ez nagy jelentőségű időszakot jelez, amikor a döntéseid hosszú távra szólnak, és nem a véletlen, hanem az életed nagyobb témái dolgoznak.");
+  } else if(majors===0){
+    parts.push("Nem jött ki nagy arkánum: a helyzet inkább a hétköznapi apró döntésekről és tettekről szól, és a kezedben van az irányítás.");
+  } else {
+    parts.push("A nagy arkánumok kevesen vannak, vagyis a nagy sorsfordulók helyett a mindennapi döntéseid számítanak most.");
+  }
+  if(top && top[1] >= Math.ceil(n*0.34)){
+    const msg = {
+      c:"A Kelyhek dominálnak: az érzelmek, a kapcsolatok és a belső világod van most előtérben.",
+      p:"Az Érmék dominálnak: a munka, a pénz és a kézzelfogható biztonság a téma.",
+      s:"A Kardok dominálnak: a gondolatok, a döntések és az őszinte beszélgetések kerülnek előtérbe, esetleg némi feszültséggel.",
+      w:"A Botok dominálnak: tett, lendület és szenvedély jellemzi ezt az időszakot."
+    }[top[0]];
+    parts.push(msg);
+  }
+  if(rev >= Math.ceil(n/2)){
+    parts.push("Sok fordított lap van: valami belül elakadt vagy késik, érdemes megnézned, mi tart vissza, mielőtt újabb lépést teszel.");
+  } else if(rev===0){
+    parts.push("Egyetlen lap sem fordított: az energiák szabadon áramolnak, nincs komoly akadály.");
+  }
+  parts.push("Olvasd össze a lapokat egy történetként: a legerősebb üzenetet általában az hordozza, amelyik a legjobban rezonál arra, amit most élsz.");
+  return "<h2>Összegzés</h2>"+parts.map(t=>"<p>"+t+"</p>").join("");
+}
 const IMG_DIR = ""; // ide kerülnek a lapok képei: m00.webp ... m21.webp, c01.webp ... w14.webp
 
 function esc(s){return s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 
 function render(picks){
   const spread = document.getElementById("spread");
+  const summary = document.getElementById("summary");
+  const POS = spreadPositions(picks.length);
+  const POSITIONS = POS.map(x=>x[0]), POS_INTRO = POS.map(x=>x[1]);
   spread.innerHTML = "";
+  spread.className = "spread n"+picks.length;
+  summary.style.display = "none";
+  summary.innerHTML = summaryHtml(picks);
+  let flippedCount = 0;
+  const flips = [];
+  function flip(btn, slot){
+    if(btn.classList.contains("flipped")) return;
+    btn.classList.add("flipped"); slot.classList.add("shown");
+    flippedCount++;
+    if(flippedCount===picks.length){
+      setTimeout(()=>{summary.style.display="block"},900);
+    }
+  }
+  document.getElementById("flipall").onclick = ()=>{
+    flips.forEach((f,i)=>setTimeout(f,i*180));
+  };
   picks.forEach((p,i)=>{
     const c = p.card;
     const slot = document.createElement("div");
@@ -289,7 +381,8 @@ function render(picks){
     const img = slot.querySelector("img");
     img.addEventListener("error",()=>{img.style.display="none";slot.querySelector(".fallback").style.display="flex"});
     const btn = slot.querySelector(".card");
-    btn.addEventListener("click",()=>{btn.classList.add("flipped");slot.classList.add("shown")});
+    btn.addEventListener("click",()=>flip(btn,slot));
+    flips.push(()=>flip(btn,slot));
     spread.appendChild(slot);
   });
   const sec = document.getElementById("reading");
@@ -303,7 +396,8 @@ document.getElementById("form").addEventListener("submit",e=>{
   if(isNaN(sign)) return;
   const topic = document.getElementById("topic").value;
   const name = document.getElementById("name").value;
-  render(draw(sign, topic, name));
+  const count = parseInt(document.getElementById("spreadType").value,10);
+  render(draw(sign, topic, name, count));
 });
 </script>
 </body>
