@@ -3,19 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tarot jóslás – húzd ki a mai lapjaidat</title>
-<meta name="description" content="Ingyenes tarot jóslás a csillagjegyed alapján. Válassz kirakást: 3, 5 vagy 10 lap (Kelta kereszt), vagy a következő 12 hónap.">
-<link rel="canonical" href="https://fuggetlenkep.hu/tarot">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="hu_HU">
-<meta property="og:site_name" content="Lélekfény">
-<meta property="og:title" content="Tarot jóslás – húzd ki a mai lapjaidat">
-<meta property="og:description" content="Válaszd ki a csillagjegyed, és húzz lapokat a Rider-Waite pakliból: 3 lapos gyors tanács, Kelta kereszt vagy a következő 12 hónap.">
-<meta property="og:url" content="https://fuggetlenkep.hu/tarot">
-<meta property="og:image" content="https://fuggetlenkep.hu/og-tarot.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
+<title>Tarot jóslás – húzz három lapot</title>
+<meta name="description" content="Ingyenes tarot jóslás a csillagjegyed alapján. Válaszd ki a jegyed, tedd fel a kérdésed, és húzz három lapot.">
 <style>
 :root{
   --bg:#17112b; --bg2:#231a44; --gold:#e3c16f; --text:#f1ebff; --muted:#b4a8d6; --card:#2d2257;
@@ -49,12 +38,6 @@ button.go:hover{filter:brightness(1.08)}
 .summary h2{margin:0 0 8px;color:var(--gold);font-size:1.25rem}
 .summary p{margin:0 0 10px}
 .summary p:last-child{margin-bottom:0}
-.share{display:none;margin-top:18px;text-align:center}
-.sharebtn{display:inline-block;margin:4px;background:linear-gradient(135deg,#e3c16f,#b98f33);color:#1b1230;border:0;
-  border-radius:12px;padding:12px 20px;font-size:1rem;font-weight:bold;cursor:pointer;font-family:inherit;text-decoration:none}
-.sharebtn.fb{background:none;border:1px solid var(--gold);color:var(--gold)}
-.sharebtn:hover{filter:brightness(1.08)}
-.sharehint{color:var(--muted);font-size:.85rem;margin:8px 0 0;min-height:1em}
 .slot{text-align:center}
 .pos{color:var(--gold);font-size:.95rem;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
 .card{perspective:900px;cursor:pointer;aspect-ratio:300/520;width:100%;border:0;background:none;padding:0}
@@ -132,12 +115,6 @@ button.go:hover{filter:brightness(1.08)}
     <button class="flipall" id="flipall" type="button">Összes lap felfordítása</button>
     <div class="spread" id="spread"></div>
     <div class="summary" id="summary"></div>
-    <div class="share" id="share">
-      <button type="button" class="sharebtn" id="shareImg">Kép megosztása / mentése</button>
-      <a class="sharebtn fb" id="shareFb" target="_blank" rel="noopener"
-         href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffuggetlenkep.hu%2Ftarot">Megosztás Facebookon</a>
-      <p class="sharehint" id="shareHint"></p>
-    </div>
   </section>
 
   <div class="ad-slot">Hirdetés helye</div>
@@ -359,102 +336,7 @@ const IMG_DIR = ""; // ide kerülnek a lapok képei: m00.webp ... m21.webp, c01.
 
 function esc(s){return s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 
-const SPREAD_NAMES = {3:"Gyors tanács",5:"Útkereső",10:"Kelta kereszt",12:"A következő 12 hónap"};
-let lastShare = null;
-
-function loadImg(src){
-  return new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src});
-}
-function rrect(ctx,x,y,w,h,r){
-  ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
-  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
-}
-function fitText(ctx,text,maxW,size,weight,family){
-  let s=size; ctx.font=weight+" "+s+"px "+family;
-  while(ctx.measureText(text).width>maxW && s>12){s-=1;ctx.font=weight+" "+s+"px "+family}
-}
-
-async function buildImage(){
-  const {picks,meta} = lastShare;
-  const n = picks.length;
-  const cols = n===3?3 : n===4?4 : n===5?5 : n===10?5 : 4;
-  const rows = Math.ceil(n/cols);
-  const W = 1080, M = 48, G = 22, F = "Georgia, 'Times New Roman', serif";
-  const cw = Math.floor((W-2*M-(cols-1)*G)/cols);
-  const ch = Math.round(cw*574/330);
-  const labelH = cols>=5 ? 74 : 84;
-  const topH = 210, footH = 110;
-  const H = topH + rows*(ch+labelH) + (rows-1)*14 + footH;
-  const cv = document.createElement("canvas"); cv.width=W; cv.height=H;
-  const ctx = cv.getContext("2d");
-  const bg = ctx.createLinearGradient(0,0,0,H); bg.addColorStop(0,"#231a44"); bg.addColorStop(1,"#17112b");
-  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-  ctx.textAlign="center"; ctx.fillStyle="#e3c16f";
-  ctx.font="bold 66px "+F; ctx.fillText("Tarot jóslás",W/2,96);
-  ctx.fillStyle="#b4a8d6";
-  const who = meta.name.trim() ? meta.name.trim()+" · " : "";
-  fitText(ctx,who+meta.spreadName+" · "+meta.signName,W-2*M,32,"normal",F);
-  ctx.fillText(who+meta.spreadName+" · "+meta.signName,W/2,150);
-  ctx.fillStyle="#e3c16f"; ctx.fillRect(W/2-60,172,120,2);
-  const imgs = await Promise.all(picks.map(p=>loadImg(IMG_DIR+p.card.key+".webp")));
-  const POS = spreadPositions(n).map(x=>x[0]);
-  picks.forEach((p,i)=>{
-    const r = Math.floor(i/cols), inRow = r===rows-1 ? n-(rows-1)*cols : cols;
-    const c = i%cols;
-    const rowW = inRow*cw+(inRow-1)*G;
-    const x = Math.round((W-rowW)/2) + c*(cw+G);
-    const y = topH + r*(ch+labelH+14);
-    ctx.save();
-    rrect(ctx,x,y,cw,ch,10); ctx.clip();
-    if(imgs[i]){
-      if(p.reversed){ctx.translate(x+cw/2,y+ch/2);ctx.rotate(Math.PI);ctx.drawImage(imgs[i],-cw/2,-ch/2,cw,ch)}
-      else ctx.drawImage(imgs[i],x,y,cw,ch);
-    } else {
-      ctx.fillStyle="#2d2257"; ctx.fillRect(x,y,cw,ch);
-      ctx.fillStyle="#e3c16f"; ctx.textAlign="center"; ctx.font="bold 26px "+F; ctx.fillText(p.card.sym,x+cw/2,y+ch/2);
-    }
-    ctx.restore();
-    rrect(ctx,x,y,cw,ch,10); ctx.strokeStyle="#e3c16f"; ctx.lineWidth=3; ctx.stroke();
-    ctx.textAlign="center";
-    ctx.fillStyle="#b4a8d6"; fitText(ctx,POS[i].toUpperCase(),cw,cols>=5?15:18,"normal",F);
-    ctx.fillText(POS[i].toUpperCase(),x+cw/2,y+ch+28);
-    ctx.fillStyle="#e3c16f"; fitText(ctx,p.card.name,cw,cols>=5?20:24,"bold",F);
-    ctx.fillText(p.card.name,x+cw/2,y+ch+56);
-    if(p.reversed){ctx.fillStyle="#b4a8d6";ctx.font="italic "+(cols>=5?14:16)+"px "+F;ctx.fillText("fordított",x+cw/2,y+ch+(cols>=5?74:78))}
-  });
-  ctx.textAlign="center"; ctx.fillStyle="#e3c16f"; ctx.font="bold 34px "+F;
-  ctx.fillText("fuggetlenkep.hu/tarot",W/2,H-52);
-  ctx.fillStyle="#b4a8d6"; ctx.font="22px "+F; ctx.fillText("Húzd ki a saját lapjaidat is",W/2,H-20);
-  return new Promise(res=>cv.toBlob(res,"image/png"));
-}
-
-document.getElementById("shareImg").addEventListener("click",async()=>{
-  const hint = document.getElementById("shareHint");
-  if(!lastShare) return;
-  hint.textContent = "Kép készítése…";
-  try{
-    const blob = await buildImage();
-    if(!blob) throw new Error("nincs kép");
-    const file = new File([blob],"tarot-joslas.png",{type:"image/png"});
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      try{
-        await navigator.share({files:[file],title:"Tarot jóslás",text:"Ezt húztam a tarot jóslásban: https://fuggetlenkep.hu/tarot"});
-        hint.textContent = ""; return;
-      }catch(e){ if(e && e.name==="AbortError"){hint.textContent="";return} }
-    }
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = "tarot-joslas.png";
-    document.body.appendChild(a); a.click(); a.remove();
-    hint.textContent = "A kép letöltődött. Facebookon a bejegyzéshez csatold a képet, és írd mellé a linket.";
-  }catch(e){
-    hint.textContent = "A képet nem sikerült elkészíteni. Próbáld újra egy másik böngészővel.";
-  }
-});
-
-function render(picks, meta){
-  lastShare = {picks, meta};
-  document.getElementById("share").style.display = "none";
-  document.getElementById("shareHint").textContent = "";
+function render(picks){
   const spread = document.getElementById("spread");
   const summary = document.getElementById("summary");
   const POS = spreadPositions(picks.length);
@@ -470,7 +352,7 @@ function render(picks, meta){
     btn.classList.add("flipped"); slot.classList.add("shown");
     flippedCount++;
     if(flippedCount===picks.length){
-      setTimeout(()=>{summary.style.display="block";document.getElementById("share").style.display="block"},900);
+      setTimeout(()=>{summary.style.display="block"},900);
     }
   }
   document.getElementById("flipall").onclick = ()=>{
@@ -515,7 +397,7 @@ document.getElementById("form").addEventListener("submit",e=>{
   const topic = document.getElementById("topic").value;
   const name = document.getElementById("name").value;
   const count = parseInt(document.getElementById("spreadType").value,10);
-  render(draw(sign, topic, name, count), {name, signName:SIGNS[sign], spreadName:SPREAD_NAMES[count]});
+  render(draw(sign, topic, name, count));
 });
 </script>
 </body>
