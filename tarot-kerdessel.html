@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarot-konkrét kérdéssel – húzz egy lapot a kérdésedre</title>
+<meta name="description" content="Tisztázd a kérdésedet, húzz egy tarot lapot, és olvasd el a tanító kérdést, ami segít jól dönteni. Ingyenes, regisztráció nélkül.">
+<link rel="canonical" href="https://fuggetlenkep.hu/tarot-kerdessel">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="hu_HU">
+<meta property="og:site_name" content="Lélekfény">
+<meta property="og:title" content="Tarot-konkrét kérdéssel – húzz egy lapot a kérdésedre">
+<meta property="og:description" content="Tisztázd a kérdésedet, húzz egy tarot lapot, és olvasd el a tanító kérdést, ami segít jól dönteni.">
+<meta property="og:url" content="https://fuggetlenkep.hu/tarot-kerdessel">
+<meta property="og:image" content="https://fuggetlenkep.hu/og-tarot.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#17112b">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>window.googlefc=window.googlefc||{};window.googlefc.callbackQueue=window.googlefc.callbackQueue||[];</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3638506663290697" crossorigin="anonymous"></script>
+<script async src="https://fundingchoicesmessages.google.com/i/pub-3638506663290697?ers=1"></script>
+<script>(function(){function s(){if(!window.frames['googlefcPresent']){if(document.body){var i=document.createElement('iframe');i.style='width:0;height:0;border:none;z-index:-1000;left:-1000px;top:-1000px;';i.style.display='none';i.name='googlefcPresent';document.body.appendChild(i);}else{setTimeout(s,0);}}}s();})();</script>
+<style>
+:root{
+  --bg:#17112b; --bg2:#231a44; --gold:#e3c16f; --text:#f1ebff; --muted:#b4a8d6; --card:#2d2257;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% 0,var(--bg2),var(--bg) 60%);color:var(--text);
+  font-family:Georgia,"Times New Roman",serif;min-height:100vh;line-height:1.7;font-size:1.25rem}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px}
+.tabs a{flex:1 1 230px;text-align:center;text-decoration:none;font-size:1.15rem;font-weight:bold;padding:14px 12px;
+  border-radius:14px;border:2px solid var(--gold);color:var(--gold);font-family:inherit;line-height:1.3}
+.tabs a:hover{background:rgba(227,193,111,.14)}
+.tabs a[aria-current="page"]{background:linear-gradient(135deg,#e3c16f,#b98f33);color:#1b1230;cursor:default}
+h1{font-size:clamp(2rem,7vw,2.8rem);text-align:center;color:var(--gold);margin:6px 0 20px;line-height:1.2}
+.guide{background:rgba(255,255,255,.05);border:1px solid rgba(227,193,111,.35);border-radius:18px;padding:22px 20px}
+.guide h2{margin:0 0 14px;color:var(--gold);font-size:1.6rem;line-height:1.3}
+.guide h3{margin:26px 0 8px;color:var(--gold);font-size:1.4rem;line-height:1.3}
+.guide p{margin:0 0 14px}
+.guide p:last-child{margin-bottom:0}
+.drawbox{text-align:center;margin:30px 0 10px}
+button.go{background:linear-gradient(135deg,#e3c16f,#b98f33);color:#1b1230;border:0;border-radius:16px;
+  padding:18px 30px;min-height:64px;font-size:1.5rem;font-weight:bold;cursor:pointer;font-family:inherit;max-width:100%}
+button.go:hover{filter:brightness(1.08)}
+button.go:focus-visible,.tabs a:focus-visible,.again:focus-visible{outline:3px solid #fff;outline-offset:3px}
+#result{margin-top:30px}
+#result[hidden]{display:none}
+.cardwrap{width:min(100%,340px);aspect-ratio:330/560;margin:0 auto;perspective:1000px}
+.inner{position:relative;width:100%;height:100%;transition:transform .9s;transform-style:preserve-3d}
+.cardwrap.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;overflow:hidden;
+  border:3px solid var(--gold);display:flex;align-items:center;justify-content:center}
+.back{background:repeating-linear-gradient(45deg,#3a2a78 0 10px,#2d2257 10px 20px)}
+.back::after{content:"✦";font-size:3rem;color:var(--gold)}
+.front{transform:rotateY(180deg);background:var(--card)}
+.front img{width:100%;height:100%;object-fit:cover;display:block}
+.fallback{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px;gap:8px;
+  width:100%;height:100%;color:var(--gold);font-size:1.5rem}
+.fallback b{font-size:1.5rem}
+.cardname{text-align:center;margin:20px 0 4px;color:var(--gold);font-size:clamp(1.8rem,6vw,2.3rem);line-height:1.25}
+.cardnum{text-align:center;color:var(--muted);font-size:1.1rem;margin:0}
+.reveal{opacity:0;transition:opacity .6s .6s}
+#result.shown .reveal{opacity:1}
+.meaning{margin-top:20px;background:rgba(255,255,255,.05);border:1px solid rgba(227,193,111,.35);border-radius:18px;padding:20px}
+.meaning h3{margin:0 0 6px;color:var(--gold);font-size:1.4rem;line-height:1.3}
+.meaning h3.second{margin-top:22px}
+.meaning p{margin:0 0 10px}
+blockquote.q{margin:12px 0 0;padding:14px 16px;border-left:5px solid var(--gold);background:rgba(227,193,111,.1);
+  border-radius:0 12px 12px 0;font-size:1.35rem;line-height:1.6}
+blockquote.q .lbl{display:block;color:var(--gold);font-weight:bold;font-size:1.1rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.nextbox{text-align:center;margin-top:28px}
+.nextbox p{margin:0 0 14px;color:var(--muted)}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid rgba(227,193,111,.25);text-align:center;color:var(--muted);font-size:1.05rem}
+.foot ul{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.foot a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.foot a:hover{color:var(--gold)}
+.foot p{margin:0}
+@media (prefers-reduced-motion:reduce){.inner,.reveal{transition:none}}
+
+.go-link{display:inline-block;text-decoration:none;font-weight:bold;font-size:1.3rem;padding:14px 26px;border-radius:14px;
+  border:2px solid var(--gold);color:var(--gold);font-family:inherit}
+.go-link:hover{background:rgba(227,193,111,.14)}
+.go-link:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+#snow{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:40;display:none}
+.snowbtn{position:fixed;right:12px;bottom:12px;z-index:45;min-height:44px;padding:8px 16px;border-radius:24px;
+  background:rgba(23,17,43,.88);color:#e3c16f;border:1px solid #e3c16f;font:inherit;font-size:1rem;cursor:pointer}
+.snowbtn:hover{background:rgba(45,34,87,.95)}
+.snowbtn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="tabs" aria-label="Tarot oldalak">
+    <a href="/tarot">Tarot több lappal</a>
+    <a href="/tarot-kerdessel" aria-current="page">Tarot-konkrét kérdéssel</a>
+  </nav>
+
+  <h1>Tarot-konkrét kérdéssel</h1>
+
+  <section class="guide" aria-labelledby="guide-cim">
+    <h2 id="guide-cim">Hogyan használd a tarot lapot úgy, hogy tanítson?</h2>
+    <p>A lap nem mond ítéletet, és nem tudja a jövőt. Arra jó, hogy elemezhesd vele önmagad, aggodalmaid és reményeid, amik benned vannak. Ha így használod, a lap tanítóddá válik, mint ahogy eredeti feladata is volt. A lapok soha nem mondtak jövőt, mert a jövőt te változtatod a döntéseiddel. Ha tovább olvasod, segítek neked a kártyavetésben.</p>
+
+    <h3>1. Tisztázd magadban a kérdést.</h3>
+    <p>Ez a kártyavetés legfontosabb része. Amíg te magad nem tudod, mire vagy kíváncsi, a kártya sem tud iránymutatni.</p>
+    <p>Ne azt kérdezd, mi lesz, hanem azt, hogy te mit akarsz. Például: magamra figyeljek ebben a helyzetben? Magam helyezzem előtérbe? És ha igen, pontosan melyik oldalamat? A szívemet kövessem, az érzéseimet? Vagy inkább az eszemre hallgassak? Esetleg a megfelelés hajt, és csak azt hiszem, hogy én akarom?</p>
+    <p>Mondd ki magadban, vagy írd le, amíg már nem egy általános kérdés. Továbbá, ha a megfelelő lap is könnyebben megtalál, ha hallja a gondolkodásod az adott problémáról.</p>
+
+    <h3>2. Nézd meg a képet, és hogy mit is jelent a lap valójában.</h3>
+    <p>A lapoknak szimbolikus jelentésük van, így névből nem tudsz rájuk következtetni. A lapokat emberek nevezték el, de nem a nevük, hanem a személyiségük, ami számít. A válasz sokszor megvan, mielőtt bármit elolvastál volna, mert a kép a tudatodat szólítja meg.</p>
+
+    <h3>3. Olvasd el a szöveget.</h3>
+    <p>Egy tanító kérdést is fogsz benne találni. Próbálj meg rájönni, milyen módon kapcsolódik ez hozzád. Ne feledd el, hogy a döntés mindig a tiéd. A jövőt senki nem írja helyetted, és a lap nem ítéletet mond, hanem segít, hogy jó döntéseket tudj hozni önreflexióval. Ha a lap egyik irányt mutatja, de a szíved máshová húz, az is fontos információ. Nézd meg, melyik hang kié: a tiéd, vagy az elvárásoké?</p>
+  </section>
+
+  <div class="drawbox">
+    <button class="go" id="draw" type="button">Húzok egy lapot</button>
+  </div>
+
+  <section id="result" hidden aria-live="polite">
+    <div class="cardwrap" id="cardwrap">
+      <div class="inner">
+        <div class="face back"></div>
+        <div class="face front">
+          <img id="cardimg" alt="" width="330" height="560">
+          <div class="fallback" id="cardfb"><b id="cardfbname"></b></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="cardnum" id="cardnum"></p>
+      <h2 class="cardname" id="cardname"></h2>
+      <div class="meaning">
+        <h3>Mit jelent valójában?</h3>
+        <p id="m-a"></p>
+        <h3 class="second">Hogyan segít dönteni?</h3>
+        <p id="m-b"></p>
+        <blockquote class="q" id="m-q"></blockquote>
+      </div>
+      <div class="nextbox">
+        <p>Új kérdésnél előbb tisztázd magadban az új kérdést (1. lépés), és csak utána nyomd meg a gombot.</p>
+        <button class="go again" id="again" type="button">Új kérdés – húzok még egy lapot</button>
+      </div>
+      <div class="nextbox">
+        <p>Több lappal szeretnél jóslást?</p>
+        <a class="go-link" href="/tarot">Tarot több lappal</a>
+      </div>
+    </div>
+  </section>
+
+    <footer class="foot">
+    <ul>
+      <li><a href="/">Lélekfény</a></li>
+      <li><a href="/adatvedelem">Adatvédelem</a></li>
+      <li><a href="/impresszum">Impresszum</a></li>
+      <li><a href="/kapcsolat">Kapcsolat</a></li>
+      <li id="sutik" hidden><a href="javascript:window.googlefc.showRevocationMessage();">Süti- és adatvédelmi beállítások</a></li>
+    </ul>
+    <p>© 2026 Lélekfény</p>
+  </footer>
+</div>
+
+<script src="stats.js"></script>
+<script>
+function T(a,b){try{if(window.track)window.track(a,b)}catch(e){}}
+/* 21 nagy arkánum: A Halál (XIII.) szándékosan NINCS a listában, soha nem húzható ki. */
+const CARDS = [
+ {
+  "k": "m00",
+  "num": "0",
+  "name": "A Bolond",
+  "a": "A nyitottságot és a korlátozások nélküli szabadságot.",
+  "b": "Arra késztet, hogy tedd fel magadnak a kérdést:",
+  "l": "",
+  "q": "„Ha nem lenne bennem semmilyen félelem, elvárás vagy múltbeli rossz tapasztalat, mit választanék? Készen állok-e arra, hogy fejest ugorjak a teljes bizonytalanságba?”"
+ },
+ {
+  "k": "m01",
+  "num": "I",
+  "name": "A Mágus",
+  "a": "A személyes belső erőt, az eszközöket és a cselekvést.",
+  "b": "Arra mutat rá, hogy minden képességed és eszközöd megvan ahhoz, hogy kézbe vedd az irányítást.",
+  "l": "Kérdése",
+  "q": "„Aktívan alakítom a sorsomat, vagy csak hagyom, hogy megtörténjenek a dolgok?”"
+ },
+ {
+  "k": "m02",
+  "num": "II",
+  "name": "A Főpapnő",
+  "a": "Az intuíciót, a passzivitást és a belső hangot.",
+  "b": "Arra kér, hogy ne a külső logikára vagy mások véleményére hallgass.",
+  "l": "Kérdése",
+  "q": "„Mit súg a legmélyebb megérzésem, amikor teljesen csendben vagyok önmagammal?”"
+ },
+ {
+  "k": "m03",
+  "num": "III",
+  "name": "A Császárnő",
+  "a": "A gondoskodást, a növekedést, a természetet és a bőséget.",
+  "b": "A helyzeted tápláló, életet adó vagy kreatív oldalát emeli ki.",
+  "l": "Kérdése",
+  "q": "„Hogyan tudok a legjobban gondoskodni önmagamról és arról, ami fontos számomra?”"
+ },
+ {
+  "k": "m04",
+  "num": "IV",
+  "name": "A Császár",
+  "a": "A struktúrát, a határokat, a stabilitást és a logikát.",
+  "b": "Arra ösztönöz, hogy hozz szabályokat és teremts rendet.",
+  "l": "Kérdése",
+  "q": "„Milyen racionális határokat kell meghúznom, és hogyan tudok szilárd, biztonságos alapot teremteni?”"
+ },
+ {
+  "k": "m05",
+  "num": "V",
+  "name": "A Főpap (A Hierofáns)",
+  "a": "A társadalmi szabályokat, a hagyományokat és az intézményeket.",
+  "b": "Arra világít rá, hogyan viszonyulsz az elvárásokhoz.",
+  "l": "Kérdése",
+  "q": "„A saját belső értékrendemet követem, vagy a társadalmi/családi elvárásoknak akarok megfelelni?”"
+ },
+ {
+  "k": "m06",
+  "num": "VI",
+  "name": "A Szeretők",
+  "a": "A válaszút elé kerülést, az értékrendet és a kapcsolatokat.",
+  "b": "Ez a lap maga a választás szimbóluma.",
+  "l": "Kérdése",
+  "q": "„Összhangban van-e ez a döntés azzal, aki valójában vagyok, és milyen hatással lesz a kapcsolataimra?”"
+ },
+ {
+  "k": "m07",
+  "num": "VII",
+  "name": "A Diadalszekér",
+  "a": "Az elszántságot, az önkontrollt és az előrehaladást.",
+  "b": "Arra figyelmeztet, hogy két ellentétes erőt kell egy irányba terelned.",
+  "l": "Kérdése",
+  "q": "„Megvan-e bennem az elszántság, hogy végigvigyem ezt a döntést, még ha belső konfliktusokkal is jár?”"
+ },
+ {
+  "k": "m08",
+  "num": "VIII",
+  "name": "Az Erő",
+  "a": "A türelmet, a belső tartást és a szelíd kitartást.",
+  "b": "Arra emlékeztet, hogy a nyers erő vagy az agresszió most nem segít.",
+  "l": "Kérdése",
+  "q": "„Hogyan tudom ezt a helyzetet elfogadással, gyengédséggel és belső lelkierővel kezelni?”"
+ },
+ {
+  "k": "m09",
+  "num": "IX",
+  "name": "A Remete",
+  "a": "Az elvonulást, az önreflexiót és a belső bölcsességet.",
+  "b": "Azt javasolja, hogy tarts szünetet.",
+  "l": "Kérdése",
+  "q": "„Időt adtam-e magamnak arra, hogy egyedül, a külső zajoktól mentesen átgondoljam a helyzetemet?”"
+ },
+ {
+  "k": "m10",
+  "num": "X",
+  "name": "Szerencsekerék",
+  "a": "A külső körülményeket, a változást és a sorsfordulókat.",
+  "b": "Arra emlékeztet, hogy vannak dolgok, amiket nem tudsz befolyásolni.",
+  "l": "Kérdése",
+  "q": "„Mit tudok irányítani ebben a helyzetben, és mi az, amit el kell fogadnom úgy, ahogy van?”"
+ },
+ {
+  "k": "m11",
+  "num": "XI",
+  "name": "Az Igazságosság",
+  "a": "Az ok-okozati összefüggéseket, a tisztánlátást és a következményeket.",
+  "b": "Arra kér, hogy mérlegelj hideg fejjel.",
+  "l": "Kérdése",
+  "q": "„Ha teljesen objektíven, érzelmektől mentesen nézem a tényeket, milyen következményekkel kell szembenéznem?”"
+ },
+ {
+  "k": "m12",
+  "num": "XII",
+  "name": "Az Akasztott Ember",
+  "a": "A nézőpontváltást, a megadást és a várakozást.",
+  "b": "Arra utal, hogy a régi gondolkodásmódod elakadt.",
+  "l": "Kérdése",
+  "q": "„Hogyan nézne ki ez a helyzet egy teljesen ellenkező vagy szokatlan perspektívából?”"
+ },
+ {
+  "k": "m14",
+  "num": "XIV",
+  "name": "Megfontoltság (Mértékletesség)",
+  "a": "Az egyensúlyt, a kompromisszumot és a gyógyulást.",
+  "b": "Arra int, hogy kerüld a végleteket.",
+  "l": "Kérdése",
+  "q": "„Hogyan tudom összeegyeztetni a különböző igényeimet úgy, hogy belső békét találjak?”"
+ },
+ {
+  "k": "m15",
+  "num": "XV",
+  "name": "Az Ördög",
+  "a": "A függőséget, a félelmeket, a láncokat és a csapdákat.",
+  "b": "Szembesít a saját belső árnyékaiddal.",
+  "l": "Kérdése",
+  "q": "„Mi az a félelem, kényszer vagy hamis illúzió, ami most korlátoz engem ebben a helyzetben?”"
+ },
+ {
+  "k": "m16",
+  "num": "XVI",
+  "name": "A Torony",
+  "a": "A hirtelen megrázkódtatást, a rombolást és a kényszerű ébredést.",
+  "b": "Arra mutat rá, hogy ami nem stabil, az össze fog omlani.",
+  "l": "Kérdése",
+  "q": "„Milyen hamis illúziót vagy tarthatatlan helyzetet kell bátor szívvel lerombolnom az igazság érdekében?”"
+ },
+ {
+  "k": "m17",
+  "num": "XVII",
+  "name": "A Csillag",
+  "a": "A reményt, a hitet, a gyógyulást és a hosszú távú jövőképet.",
+  "b": "Megnyugvást hoz a nehéz idők után.",
+  "l": "Kérdése",
+  "q": "„Mi ad nekem valódi reményt és jövőképet, ha a pillanatnyi nehézségeken túlnézek?”"
+ },
+ {
+  "k": "m18",
+  "num": "XVIII",
+  "name": "A Hold",
+  "a": "A bizonytalanságot, a tudatalatti félelmeket és a ködöt.",
+  "b": "Figyelmeztet, hogy most nem látsz mindent tisztán.",
+  "l": "Kérdése",
+  "q": "„Milyen rejtett érzelmek, szorongások vagy titkok homályosítják el most a tisztánlátásomat?”"
+ },
+ {
+  "k": "m19",
+  "num": "XIX",
+  "name": "A Nap",
+  "a": "A tisztaságot, az energiát, az örömöt és a sikert.",
+  "b": "Fényt derít a helyzetre.",
+  "l": "Kérdése",
+  "q": "„Mi az a választás, ami a legnagyobb életerőt, őszinte örömöt és tisztaságot hozza el számomra?”"
+ },
+ {
+  "k": "m20",
+  "num": "XX",
+  "name": "Végítélet",
+  "a": "Az elhívást, a múlt értékelését és az újjászületést.",
+  "b": "Egy magasabb szintű felelősségvállalásra utal.",
+  "l": "Kérdése",
+  "q": "„Ha visszatekintek majd erre a pillanatra a jövőben, melyik döntésemre büszke a magasabb szintű énem?”"
+ },
+ {
+  "k": "m21",
+  "num": "XXI",
+  "name": "A Világ",
+  "a": "A beteljesülést, az integrációt és az egységet.",
+  "b": "Egy nagy életciklus lezárulását mutatja.",
+  "l": "Kérdése",
+  "q": "„Hogyan tudom ezt a helyzetet úgy megoldani, hogy az egészet egy kerek, lezárt és harmonikus egységként élhessem meg?”"
+ }
+];
+function rnd(n){
+  try{ if(window.crypto && crypto.getRandomValues){ const a=new Uint32Array(1), lim=Math.floor(4294967296/n)*n; let x; do{ crypto.getRandomValues(a); x=a[0]; }while(x>=lim); return x%n; } }catch(e){}
+  return Math.floor(Math.random()*n);
+}
+/* zsák-húzás: egy ember több kérdést is feltehet, és addig nem jön ki ugyanaz a lap, amíg a többi (21) mind sorra nem került */
+let bag = [], last = -1;
+function nextIndex(){
+  if(bag.length===0){
+    bag = CARDS.map((_,i)=>i);
+    for(let i=bag.length-1;i>0;i--){ const j=rnd(i+1); const t=bag[i]; bag[i]=bag[j]; bag[j]=t; }
+    if(bag[bag.length-1]===last){ const t=bag[0]; bag[0]=bag[bag.length-1]; bag[bag.length-1]=t; }
+  }
+  last = bag.pop();
+  return last;
+}
+const $ = id => document.getElementById(id);
+let timer = null;
+function show(card){
+  const res = $("result"), wrap = $("cardwrap"), img = $("cardimg"), fb = $("cardfb");
+  clearTimeout(timer);
+  res.hidden = false; res.classList.remove("shown"); wrap.classList.remove("flipped");
+  $("cardnum").textContent = card.num + ".";
+  $("cardname").textContent = card.name;
+  $("m-a").textContent = card.a;
+  $("m-b").textContent = card.b;
+  const q = $("m-q"); q.textContent = "";
+  if(card.l){ const s=document.createElement("span"); s.className="lbl"; s.textContent=card.l; q.appendChild(s); }
+  q.appendChild(document.createTextNode(card.q));
+  $("cardfbname").textContent = card.name;
+  img.style.display = ""; fb.style.display = "none";
+  img.alt = card.name;
+  let done = false;
+  function flip(){ if(done) return; done = true; wrap.classList.add("flipped"); res.classList.add("shown"); }
+  img.onload = ()=>{ timer = setTimeout(flip, 350); };
+  img.onerror = ()=>{ img.style.display="none"; fb.style.display="flex"; timer = setTimeout(flip, 350); };
+  img.src = card.k + ".webp";
+  if(img.complete && img.naturalWidth>0){ timer = setTimeout(flip, 350); }
+  res.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+}
+function drawOne(){
+  const c = CARDS[nextIndex()];
+  T("huzas", "Konkrét kérdés | " + c.name);
+  show(c);
+}
+$("draw").addEventListener("click", drawOne);
+$("again").addEventListener("click", drawOne);
+</script>
+<script>window.googlefc.callbackQueue.push({'CONSENT_API_READY':function(){var e=document.getElementById('sutik');if(e)e.hidden=false;}});</script>
+<canvas id="snow" aria-hidden="true"></canvas>
+<button type="button" class="snowbtn" id="snowBtn" aria-pressed="true">Hóesés ki</button>
+<script>
+(function(){
+  var cv=document.getElementById('snow'), btn=document.getElementById('snowBtn');
+  if(!cv||!cv.getContext||!btn) return;
+  var ctx=cv.getContext('2d'), flakes=[], on=false, raf=0, last=0, w=0, h=0, tid=0;
+  var reduce=false; try{ reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var pref=null; try{ pref=sessionStorage.getItem('lf_hoeses'); }catch(e){}
+  var want = pref==='ki' ? false : pref==='be' ? true : !reduce;
+  function mk(initial){
+    return {x:Math.random()*w, y:initial?Math.random()*h:-6, r:1+Math.random()*2.2, v:18+Math.random()*30, ph:Math.random()*6.28, a:.35+Math.random()*.45};
+  }
+  function size(){
+    w=window.innerWidth; h=window.innerHeight; cv.width=w; cv.height=h;
+    var n=Math.max(16,Math.min(36,Math.round(w/12)));
+    while(flakes.length<n) flakes.push(mk(true));
+    if(flakes.length>n) flakes.length=n;
+    flakes.forEach(function(f){ if(f.x>w) f.x=Math.random()*w; if(f.y>h) f.y=Math.random()*h; });
+  }
+  function frame(t){
+    raf=requestAnimationFrame(frame);
+    if(t-last<33) return;
+    var dt=Math.min((t-last)/1000,.1); if(!last) dt=.033; last=t;
+    ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';
+    for(var i=0;i<flakes.length;i++){
+      var f=flakes[i];
+      f.y+=f.v*dt; f.ph+=dt*.8; f.x+=Math.sin(f.ph)*14*dt;
+      if(f.y>h+6){ f.y=-6; f.x=Math.random()*w; }
+      ctx.globalAlpha=f.a; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.2832); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function label(){ btn.textContent = on ? 'Hóesés ki' : 'Hóesés be'; btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function start(){ if(on) return; on=true; cv.style.display='block'; size(); last=0; raf=requestAnimationFrame(frame); label(); }
+  function stop(){ on=false; cancelAnimationFrame(raf); ctx.clearRect(0,0,w,h); cv.style.display='none'; label(); }
+  btn.addEventListener('click', function(){
+    if(on) stop(); else start();
+    try{ sessionStorage.setItem('lf_hoeses', on?'be':'ki'); }catch(e){}
+  });
+  window.addEventListener('resize', function(){ clearTimeout(tid); tid=setTimeout(function(){ if(on) size(); },200); });
+  document.addEventListener('visibilitychange', function(){
+    if(!on) return;
+    if(document.hidden) cancelAnimationFrame(raf); else { last=0; raf=requestAnimationFrame(frame); }
+  });
+  if(want) start(); else label();
+})();
+</script>
+</body>
+</html>

@@ -28,6 +28,7 @@
   --bg:#17112b; --bg2:#231a44; --gold:#e3c16f; --text:#f1ebff; --muted:#b4a8d6; --card:#2d2257;
 }
 *{box-sizing:border-box}
+html{font-size:112.5%}
 body{margin:0;background:radial-gradient(circle at 50% 0,var(--bg2),var(--bg) 60%);color:var(--text);
   font-family:Georgia,"Times New Roman",serif;min-height:100vh;line-height:1.55}
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px 60px}
@@ -41,6 +42,18 @@ select,input{background:#120d24;color:var(--text);border:1px solid rgba(227,193,
 button.go{background:linear-gradient(135deg,#e3c16f,#b98f33);color:#1b1230;border:0;border-radius:12px;
   padding:14px;font-size:1.05rem;font-weight:bold;cursor:pointer;font-family:inherit}
 button.go:hover{filter:brightness(1.08)}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+.tabs a{flex:1 1 230px;text-align:center;text-decoration:none;font-size:1.05rem;font-weight:bold;padding:13px 12px;
+  border-radius:14px;border:2px solid var(--gold);color:var(--gold);font-family:inherit;line-height:1.3}
+.tabs a:hover{background:rgba(227,193,111,.14)}
+.tabs a[aria-current="page"]{background:linear-gradient(135deg,#e3c16f,#b98f33);color:#1b1230;cursor:default}
+.tabs a:focus-visible,.golink:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.kerdes{margin:30px auto 0;max-width:520px;text-align:center;padding:18px 16px;border:1px solid rgba(227,193,111,.35);
+  border-radius:16px;background:rgba(255,255,255,.05)}
+.kerdes p{margin:0 0 12px}
+.golink{display:inline-block;text-decoration:none;font-weight:bold;font-size:1.05rem;padding:13px 22px;border-radius:14px;
+  border:2px solid var(--gold);color:var(--gold);font-family:inherit}
+.golink:hover{background:rgba(227,193,111,.14)}
 .ad-slot{margin:22px auto;max-width:728px;min-height:90px;border:1px dashed rgba(255,255,255,.15);border-radius:8px;
   display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.25);font-size:.8rem}
 #reading{display:none;margin-top:28px}
@@ -84,7 +97,7 @@ button.go:hover{filter:brightness(1.08)}
   border-radius:12px;padding:12px 20px;font-size:1rem;font-weight:bold;cursor:pointer;font-family:inherit;text-decoration:none}
 .sharebtn.fb{background:none;border:1px solid var(--gold);color:var(--gold)}
 .sharebtn:hover{filter:brightness(1.08)}
-.sharehint{color:var(--muted);font-size:.85rem;margin:8px 0 0;min-height:1em}
+.sharehint{color:var(--muted);font-size:.95rem;margin:8px 0 0;min-height:1em}
 .slot{text-align:center}
 .pos{color:var(--gold);font-size:.95rem;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase}
 .card{perspective:900px;cursor:pointer;aspect-ratio:300/520;width:100%;border:0;background:none;padding:0}
@@ -104,20 +117,30 @@ button.go:hover{filter:brightness(1.08)}
 .meaning{margin-top:12px;text-align:left;opacity:0;transition:opacity .6s .5s;font-size:.95rem}
 .slot.shown .meaning{opacity:1}
 .meaning h3{margin:0 0 4px;color:var(--gold);font-size:1.02rem}
-.meaning .tag{display:inline-block;font-size:.72rem;border:1px solid var(--muted);color:var(--muted);
+.meaning .tag{display:inline-block;font-size:.8rem;border:1px solid var(--muted);color:var(--muted);
   border-radius:20px;padding:1px 8px;margin-bottom:6px}
-.foot{margin-top:34px;padding-top:18px;border-top:1px solid rgba(227,193,111,.25);text-align:center;color:var(--muted);font-size:.9rem}
+.foot{margin-top:34px;padding-top:18px;border-top:1px solid rgba(227,193,111,.25);text-align:center;color:var(--muted);font-size:1rem}
 .foot ul{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
 .foot a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .foot a:hover{color:var(--gold)}
 .foot p{margin:0}
-.note{color:var(--muted);font-size:.82rem;text-align:center;margin-top:30px}
+.note{color:var(--muted);font-size:.9rem;text-align:center;margin-top:30px}
 @media (max-width:760px){.spread.n5,.spread.n10,.spread.n12{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){.spread{gap:8px}.meaning{font-size:.85rem}}
+@media (max-width:560px){.spread{gap:8px}.meaning{font-size:.95rem}}
+
+#snow{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:40;display:none}
+.snowbtn{position:fixed;right:12px;bottom:12px;z-index:45;min-height:44px;padding:8px 16px;border-radius:24px;
+  background:rgba(23,17,43,.88);color:#e3c16f;border:1px solid #e3c16f;font:inherit;font-size:1rem;cursor:pointer}
+.snowbtn:hover{background:rgba(45,34,87,.95)}
+.snowbtn:focus-visible{outline:3px solid #fff;outline-offset:3px}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <nav class="tabs" aria-label="Tarot oldalak">
+    <a href="/tarot" aria-current="page">Tarot több lappal</a>
+    <a href="/tarot-kerdessel">Tarot-konkrét kérdéssel</a>
+  </nav>
   <h1>Tarot jóslás</h1>
   <p class="lead">Válaszd ki a csillagjegyed és a kirakást, és húzd ki a lapokat. A lapokat a jegyed és a kérdésed hangolja: ha ma újra kitöltöd ugyanúgy, ugyanazt kapod, holnap új lapok jönnek.</p>
 
@@ -177,6 +200,11 @@ button.go:hover{filter:brightness(1.08)}
   </section>
 
   <div class="ad-slot">Hirdetés helye</div>
+
+  <div class="kerdes">
+    <p>Van egy konkrét kérdésed? Tisztázd magadban, és húzz hozzá egy lapot.</p>
+    <a class="golink" href="/tarot-kerdessel">Tarot-konkrét kérdéssel</a>
+  </div>
 
   <footer class="foot">
     <ul>
@@ -661,5 +689,53 @@ document.getElementById("form").addEventListener("submit",e=>{
 });
 </script>
 <script>window.googlefc.callbackQueue.push({'CONSENT_API_READY':function(){var e=document.getElementById('sutik');if(e)e.hidden=false;}});</script>
+<canvas id="snow" aria-hidden="true"></canvas>
+<button type="button" class="snowbtn" id="snowBtn" aria-pressed="true">Hóesés ki</button>
+<script>
+(function(){
+  var cv=document.getElementById('snow'), btn=document.getElementById('snowBtn');
+  if(!cv||!cv.getContext||!btn) return;
+  var ctx=cv.getContext('2d'), flakes=[], on=false, raf=0, last=0, w=0, h=0, tid=0;
+  var reduce=false; try{ reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var pref=null; try{ pref=sessionStorage.getItem('lf_hoeses'); }catch(e){}
+  var want = pref==='ki' ? false : pref==='be' ? true : !reduce;
+  function mk(initial){
+    return {x:Math.random()*w, y:initial?Math.random()*h:-6, r:1+Math.random()*2.2, v:18+Math.random()*30, ph:Math.random()*6.28, a:.35+Math.random()*.45};
+  }
+  function size(){
+    w=window.innerWidth; h=window.innerHeight; cv.width=w; cv.height=h;
+    var n=Math.max(16,Math.min(36,Math.round(w/12)));
+    while(flakes.length<n) flakes.push(mk(true));
+    if(flakes.length>n) flakes.length=n;
+    flakes.forEach(function(f){ if(f.x>w) f.x=Math.random()*w; if(f.y>h) f.y=Math.random()*h; });
+  }
+  function frame(t){
+    raf=requestAnimationFrame(frame);
+    if(t-last<33) return;
+    var dt=Math.min((t-last)/1000,.1); if(!last) dt=.033; last=t;
+    ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';
+    for(var i=0;i<flakes.length;i++){
+      var f=flakes[i];
+      f.y+=f.v*dt; f.ph+=dt*.8; f.x+=Math.sin(f.ph)*14*dt;
+      if(f.y>h+6){ f.y=-6; f.x=Math.random()*w; }
+      ctx.globalAlpha=f.a; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.2832); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function label(){ btn.textContent = on ? 'Hóesés ki' : 'Hóesés be'; btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function start(){ if(on) return; on=true; cv.style.display='block'; size(); last=0; raf=requestAnimationFrame(frame); label(); }
+  function stop(){ on=false; cancelAnimationFrame(raf); ctx.clearRect(0,0,w,h); cv.style.display='none'; label(); }
+  btn.addEventListener('click', function(){
+    if(on) stop(); else start();
+    try{ sessionStorage.setItem('lf_hoeses', on?'be':'ki'); }catch(e){}
+  });
+  window.addEventListener('resize', function(){ clearTimeout(tid); tid=setTimeout(function(){ if(on) size(); },200); });
+  document.addEventListener('visibilitychange', function(){
+    if(!on) return;
+    if(document.hidden) cancelAnimationFrame(raf); else { last=0; raf=requestAnimationFrame(frame); }
+  });
+  if(want) start(); else label();
+})();
+</script>
 </body>
 </html>
