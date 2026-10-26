@@ -1,6 +1,8 @@
 /* Szerelmi szív jóslás: két fa szívkő feldobása. A szívkőnek van egy világos fa (felfelé néző) és egy piros, domború (lefelé néző) oldala.
    Mindkettő felfelé néz: Igen. Mindkettő lefelé néz: Nem. Egyik fel, másik le: a kérdésre nem sikerült választ találni, tedd fel újra pontosabban.
-   A kimenetelt a böngésző véletlenszám-generátora dönti el (crypto), az animáció ehhez a kimeneteleshez igazodik. */
+   A kimenetelt a böngésző véletlenszám-generátora dönti el (crypto), az animáció ehhez a kimeneteleshez igazodik.
+   A várakozás számít: az oldal megnyitása vagy az előző dobás óta eltelt idő szerint változik az esély.
+   10 mp alatt csak a bizonytalan válasz jön, 10 és 60 mp között igen, nem és bizonytalan egyforma eséllyel, 60 mp fölött csak igen vagy nem. */
 (function () {
   var stage = document.getElementById("szivko");
   var btn = document.getElementById("dobas");
@@ -10,10 +12,22 @@
   var T = JSON.parse(dataEl.textContent);
   var blocks = [stage.querySelector(".szb--l"), stage.querySelector(".szb--r")];
   var G = 12.5;                                   // nehézségi gyorsulás, a szívkő szélességében mérve (W/mp²)
-  var cur = null, running = false, raf = 0, t0 = 0, shown = false;
+  var cur = null, running = false, raf = 0, t0 = 0, shown = false, since = Date.now();
 
   function mulberry(a) { return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; var t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
   function cryptoRnd() { try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] / 4294967296; } catch (e) { return Math.random(); } }
+
+  function pick(sec) {                            // a várakozás (mp) szerinti kimenetel
+    var r = cryptoRnd();
+    if (sec < 10) return "ujra";
+    if (sec <= 60) return r < 1 / 3 ? "igen" : (r < 2 / 3 ? "nem" : "ujra");
+    return r < 0.5 ? "igen" : "nem";
+  }
+  function orient(res) {                          // melyik szív néz felfelé; vegyes eredménynél véletlen, melyik
+    if (res === "igen") return [true, true];
+    if (res === "nem") return [false, false];
+    return cryptoRnd() < 0.5 ? [true, false] : [false, true];
+  }
 
   function plan(i, up, rnd) {
     var s = i ? 1 : -1;
@@ -91,7 +105,8 @@
     if (running) return;
     running = true; shown = false; btn.disabled = true;
     if (!out.hidden) out.classList.add("szj-var");      // az előző eredmény helye megmarad, a gomb nem ugrál
-    start(cryptoRnd() < 0.5, cryptoRnd() < 0.5, null);
+    var o = orient(pick((Date.now() - since) / 1000)); since = Date.now();
+    start(o[0], o[1], null);
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { apply(Infinity); done(); return; }
     t0 = 0;
     (function step(ts) {
@@ -107,5 +122,5 @@
   start(true, true, 11); apply(Infinity);          // nyugalmi állapot betöltéskor: két szív, világos oldalukkal felfelé
   window.addEventListener("resize", function () { if (!cur || running) return; cur.W = blocks[0].offsetWidth || cur.W; apply(Infinity); });
   btn.addEventListener("click", toss);
-  window.szivko = { start: start, at: function (t) { apply(t); return cur; }, show: function () { if (cur) show(); } };
+  window.szivko = { pick: pick, start: start, at: function (t) { apply(t); return cur; }, show: function () { if (cur) show(); } };
 })();

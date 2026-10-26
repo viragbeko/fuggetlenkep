@@ -239,7 +239,7 @@ button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .adv{display:block;width:100%;min-height:9rem;padding:.9rem 1.1rem;font:inherit;font-size:1.15rem;line-height:1.5;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem;resize:vertical}
 .typelist,.prose .typelist{list-style:none;margin:0 0 1.5rem;padding:0}
 .typelist a{display:inline-block;padding:.45rem 0;font-weight:700}
-/* ---------- Jóslás: Égbolt, Ma, Szerelmi kerék, Horoszkóp, Elbűvölés ---------- */
+/* ---------- Jóslás: Égbolt, Ma, Szerelmi szív jóslás, Horoszkóp, Elbűvölés ---------- */
 .hook{max-width:38rem;margin:2rem 0 0;padding-top:1.1rem;border-top:1px dashed var(--rule);font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.45}
 .hook::after{content:"";display:block;width:.7rem;height:.7rem;margin-top:.9rem;border-radius:50%;background:var(--lamp);box-shadow:0 0 .9rem .2rem rgba(244,184,96,.6)}
 .band h3.sub{font-size:1.45rem;margin:1.8rem 0 .5rem}
@@ -288,31 +288,13 @@ details.more{max-width:38rem;margin-top:1rem}
 details.more summary{min-height:2.75rem;padding:.6rem 0;font-weight:700;color:var(--link);cursor:pointer}
 details.more p{margin:.6rem 0}
 
-/* szerelmi kerék */
-.wheelbox{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin:1.5rem auto 0;max-width:24rem}
-.wheel-svg{display:block;width:min(100%,21rem);height:auto;filter:drop-shadow(0 .4rem 1.4rem rgba(244,184,96,.35))}
-.wheel-svg--small{width:min(100%,9rem);filter:none}
-.wheel-result{text-align:center}
-.wheel-cap{margin:0;font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.wheel-n{margin:0;font-family:var(--display);font-weight:700;font-size:4.5rem;line-height:1}
-.wheel-say{margin:.3rem 0 0;font-weight:700}
-.cue{display:block;margin-top:.4rem;font-size:2.2rem;line-height:1;color:var(--link);animation:nudge 1.1s ease-in-out infinite}
-.wheel-result.seen .cue{display:none}
-@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(.65rem)}}
-.wheel-hint{position:fixed;left:50%;bottom:1rem;z-index:15;display:flex;align-items:center;gap:.6rem;max-width:calc(100% - 2rem);padding:.65rem 1.1rem;border-radius:99px;background:var(--dusk-deep);color:var(--lamp-pale);font-weight:700;font-size:1.05rem;box-shadow:0 .4rem 1.4rem rgba(0,0,0,.35);pointer-events:none;opacity:0;transform:translate(-50%,160%);transition:opacity .3s,transform .3s}
-.wheel-hint.on{opacity:1;transform:translate(-50%,0)}
-.wheel-hint b{display:inline-block;font-size:1.4rem;line-height:1;animation:nudge 1.1s ease-in-out infinite}
 .msgs{display:grid;gap:1.25rem;margin-top:1.5rem;max-width:38rem}
 .msg{padding:1.4rem 1.4rem 1.5rem;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--rule);border-radius:.25rem;scroll-margin-top:1.5rem}
 .msg h3{display:flex;align-items:center;gap:.75rem;margin-bottom:.7rem;font-size:1.45rem}
 .msg .n{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:2.5rem;height:2.5rem;padding:0 .4rem;border-radius:99px;background:var(--dusk);color:var(--lamp-pale);font-family:var(--text);font-size:1.15rem;font-weight:700}
 .msg p{margin:0 0 .9em}
 .msg p:last-child{margin-bottom:0}
-.msg .msg-flag{margin:0 0 .6rem;font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A4B00}
-.msg.is-mine{border-left-color:var(--lamp);background:#FFFAEE;box-shadow:0 0 0 2px var(--lamp),0 0 1.8rem .4rem rgba(244,184,96,.55);animation:glow 2.2s ease-in-out infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 0 2px var(--lamp),0 0 .9rem .1rem rgba(244,184,96,.35)}50%{box-shadow:0 0 0 2px var(--lamp),0 0 2.2rem .7rem rgba(244,184,96,.75)}}
-.wheel-tease{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem 2rem;margin-top:1.25rem}
-@media (prefers-reduced-motion:reduce){.cue,.wheel-hint b,.msg.is-mine{animation:none}.wheel-hint{transition:none}}
+.szj-tease{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem 2rem;margin-top:1.25rem}
 
 /* cikkek */
 .lede{font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.45}
@@ -348,7 +330,7 @@ details.more p{margin:.6rem 0}
   .hero .door--hero .door-txt strong{font-size:2.5rem}
 }
 
-/* ---------- Szerelmi kerék, régi hangulat ---------- */
+/* ---------- Szerelmi szív jóslás, rózsás hangulat ---------- */
 :root{--gold:#B8893A;--gold-pale:#E6C27A;--wine:#5A1426;--wine-deep:#2E0A18;--parch:#F3E7CF}
 .theme-rose{background:var(--parch)}
 .theme-rose main{background:radial-gradient(ellipse at 50% 0,rgba(255,251,238,.75),rgba(255,251,238,0) 62%),radial-gradient(ellipse at 0 100%,rgba(184,137,58,.2),rgba(184,137,58,0) 55%),radial-gradient(ellipse at 100% 55%,rgba(184,137,58,.15),rgba(184,137,58,0) 50%),var(--parch)}
@@ -362,7 +344,7 @@ details.more p{margin:.6rem 0}
 .btn--tarot{gap:.7rem}
 .btn--tarot::before{content:"";flex:none;width:1.35rem;height:1.85rem;background:var(--card-img) center/contain no-repeat}
 
-/* a rózsaszín, díszes gomb (Szerelmi kerék) */
+/* a rózsaszín, díszes gomb (Szerelmi szív jóslás) */
 .btn.btn--rose{position:relative;justify-content:center;min-height:3.75rem;padding:.8rem 2.7rem;font-size:1.15rem;border:2px solid #B8893A;border-radius:.65rem;background:linear-gradient(180deg,#FCC9DA,#F29ABB);color:#4A0F24!important;box-shadow:inset 0 0 0 4px #F8B4CB,inset 0 0 0 5px rgba(184,137,58,.85),0 .35rem 1rem rgba(122,31,58,.35);text-align:center}
 .btn.btn--rose:hover{background:linear-gradient(180deg,#FFD8E5,#F7A9C6)}
 .btn.btn--rose::before,.btn.btn--rose::after{content:"";position:absolute;top:50%;width:1.7rem;height:1.7rem;margin-top:-.85rem;background:var(--rose-img) center/contain no-repeat}
@@ -371,15 +353,8 @@ details.more p{margin:.6rem 0}
 .btn.btn--rose:disabled{opacity:.75;cursor:progress}
 .btn.btn--rose:focus-visible{outline-color:#8A2148}
 
-/* a keret, amiben a kerék áll */
+/* a keret, amiben a szívkövek állnak */
 .theme-rose .codex{position:relative;max-width:25rem;margin:1.9rem auto 0;padding:1.5rem 1rem 1.7rem;border:2px solid var(--gold);border-radius:.4rem;background:rgba(255,251,240,.7);box-shadow:inset 0 0 0 5px rgba(255,251,240,.7),inset 0 0 0 6px rgba(184,137,58,.6),0 .5rem 1.6rem rgba(90,20,38,.2)}
-.theme-rose .wheel-svg{width:min(100%,22.5rem);filter:drop-shadow(0 .45rem 1rem rgba(90,20,38,.4))}
-.theme-rose .wheel-svg--small{width:min(100%,9rem);filter:none}
-.theme-rose .wheel-cap{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;font-size:1.5rem;letter-spacing:0;text-transform:none;color:#8A5E1C}
-.theme-rose .wheel-n{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:5.5rem;color:var(--wine)}
-.theme-rose .wheel-say{color:var(--wine)}
-.theme-rose .cue{color:#B8426E}
-.theme-rose .wheel-hint{background:var(--wine-deep);color:#FFD9E3}
 
 /* elválasztó, benne egy rózsa */
 .flourish{display:flex;align-items:center;gap:.8rem;max-width:26rem;margin:.5rem auto 1.1rem}
@@ -392,17 +367,13 @@ details.more p{margin:.6rem 0}
 .theme-rose .msg::after{content:"";position:absolute;right:.9rem;bottom:.8rem;width:2.5rem;height:2.5rem;background:var(--rose-img) center/contain no-repeat;pointer-events:none}
 .theme-rose .msg h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:1.85rem;line-height:1.1;letter-spacing:0;color:var(--wine)}
 .theme-rose .msg .n{background:radial-gradient(circle at 35% 30%,#B03358,#6A1630 72%);color:#FFE9B5;border:2px solid #C9A04A;box-shadow:0 0 0 2px #6A1630,0 .2rem .4rem rgba(90,20,38,.35)}
-.theme-rose .msg .msg-flag{color:#8A2148}
-.theme-rose .msg.is-mine{background:#FFF6E4;border-color:#E27A9F;box-shadow:inset 0 0 0 5px #FFF6E4,inset 0 0 0 6px rgba(226,122,159,.8),0 0 0 2px #E27A9F,0 0 1.8rem .4rem rgba(226,122,159,.55);animation:glowrose 2.2s ease-in-out infinite}
-@keyframes glowrose{0%,100%{box-shadow:inset 0 0 0 5px #FFF6E4,inset 0 0 0 6px rgba(226,122,159,.8),0 0 0 2px #E27A9F,0 0 .9rem .1rem rgba(226,122,159,.35)}50%{box-shadow:inset 0 0 0 5px #FFF6E4,inset 0 0 0 6px rgba(226,122,159,.8),0 0 0 2px #E27A9F,0 0 2.2rem .7rem rgba(226,122,159,.75)}}
-@media (prefers-reduced-motion:reduce){.theme-rose .msg.is-mine{animation:none}}
 
-/* animált képek (a Szerelmi kerék oldalon) */
+/* animált képek (a Szerelmi szív jóslás oldalon) */
 .gif{display:block;flex:none}
 .gif img{display:block;width:100%;height:auto}
 .gif--angel{width:7.5rem;margin:0 auto .75rem;border:2px solid var(--gold);border-radius:.6rem;overflow:hidden;box-shadow:0 .3rem .9rem rgba(90,20,38,.3)}
 
-/* ---------- háttérképek, a Jóslás oldalakra és a Szerelmi kerékre (a kép rögzített réteg, a tartalom fölötte gördül) ---------- */
+/* ---------- háttérképek, a Jóslás oldalakra és a Szerelmi szív jóslásra (a kép rögzített réteg, a tartalom fölötte gördül) ---------- */
 .bg-egbolt{background:#130D2E}
 .bg-rozsa{background:#3A0613}
 .bg-egbolt::before,.bg-rozsa::before{content:"";position:fixed;z-index:-1;top:0;left:0;width:100%;height:100vh;height:100lvh;background-position:center top;background-size:cover;background-repeat:no-repeat;pointer-events:none}
@@ -427,7 +398,7 @@ details.more p{margin:.6rem 0}
 .theme-rose.bg-rozsa main .prose a:not(.btn):not(.door){color:#FFC2D6}
 .theme-rose.bg-rozsa .codex{background:linear-gradient(180deg,#FCF2DC,#F3E3C2);box-shadow:inset 0 0 0 5px #FCF2DC,inset 0 0 0 6px rgba(184,137,58,.6),0 .6rem 1.8rem rgba(0,0,0,.45)}
 
-/* rózsabokor a Szerelmi kerék fejlécében */
+/* rózsabokor a Szerelmi szív jóslás fejlécében */
 .pagehead--rose{padding-bottom:6.9rem}
 .bush{position:absolute;left:0;right:0;bottom:0;height:6.6rem;overflow:hidden;pointer-events:none}
 .bush-w{display:flex;justify-content:flex-end;width:100%;height:100%;max-width:64rem;margin-inline:auto;padding-inline:var(--gutter);box-sizing:border-box}
