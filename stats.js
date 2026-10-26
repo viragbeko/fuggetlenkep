@@ -1,8 +1,10 @@
 /* Névtelen látogatásmérés – süti, tárolt azonosító és IP-cím nélkül.
-   Egy látogatás = egy sor a táblázatban: érkezés, távozás, aktív idő, oldal, eszköz, forrás, nyelv.
+   Egy látogatás = egy sor a táblázatban: érkezés, távozás, aktív idő, oldal, eszköz, forrás, nyelv, időzóna.
    A tarot oldalakon a kártyahúzások is bekerülnek: track('huzas', 'Kirakás | Csillagjegy | Téma').
    A látogatás adatait egy véletlen, csak a memóriában élő azonosító köti össze (nem kerül se sütibe, se tárolóba,
-   a következő oldalbetöltésnél új készül). Do Not Track esetén, botoknál és localhoston a mérés nem fut. */
+   a következő oldalbetöltésnél új készül). Do Not Track esetén, botoknál és localhoston a mérés nem fut.
+   Az egyetlen tárolt jel az oldal készítőjének saját megjelölése: ha az oldalt a készítő a ?en=1 címmel nyitja meg, a böngészője
+   megjegyzi ("lf_en"), és onnantól a látogatásai "saját"-ként kerülnek a táblázatba (?en=0 törli). Más látogatónál semmi nem tárolódik. */
 (function () {
   var STATS_URL = "https://script.google.com/macros/s/AKfycbyC7QQ7GsJMK2zbpcwJ-tuandkbE5iZN35uJNoHITzT8pB_sGAhiWGIITeEix8l0-0/exec";
 
@@ -46,11 +48,23 @@
     return "direkt";
   }
 
+  function ownFlag() {
+    try {
+      var q = new URLSearchParams(location.search).get("en");
+      if (q === "1") localStorage.setItem("lf_en", "1");
+      else if (q === "0") localStorage.removeItem("lf_en");
+      return localStorage.getItem("lf_en") === "1";
+    } catch (e) { return false; }
+  }
+
   var ID = randomId();
   var T0 = Date.now();
   var PAGE = clean(location.pathname.replace(/\.html$/, "") || "/", 80);
   var DEVICE = Math.min(screen.width || 9999, window.innerWidth || 9999) < 700 ? "mobil" : "gép";
   var LANG = clean((navigator.language || "").slice(0, 5), 5);
+  var TZONE = "";                 // a böngésző időzónája (pl. Asia/Bangkok), ebből látszik az ország, a pontos hely nem
+  try { TZONE = clean(Intl.DateTimeFormat().resolvedOptions().timeZone || "", 40); } catch (e) {}
+  var OWN = ownFlag();
   var SRC = source();
   var draws = [];                 // [[az érkezés óta eltelt mp, "szöveg"], ...]
   var activeMs = 0;               // az oldal látható (előtérben lévő) ideje
@@ -62,7 +76,7 @@
 
   function post(ev) {
     var data = JSON.stringify({
-      v: 2, id: ID, ev: ev, p: PAGE, dv: DEVICE, s: SRC, l: LANG,
+      v: 2, id: ID, ev: ev, p: PAGE, dv: DEVICE, s: SRC, l: LANG, z: TZONE, o: OWN ? 1 : 0,
       e: elapsed(), a: active(), d: draws
     });
     try {
