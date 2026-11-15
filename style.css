@@ -415,145 +415,69 @@ details.more p{margin:.6rem 0}
 .tossbox .szj-eredmeny:not([hidden]) ~ #dobas{margin-top:2.4rem}
 @keyframes szjin{from{opacity:0;transform:translateY(.5rem)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.theme-rose .szj-eredmeny{animation:none}}
-/* gyertyafal */
-.gy-intro{max-width:38rem;margin:0 0 1.5rem}
-.gy-form{max-width:38rem;padding:1.4rem 1.5rem 1.6rem;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--lamp);border-radius:.25rem}
-.gy-field{margin:0 0 1.25rem}
-.gy-form label{display:block;margin:0 0 .4rem;font-weight:700}
-.gy-input,.gy-area{display:block;width:100%;padding:.8rem 1rem;font:inherit;font-size:1.15rem;line-height:1.5;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem}
-.gy-area{min-height:8.5rem;resize:vertical}
-.gy-input:focus,.gy-area:focus{border-color:var(--link)}
-.gy-help{margin:.4rem 0 0;color:var(--muted);font-size:1rem}
-.gy-form label.gy-check{display:flex;gap:.75rem;align-items:flex-start;font-weight:400}
-.gy-check input{flex:none;width:1.6rem;height:1.6rem;margin:.15rem 0 0;accent-color:var(--link)}
-.gy-msg{min-height:1.6em;margin:.9rem 0 0;font-weight:700;color:#8A2B12}
-.gy-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.gy-safe{max-width:38rem;margin-top:1.5rem;padding:1.1rem 1.3rem;background:#E9EFF8;border-radius:.25rem;font-size:1.05rem;line-height:1.55}
-.gy-safe p{margin:0 0 .6em}
-.gy-safe p:last-child{margin:0}
-.gy-done{max-width:38rem;padding:1.6rem 1.5rem;background:var(--dusk-deep);color:#EEF2F8;border-radius:.5rem;text-align:center}
-.gy-done h2{margin:.5rem 0 1rem;color:#fff;font-size:1.7rem}
-.gy-done h2:focus{outline:none}
-.gy-done-text{margin:0 0 1rem;font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
-.gy-done p{margin:0 0 1rem}
-.gy-done .linkbtn{color:var(--lamp-pale)}
-.gy-done .flame{width:3.6rem;margin-inline:auto}
-.gy-off{max-width:38rem;font-size:1.3rem}
+/* kérések és Kérdezz élő jóstól */
+.ker-intro{max-width:38rem}
+.ker-form,.ker-panel{max-width:38rem;padding:1.4rem 1.5rem 1.6rem;background:#fff;border:1px solid var(--rule);border-left:6px solid var(--lamp);border-radius:.25rem}
+.ker-panel[hidden],.ker-form[hidden],.ker-done[hidden]{display:none}
+.ker-panel h2,.ker-done h2{margin:0 0 .8rem;font-size:1.6rem}
+.ker-panel h2:focus,.ker-done h2:focus{outline:none}
+.ker-field{margin:0 0 1.25rem}
+.ker label{display:block;margin:0 0 .4rem;font-weight:700}
+.ker-input,.ker-area{display:block;width:100%;padding:.8rem 1rem;font:inherit;font-size:1.15rem;line-height:1.5;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem}
+.ker-area{min-height:9rem;resize:vertical}
+.ker-area--tall{min-height:13rem}
+.ker-input:focus,.ker-area:focus{border-color:var(--link)}
+.ker-code{max-width:12rem;font-size:1.6rem;letter-spacing:.3em;text-align:center}
+.ker-help{margin:.4rem 0 0;color:var(--muted);font-size:1rem}
+.ker-note{min-height:0;margin:.3rem 0 0;color:#8A2B12;font-size:1rem;font-weight:700}
+.ker label.ker-check{display:flex;gap:.75rem;align-items:flex-start;font-weight:400;margin:0 0 1.25rem}
+.ker-check input{flex:none;width:1.6rem;height:1.6rem;margin:.15rem 0 0;accent-color:var(--link)}
+.ker-msg{min-height:0;margin:.9rem 0 0;font-weight:700;color:#8A2B12}
+.ker-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ker-row{display:flex;flex-wrap:wrap;gap:.75rem 1rem;align-items:center}
+.ker-link{padding:.6rem 0;background:none;border:0;font:inherit;font-size:1.05rem;color:var(--link);text-decoration:underline;cursor:pointer}
+.ker-link[disabled]{color:var(--muted);text-decoration:none;cursor:default}
+.ker-done{max-width:38rem;padding:1.6rem 1.5rem;background:var(--dusk-deep);color:#EEF2F8;border-radius:.5rem}
+.ker-done h2{color:#fff}
+.ker-done p{margin:0 0 1rem}
 
-.gy-wall{background:var(--dusk-deep);color:#EEF2F8}
-.band.gy-wall+.band{border-top:0}
-.gy-wall h2{color:#fff}
-.gy-wall .meta{color:#B8C4D8}
-.gy-state{margin:1.25rem 0 0;font-size:1.15rem}
-.gy-list{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr))}
-.cd{display:flex;flex-direction:column;gap:.55rem;padding:1.1rem 1.15rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,226,168,.28);border-radius:.5rem}
-.cd-text{margin:0;font-size:1.15rem;line-height:1.5;white-space:pre-line;overflow-wrap:anywhere}
-.cd-meta{margin:0;color:#B8C4D8;font-size:1rem}
-.cd-foot{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem 1rem;margin-top:auto;padding-top:.3rem}
-.cd .linkbtn{padding-block:.5rem;color:var(--lamp-pale);text-align:left}
-.cd .linkbtn[disabled]{color:#B8C4D8;text-decoration:none;cursor:default}
-.cd-n{color:#B8C4D8;font-size:1rem}
-.gy-wall :focus-visible,.gy-done :focus-visible{outline-color:var(--lamp-pale)}
-.gy-more{margin-top:1.5rem}
-.btn.btn--light{background:transparent;border:2px solid var(--lamp-pale);color:var(--lamp-pale)!important}
-.btn.btn--light:hover{background:rgba(255,226,168,.12)}
+/* az oldal fő szabálya, feltűnő */
+.ker-rule{max-width:38rem;margin:1.5rem 0;padding:1.2rem 1.4rem;background:var(--dusk-deep);color:#fff;border-left:8px solid var(--lamp);border-radius:.25rem;font-family:var(--display);font-weight:700;font-size:clamp(1.35rem,4.6vw,1.75rem);line-height:1.35}
+.ker-safe{max-width:38rem;margin:1.5rem 0;padding:1.1rem 1.3rem;background:#E9EFF8;border-radius:.25rem;font-size:1.05rem;line-height:1.55}
+.ker-safe p{margin:0 0 .6em}
+.ker-safe p:last-child{margin:0}
 
-.flame{display:block;width:2.1rem;height:auto;overflow:visible}
-.flame .fl{transform-box:fill-box;transform-origin:50% 100%;animation:flicker 3.4s ease-in-out var(--d,0s) infinite}
-.flame .glow{animation:breathe 5s ease-in-out var(--d,0s) infinite}
-@keyframes flicker{0%,100%{transform:scale(1,1) rotate(0)}30%{transform:scale(.95,1.05) rotate(-2deg)}62%{transform:scale(1.03,.97) rotate(1.5deg)}}
-@media (prefers-reduced-motion:reduce){.flame .fl,.flame .glow{animation:none}}
-.gy-share{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:1.25rem 0 .5rem}
-.gy-share-msg{min-height:1.4em;margin:0 0 .5rem;font-size:1rem;color:#FFB4A0}
-.cd.is-target{outline:3px solid var(--lamp);outline-offset:3px}
-.gy-note{margin:0 0 1.25rem;padding:.8rem 1rem;background:#F6EBD0;border-radius:.25rem;font-size:1.05rem;line-height:1.5}
-.gy-safe ul{margin:0 0 .6em;padding-left:1.3rem}
-.gy-safe li{margin:.2rem 0}
-.gy-ask-q{flex-basis:100%;margin:0;font-weight:700}
-.cd-ask{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem 1rem;margin-top:auto;padding-top:.3rem}
-.cd-ask p{flex-basis:100%;margin:0;font-weight:700}
-.cd-ask .cd-err{font-weight:400;color:#FFB4A0;font-size:1rem}
-.cd-ask .cd-err:empty{display:none}
-.gy-done [hidden],.cd [hidden]{display:none!important}
-/* tökkert */
-.tk{display:block;width:100%;height:auto;overflow:visible}
-.tk-face{animation:tkflick 3.6s ease-in-out var(--d,0s) infinite}
-@keyframes tkflick{0%,100%{opacity:1}35%{opacity:.88}65%{opacity:.96}}
-@media (prefers-reduced-motion:reduce){.tk-face{animation:none}}
-.tk-intro{max-width:38rem;margin:0}
-.tk-home{margin:1rem 0 0;font-size:1.15rem}
-.tk-home a{font-weight:700}
+/* laphúzás */
+.ker-panel h2.ker-bignote,.ker-bignote{margin:0 0 .4rem;font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,10vw,3.6rem);line-height:1.08;color:var(--ink)}
+.ker-panel .ker-bigsub,.ker-bigsub{margin:0 0 1.2rem;font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,5vw,1.8rem);line-height:1.3}
+.ker-attn{padding:1.3rem 1.3rem 1.5rem;border:4px solid var(--lamp);border-radius:.5rem;background:#FFF6E3;animation:ker-glow 1.8s ease-in-out infinite}
+@keyframes ker-glow{0%,100%{box-shadow:0 0 0 0 rgba(244,184,96,.0)}50%{box-shadow:0 0 0 .55rem rgba(244,184,96,.45)}}
+@media (prefers-reduced-motion:reduce){.ker-attn{animation:none}}
+.ker-card{margin:1.2rem 0;text-align:center}
+.ker-card[hidden]{display:none}
+.ker-card img{display:block;margin:0 auto;width:min(100%,15rem);height:auto;border-radius:.5rem;box-shadow:0 .4rem 1.2rem rgba(20,28,48,.35)}
+.ker-cardname{margin:.8rem 0 0;font-family:var(--display);font-weight:700;font-size:1.4rem}
+.ker-q{margin:0 0 1rem;padding:.8rem 1rem;background:#F2F5F8;border-radius:.25rem;font-size:1.05rem;line-height:1.55;overflow-wrap:anywhere;white-space:pre-line}
+.ker-status{margin:0 0 1rem;font-weight:700}
+.ker-answer-text{margin:0 0 1rem;font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.5;white-space:pre-line;overflow-wrap:anywhere}
+.ker-account{max-width:38rem;margin:0 0 1rem;display:flex;flex-wrap:wrap;gap:.2rem 1.2rem;align-items:center;font-size:1.05rem;color:var(--muted)}
+.ker-account[hidden]{display:none}
+.ker-account b{color:var(--ink);overflow-wrap:anywhere}
+.ker :focus-visible{outline:3px solid var(--link);outline-offset:2px}
+.ker-done :focus-visible{outline-color:var(--lamp-pale)}
+.ker button.btn:disabled{opacity:.55;cursor:default}
 
-.tk-garden{background:var(--dusk-deep);color:#EEF2F8}
-.band.tk-garden+.band{border-top:0}
-.tk-garden h2,.tk-garden h3{color:#fff}
-.tk-garden h2:focus{outline:none}
-.tk-garden .meta{color:#B8C4D8}
-.tk-garden :focus-visible{outline-color:var(--lamp-pale)}
-.tk-lay{display:grid;gap:1.5rem 2rem;grid-template-columns:minmax(0,1fr);margin-top:1.25rem}
-.tk-yard{position:relative;width:100%;max-width:44rem;aspect-ratio:1027/675;overflow:hidden;container-type:inline-size;background:var(--dusk-deep) url(/tokkert-kert.jpg) center/100% 100% no-repeat;border-radius:.5rem;box-shadow:0 .5rem 1.5rem rgba(0,0,0,.4)}
-.tk-card{position:absolute;transform:translate(-50%,-100%);margin:0;padding:0}
-.tk-card::before{content:"";position:absolute;left:-28%;right:-28%;top:6%;bottom:-8%;background:radial-gradient(closest-side,rgba(255,200,90,.30),rgba(255,200,90,0));pointer-events:none}
-.tk-card.is-mine::before{background:radial-gradient(closest-side,rgba(255,226,168,.5),rgba(255,226,168,0))}
-.tk-bob{position:relative;transform-origin:50% 100%}
-.tk-name{position:absolute;left:50%;bottom:100%;transform:translateX(calc(-50% + var(--sx,0px)));max-width:12em;margin:0 0 .1em;padding:.08em .55em;border-radius:1em;background:rgba(14,20,38,.78);color:#fff;font-size:clamp(.62rem,3.2cqw,.95rem);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:1}
-.tk-badge{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:.1em;padding:0 .6em;border-radius:1em;background:rgba(255,226,168,.92);color:#141C30;font-size:clamp(.6rem,3cqw,.8rem);font-weight:700;line-height:1.5;white-space:nowrap}
-/* a szellem fején álló tök: ferdén ül, nincs árnyéka, a neve a bal oldalán áll */
-.tk-card.on-ghost .tk-shadow{display:none}
-.tk-card.on-ghost .tk-bob svg{transform:rotate(12deg);transform-origin:50% 100%}
-.tk-card.on-ghost .tk-name{bottom:auto;top:10%;left:auto;right:100%;transform:none;margin:0 .5em 0 0}
-.tk-empty{position:absolute;left:8%;right:8%;top:36%;margin:0;padding:.6rem .9rem;border-radius:.5rem;background:rgba(14,20,38,.7);text-align:center;font-size:1.05rem}
-.tk-side{min-width:0}
-.tk-side .tk-share{margin-top:0}
-
-/* mozgás: finom rugózás (a tök kissé összenyomódik és visszarugózik), pislogás, a száj kis mozgása; az orr áll */
-.tk-live .tk-bob,.tk-card .tk-bob{animation:tkspring var(--p,4s) ease-in-out var(--d,0s) infinite}
-.tk-card.is-new .tk-bob{animation:tkpop .6s ease-out,tkspring var(--p,4s) ease-in-out .6s infinite}
-@keyframes tkspring{0%,52%,100%{transform:scale(1,1)}8%{transform:scale(1.03,.96)}19%{transform:scale(.985,1.03)}30%{transform:scale(1.01,.99)}41%{transform:scale(.997,1.005)}}
-@keyframes tkpop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
-.tk-live .tk-eye,.tk-card .tk-eye{transform-box:fill-box;transform-origin:50% 50%;animation:tkblink 4.6s ease-in-out calc(var(--d,0s) * 1.7) infinite}
-@keyframes tkblink{0%,92%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.08)}}
-.tk-live .tk-mouth,.tk-card .tk-mouth{transform-box:fill-box;transform-origin:50% 0;animation:tkmouth 3.4s ease-in-out calc(var(--d,0s) * .6) infinite}
-@keyframes tkmouth{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,1.09)}}
-@media (prefers-reduced-motion:reduce){.tk-live .tk-bob,.tk-card .tk-bob,.tk-card.is-new .tk-bob,.tk-live .tk-eye,.tk-card .tk-eye,.tk-live .tk-mouth,.tk-card .tk-mouth{animation:none}}
-@media (min-width:56rem){.tk-lay{grid-template-columns:minmax(0,40rem) minmax(0,1fr);align-items:start}}
-.tk-state{margin:1rem 0 0;font-size:1.15rem}
-.tk-share{max-width:38rem;margin-top:2rem;padding:1.3rem 1.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,226,168,.28);border-radius:.5rem}
-.tk-share h3{margin:0 0 .4rem;font-size:1.4rem}
-.tk-share p{margin:0 0 1rem}
-.tk-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 .75rem}
-.tk-ask{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 .75rem}
-.tk-ask p{flex-basis:100%;margin:0;font-weight:700}
-.tk-msg-light{min-height:1.4em;margin:0 0 .5rem!important;color:#FFB4A0;font-size:1rem}
-.tk-share .linkbtn,.tk-garden .linkbtn{color:var(--lamp-pale)}
-.tk-garden [hidden]{display:none!important}
-
-.tk-studio{display:grid;gap:1.5rem;grid-template-columns:1fr;margin-top:1.25rem}
-.tk-stage{position:sticky;top:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:.75rem;background:var(--dusk-deep);border-radius:.5rem;box-shadow:0 .5rem 1rem rgba(20,28,48,.25)}
-.tk-stage #tk-prev{width:min(48vw,13rem)}
-.tk-stage .btn{min-height:2.75rem;padding:.4rem 1.1rem}
-.tk-group{margin:0 0 1.25rem;padding:0;border:0;min-width:0}
-.tk-group legend{padding:0;margin:0 0 .4rem;font-weight:700}
-.tk-opts{display:flex;flex-wrap:wrap;gap:.5rem}
-.tk-opt{position:relative;display:block;cursor:pointer}
-.tk-opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
-.tk-opt .tk-chip{display:flex;flex-direction:column;align-items:center;gap:.15rem;min-width:4.6rem;padding:.35rem .4rem .3rem;background:#fff;border:2px solid var(--rule);border-radius:.5rem;font-size:.9rem;line-height:1.2}
-.tk-opt .tk-chip .tk{width:4rem;overflow:hidden;border-radius:.25rem;background:var(--dusk-deep)}
-.tk-opt input:checked+.tk-chip{border-color:var(--link);box-shadow:0 0 0 2px var(--link);font-weight:700}
-.tk-opt input:focus-visible+.tk-chip{outline:3px solid var(--link);outline-offset:3px}
-.tk-field{max-width:26rem;margin:.5rem 0 1.25rem}
-.tk-field label{display:block;margin:0 0 .4rem;font-weight:700}
-.tk-field input[type=text]{display:block;width:100%;padding:.8rem 1rem;font:inherit;font-size:1.15rem;color:var(--ink);background:#fff;border:2px solid var(--rule);border-radius:.5rem}
-.tk-field input[type=text]:focus{border-color:var(--link)}
-.tk-help{margin:.4rem 0 0;color:var(--muted);font-size:1rem}
-.tk-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.tk-msg{min-height:1.6em;margin:.9rem 0 0;font-weight:700;color:#8A2B12}
-.tk-fine{max-width:38rem;margin:1rem 0 0;color:var(--muted);font-size:1rem}
-@media (min-width:52rem){
- .tk-studio{grid-template-columns:minmax(14rem,18rem) 1fr;align-items:start}
- .tk-stage{top:1rem}
- .tk-stage #tk-prev{width:15rem}
-}
+/* lefordított lapok, a látogató választ */
+.ker-pickhelp{margin:0;font-size:1.15rem;font-weight:700}
+.ker-deck{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;margin:1.2rem 0}
+.ker-deck[hidden]{display:none}
+@media (min-width:36rem){.ker-deck{grid-template-columns:repeat(7,1fr)}}
+.ker-lap{display:block;width:100%;aspect-ratio:330/560;padding:0;border:0;border-radius:.4rem;background:url(/kartyahat.svg) center/100% 100% no-repeat;cursor:pointer;box-shadow:0 .15rem .45rem rgba(20,28,48,.4);transition:transform .15s}
+.ker-lap:hover,.ker-lap:focus-visible{transform:translateY(-.3rem)}
+@media (prefers-reduced-motion:reduce){.ker-lap{transition:none}.ker-lap:hover,.ker-lap:focus-visible{transform:none}}
+.ker-card img{animation:ker-reveal .6s ease-out}
+@keyframes ker-reveal{from{transform:rotateY(90deg);opacity:.2}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.ker-card img{animation:none}}
 :root{--rose-img:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M50.0 14.0A19.4 19.4 0 0 1 78.1 27.6A19.4 19.4 0 0 1 85.1 58.0A19.4 19.4 0 0 1 65.6 82.4A19.4 19.4 0 0 1 34.4 82.4A19.4 19.4 0 0 1 14.9 58.0A19.4 19.4 0 0 1 21.9 27.6A19.4 19.4 0 0 1 50.0 14.0Z%22 fill=%22%23EE93AE%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M62.7 23.9A18.0 18.0 0 0 1 78.9 48.0A18.0 18.0 0 0 1 66.2 74.0A18.0 18.0 0 0 1 37.3 76.1A18.0 18.0 0 0 1 21.1 52.0A18.0 18.0 0 0 1 33.8 26.0A18.0 18.0 0 0 1 62.7 23.9Z%22 fill=%22%23DC6C92%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M66.1 36.5A15.3 15.3 0 0 1 67.8 61.1A15.3 15.3 0 0 1 44.9 70.4A15.3 15.3 0 0 1 29.1 51.5A15.3 15.3 0 0 1 42.1 30.5A15.3 15.3 0 0 1 66.1 36.5Z%22 fill=%22%23C34F7C%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M54.4 37.8A11.4 11.4 0 0 1 62.2 54.4A11.4 11.4 0 0 1 45.6 62.2A11.4 11.4 0 0 1 37.8 45.6A11.4 11.4 0 0 1 54.4 37.8Z%22 fill=%22%23A83866%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M51.9 23.4A14.3 14.3 0 0 1 71.9 34.9A14.3 14.3 0 0 1 75.5 57.7A14.3 14.3 0 0 1 59.9 74.7A14.3 14.3 0 0 1 36.8 73.1A14.3 14.3 0 0 1 23.7 54.1A14.3 14.3 0 0 1 30.4 32.0A14.3 14.3 0 0 1 51.9 23.4Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M60.7 31.4A13.3 13.3 0 0 1 71.5 50.0A13.3 13.3 0 0 1 60.7 68.6A13.3 13.3 0 0 1 39.3 68.6A13.3 13.3 0 0 1 28.5 50.0A13.3 13.3 0 0 1 39.3 31.4A13.3 13.3 0 0 1 60.7 31.4Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M62.6 40.9A11.3 11.3 0 0 1 62.6 59.1A11.3 11.3 0 0 1 45.2 64.8A11.3 11.3 0 0 1 34.5 50.0A11.3 11.3 0 0 1 45.2 35.2A11.3 11.3 0 0 1 62.6 40.9Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M50 50m-2.6 0a2.6 2.6 0 1 1 5.2 0a5.4 5.4 0 1 1-10.8 0%22 fill=%22none%22 stroke=%22%236E1530%22 stroke-width=%222.2%22 stroke-linecap=%22round%22/%3E%3C/svg%3E");--card-img:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 26 36%22%3E%3Crect x=%221.5%22 y=%221.5%22 width=%2223%22 height=%2233%22 rx=%223%22 fill=%22%2326345C%22 stroke=%22%23F4B860%22 stroke-width=%222%22/%3E%3Cpath d=%22M13 9L15 16L22 18L15 20L13 27L11 20L4 18L11 16Z%22 fill=%22%23FFE2A8%22/%3E%3C/svg%3E")}
 
 /* ---------- Szerelmi jóslás, a két fa szívkő (CSS 3D) ---------- */

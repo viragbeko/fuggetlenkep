@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Történetek – Lélekfény</title>
+<title>Bibliai történetek – Lélekfény</title>
 <meta name="description" content="Bibliai történetek saját szavakkal újramesélve, és egy rövid gondolat arról, mit mondanak ma nekünk.">
 <link rel="canonical" href="https://fuggetlenkep.hu/tortenetek">
 <meta name="theme-color" content="#1E2A44">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="hu_HU">
 <meta property="og:site_name" content="Lélekfény">
-<meta property="og:title" content="Történetek – Lélekfény">
+<meta property="og:title" content="Bibliai történetek – Lélekfény">
 <meta property="og:description" content="Bibliai történetek saját szavakkal újramesélve, és egy rövid gondolat arról, mit mondanak ma nekünk.">
 <meta property="og:url" content="https://fuggetlenkep.hu/tortenetek">
 <meta property="og:image" content="https://fuggetlenkep.hu/og.png">
@@ -28,16 +28,14 @@
 <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Lélekfény</a>
 <nav class="nav" aria-label="Főmenü">
 <a href="/tesztek">Tesztek</a>
-<a href="/tortenetek" aria-current="page">Történetek</a>
+<a href="/tortenetek" aria-current="page">Bibliai történetek</a>
 <a href="/joslas">Jóslás</a>
-<a href="/gyertya">Gyertya</a>
-<a href="/tokkert">Tökkert</a>
 </nav>
 </header>
 <section class="pagehead">
 <div class="wrap">
-<h1>Történetek</h1>
-<p class="lead">Biblia tanításai, újramesélve.</p>
+<h1>Bibliai történetek</h1>
+<p class="lead">Ez az oldal folyamatosan frissül, a Biblia tanításait fogja tartalmazni. Sokan egészségügyi okokból már nem tudnak elmenni templomba, és a vallásuk gyakorlását szeretném támogatni azzal, hogy ha Istenre van szükségük, az imán kívül más módon is részesülhessenek a hittel való találkozással, és erre a tanításokat találtam a legjobb útnak. Kérlek, olvassátok szeretettel, és ha bármi kérésetek vagy visszajelzésetek lenne, azt a <a href="#kerelmek">„Kérések”</a> mezőbe írjátok, melyeket csak én, az oldal szerkesztője fogok látni.</p>
 </div>
 </section>
 </div>
@@ -57,6 +55,33 @@
 </ul>
 </div>
 </section>
+<section class="band ker" id="kerelmek" data-api="https://script.google.com/macros/s/AKfycbyW0rXG_efZfNgn6p8IfbjlQR8Eyr-Zgd_lWXH_WSmmL6G2md-plDCqG2zPKMxeGS7XDQ/exec" data-mode="req">
+<div class="wrap">
+<h2>Kérések</h2>
+<div class="prose ker-intro">
+<p>Ha bármi kérésed vagy visszajelzésed van az oldallal vagy a történetekkel kapcsolatban, itt megírhatod. Csak én, az oldal szerkesztője látom.</p>
+</div>
+<form class="ker-form" novalidate>
+<div class="ker-field">
+<label for="ker-r-text">Kérésed vagy visszajelzésed</label>
+<textarea id="ker-r-text" class="ker-area" rows="5" maxlength="300" autocomplete="off" aria-describedby="ker-r-help ker-r-left"></textarea>
+<p class="ker-help" id="ker-r-help">Csak betűt és szóközt írhatsz, számot és írásjelet nem. Ne írj be nevet, elérhetőséget vagy egészségi adatot.</p>
+<p class="ker-help ker-left" id="ker-r-left"></p>
+<p class="ker-note" role="status" aria-live="polite"></p>
+</div>
+<div class="ker-hp" aria-hidden="true"><label>Ne töltsd ki <input type="text" name="hp" tabindex="-1" autocomplete="off"></label></div>
+<label class="ker-check"><input type="checkbox" class="ker-ok"><span>Hozzájárulok, hogy az általam beírt szöveget az oldal szerkesztője elolvassa. Részletek az <a href="/adatvedelem">adatvédelmi tájékoztatóban</a>.</span></label>
+<p class="ker-msg" role="status" aria-live="polite"></p>
+<button class="btn ker-send" type="submit" data-label="Elküldöm">Elküldöm</button>
+</form>
+<div class="ker-done" hidden>
+<h2 tabindex="-1">Megkaptam, köszönöm.</h2>
+<p>Elolvasom.</p>
+<button class="btn btn--ghost ker-again" type="button">Újabb kérést írok</button>
+</div>
+</div>
+</section>
+<script src="/kerdesek.js" defer></script>
 </main>
 <footer class="foot">
 <div class="wrap">
