@@ -1,16 +1,20 @@
-/* Kérések (Bibliai történetek) és Kérdezz élő jóstól (belépéssel). A háttér a kerdesek.gs. */
+/* Kérések (Bibliai történetek), Kérdezz élő jóstól és a kezdőlapi kihívás (belépéssel). A háttér a kerdesek.gs. */
 (function () {
   "use strict";
   var MAXLEN_R = 300, MINLEN_R = 5, MAXLEN_Q = 600, MINLEN_Q = 30, MIN_FILL = 4200, COOLDOWN = 60000;
   var POLL_FAST = window.__KER_POLL_MS || 20000, POLL_SLOW = window.__KER_POLL_MS || 60000;
   var POLL_FAST_FOR = window.__KER_POLL_MS ? 1500 : 600000, POLL_MAX = window.__KER_POLL_MS ? 6000 : 3 * 3600000;
   var DAY = 24 * 3600000;
-  var SESS_KEY = "lf_ker_s", DRAW_KEY = "lf_ker_draw";
+  var MAXLEN_C = 600, MINLEN_C = 10;
+  var SESS_KEY = "lf_ker_s", DRAW_KEY = "lf_ker_draw", CH_KEY = "lf_ch_draft";
 
   var RE_BAD, RE_BAD_CARD;
   try { RE_BAD = new RegExp("[^\\p{L} ]", "gu"); RE_BAD_CARD = new RegExp("[^\\p{L} ()-]", "gu"); }
   catch (e) { RE_BAD = /[^A-Za-zÀ-ɏ ]/g; RE_BAD_CARD = /[^A-Za-zÀ-ɏ ()-]/g; }
   var RE_EMAIL = /^[a-z0-9._%+'-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i;
+  // a kihívás válaszába írásjel és szám is mehet, csak a vezérlő- és láthatatlan karakter, a < és a > nem
+  var RE_CH = /[\u0000-\u0008\u000b-\u001f\u007f-\u009f<>\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]/g;
+  var RE_CH_LINK = /(:\/\/|www\.|@)/i;
 
   function readNum(k) { try { return Number(localStorage.getItem(k)) || 0; } catch (e) { return 0; } }
   function writeNum(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
@@ -48,11 +52,11 @@
   }
 
   // szövegmező: élő szűrés, számláló, figyelmeztetés
-  function bindArea(area, left, note, max, re) {
+  function bindArea(area, left, note, max, re, noteText) {
     var noteTimer = 0, composing = false;
     function upd() { left.textContent = "Még " + Math.max(0, max - area.value.length) + " karakter írható."; }
     function showNote() {
-      note.textContent = "Csak betűt és szóközt lehet írni, a többit nem vettem át.";
+      note.textContent = noteText || "Csak betűt és szóközt lehet írni, a többit nem vettem át.";
       clearTimeout(noteTimer);
       noteTimer = setTimeout(function () { note.textContent = ""; }, 5000);
     }
@@ -76,6 +80,101 @@
     area.addEventListener("blur", filter);
     upd();
     return { filter: filter, update: upd };
+  }
+
+  /* ---------------------------------------------------------------- közös belépés (e-mail, kód). ctx.show(állapot) vált panelt, ctx.onLogin(belépő) fut a sikeres belépés után */
+  function bindAuth(root, api, ctx) {
+    var q = function (sel) { return root.querySelector(sel); };
+    var pendingEmail = "", resendT = 0;
+    var email = q(".ker-email"), consent = q(".ker-consent"), hpA = q('input[name="hp"]'), authMsg = q(".ker-auth-msg"), getBtn = q(".ker-getcode");
+    function codeErr(code, res) {
+      if (code === "bad") { return "Ez az e-mail-cím nem tűnik jónak. Ellenőrizd, kérlek."; }
+      if (code === "soon") { return "Az előbb már küldtem kódot. Várj még " + ((res && res.after) || 60) + " másodpercet."; }
+      if (code === "rate") { return "Ma erre a címre vagy összesen túl sok kód ment ki. Próbáld újra később."; }
+      if (code === "banned") { return "Ezzel a címmel most nem tudsz belépni."; }
+      if (code === "full") { return "Most nem tudok új tagot fogadni."; }
+      if (code === "bot") { return "Nem sikerült. Töltsd újra az oldalt, és próbáld újra."; }
+      return "Most nem sikerült elküldeni a kódot. Próbáld újra egy kicsit később.";
+    }
+    function sendCode() {
+      authMsg.textContent = ""; q(".ker-code-msg").textContent = "";
+      if (hpA && hpA.value) { return; }
+      var e = String(email.value || "").trim().toLowerCase();
+      if (!RE_EMAIL.test(e) || e.length > 100) { authMsg.textContent = codeErr("bad"); email.focus(); return; }
+      if (!consent.checked) { authMsg.textContent = "Jelöld be a hozzájárulást, különben nem tudok belépést adni."; consent.focus(); return; }
+      getBtn.disabled = true; getBtn.textContent = "Küldés…";
+      post(api, { a: "code", email: e, hp: "" }).then(function (res) {
+        getBtn.disabled = false; getBtn.textContent = getBtn.getAttribute("data-label");
+        if (res && res.ok === true) { pendingEmail = e; startResend(60); q(".ker-sentto").textContent = e; q(".ker-code").value = ""; ctx.show("code"); return; }
+        if (res && res.err === "soon" && pendingEmail === e) { q(".ker-sentto").textContent = e; startResend(res.after || 60); ctx.show("code"); return; }
+        authMsg.textContent = codeErr(res && res.err, res);
+      }).catch(function () { getBtn.disabled = false; getBtn.textContent = getBtn.getAttribute("data-label"); authMsg.textContent = codeErr("error"); });
+    }
+    getBtn.addEventListener("click", sendCode);
+    email.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); sendCode(); } });
+
+    var resend = q(".ker-resend");
+    function startResend(sec) {
+      clearInterval(resendT); var left = sec;
+      function upd() { resend.disabled = left > 0; resend.textContent = left > 0 ? "Új kódot kérhetsz " + left + " másodperc múlva" : "Új kódot kérek"; }
+      upd(); resendT = setInterval(function () { left--; upd(); if (left <= 0) { clearInterval(resendT); } }, 1000);
+    }
+    resend.addEventListener("click", function () {
+      if (resend.disabled) { return; }
+      resend.disabled = true;
+      post(api, { a: "code", email: pendingEmail, hp: "" }).then(function (res) {
+        if (res && res.ok === true) { q(".ker-code-msg").textContent = "Újabb kódot küldtem."; startResend(60); return; }
+        q(".ker-code-msg").textContent = codeErr(res && res.err, res); if (res && res.err === "soon") { startResend(res.after || 60); } else { resend.disabled = false; }
+      }).catch(function () { q(".ker-code-msg").textContent = codeErr("error"); resend.disabled = false; });
+    });
+    q(".ker-back").addEventListener("click", function () { clearInterval(resendT); ctx.show("auth"); });
+
+    var codeIn = q(".ker-code"), loginBtn = q(".ker-login");
+    codeIn.addEventListener("input", function () { codeIn.value = codeIn.value.replace(/\D/g, "").slice(0, 6); });
+    function loginErr(code, res) {
+      if (code === "badcode") { return "Nem ez a kód. Még " + ((res && res.left) || 0) + " próbálkozásod van."; }
+      if (code === "expired") { return "A kód lejárt, vagy elfogytak a próbálkozások. Kérj új kódot."; }
+      if (code === "banned") { return "Ezzel a címmel most nem tudsz belépni."; }
+      if (code === "full") { return "Most nem tudok új tagot fogadni."; }
+      if (code === "rate") { return "Most sokan lépnek be. Próbáld újra egy perc múlva."; }
+      return "Most nem sikerült a belépés. Próbáld újra egy kicsit később.";
+    }
+    function doLogin() {
+      var msgEl = q(".ker-code-msg"); msgEl.textContent = "";
+      var c = codeIn.value.replace(/\D/g, "");
+      if (c.length !== 6) { msgEl.textContent = "A kód 6 számjegyű."; codeIn.focus(); return; }
+      loginBtn.disabled = true; loginBtn.textContent = "Belépés…";
+      post(api, { a: "login", email: pendingEmail, code: c }).then(function (res) {
+        loginBtn.disabled = false; loginBtn.textContent = loginBtn.getAttribute("data-label");
+        if (res && res.ok === true) {
+          var ns = { token: res.token, exp: res.exp, email: pendingEmail }; writeObj(SESS_KEY, ns);
+          clearInterval(resendT); codeIn.value = ""; email.value = ""; consent.checked = false; ctx.onLogin(ns);
+          return;
+        }
+        msgEl.textContent = loginErr(res && res.err, res);
+        if (res && res.err === "expired") { codeIn.value = ""; }
+      }).catch(function () { loginBtn.disabled = false; loginBtn.textContent = loginBtn.getAttribute("data-label"); msgEl.textContent = loginErr("error"); });
+    }
+    loginBtn.addEventListener("click", doLogin);
+    codeIn.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); doLogin(); } });
+  }
+
+  /* ---------------------------------------------------------------- közös fiók-sor (kilépés, fiók törlése) */
+  function bindAccount(root, ctx) {
+    var q = function (sel) { return root.querySelector(sel); };
+    q(".ker-logout").addEventListener("click", function () { ctx.logout(false); var am = q(".ker-auth-msg"); if (am) { am.textContent = ""; } });
+    var delAsk = q(".ker-del-ask"), delBtn = q(".ker-delete"), delYes = q(".ker-del-yes"), delNo = q(".ker-del-no");
+    delBtn.addEventListener("click", function () { delAsk.hidden = false; delBtn.hidden = true; delYes.focus(); });
+    delNo.addEventListener("click", function () { delAsk.hidden = true; delBtn.hidden = false; });
+    delYes.addEventListener("click", function () {
+      delYes.disabled = true;
+      ctx.call({ a: "del" }).then(function (res) {
+        delYes.disabled = false; delAsk.hidden = true; delBtn.hidden = false;
+        if (res && res.ok === true) { ctx.afterDelete(); ctx.logout(true); ctx.show("msg", "A tagságodat és minden hozzá tartozó adatot töröltem."); return; }
+        if (ctx.authFail(res)) { return; }
+        ctx.show("msg", "Most nem sikerült a törlés. Próbáld újra egy kicsit később, vagy írj nekem a Kapcsolat oldalon.");
+      }).catch(function () { delYes.disabled = false; delAsk.hidden = true; delBtn.hidden = false; ctx.show("msg", "Most nem sikerült a törlés. Próbáld újra egy kicsit később."); });
+    });
   }
 
   /* ---------------------------------------------------------------- névtelen kérések */
@@ -138,7 +237,7 @@
     try { cards = JSON.parse(q(".ker-cards-json").textContent); } catch (e) { cards = []; }
     var sess = readObj(SESS_KEY);
     if (sess && !(Number(sess.exp) > Date.now() && typeof sess.token === "string")) { dropKey(SESS_KEY); sess = null; }
-    var state = "", me = null, pollT = 0, pollStart = 0, inflight = false, tickT = 0, pendingAsk = "", tAsk = Date.now(), pendingEmail = "", resendT = 0;
+    var state = "", me = null, pollT = 0, pollStart = 0, inflight = false, tickT = 0, pendingAsk = "", tAsk = Date.now();
 
     var quiet = true;      // az első megjelenítés nem görget és nem vesz el fókuszt
     function show(s, text) {
@@ -168,78 +267,8 @@
       return parts.join(" ");
     }
 
-    /* ---- belépés */
-    var email = q(".ker-email"), consent = q(".ker-consent"), hpA = q('input[name="hp"]'), authMsg = q(".ker-auth-msg"), getBtn = q(".ker-getcode");
-    function codeErr(code, res) {
-      if (code === "bad") { return "Ez az e-mail-cím nem tűnik jónak. Ellenőrizd, kérlek."; }
-      if (code === "soon") { return "Az előbb már küldtem kódot. Várj még " + ((res && res.after) || 60) + " másodpercet."; }
-      if (code === "rate") { return "Ma erre a címre vagy összesen túl sok kód ment ki. Próbáld újra később."; }
-      if (code === "banned") { return "Ezzel a címmel most nem tudsz belépni."; }
-      if (code === "full") { return "Most nem tudok új tagot fogadni."; }
-      if (code === "bot") { return "Nem sikerült. Töltsd újra az oldalt, és próbáld újra."; }
-      return "Most nem sikerült elküldeni a kódot. Próbáld újra egy kicsit később.";
-    }
-    function sendCode() {
-      authMsg.textContent = ""; q(".ker-code-msg").textContent = "";
-      if (hpA && hpA.value) { return; }
-      var e = String(email.value || "").trim().toLowerCase();
-      if (!RE_EMAIL.test(e) || e.length > 100) { authMsg.textContent = codeErr("bad"); email.focus(); return; }
-      if (!consent.checked) { authMsg.textContent = "Jelöld be a hozzájárulást, különben nem tudok belépést adni."; consent.focus(); return; }
-      getBtn.disabled = true; getBtn.textContent = "Küldés…";
-      post(api, { a: "code", email: e, hp: "" }).then(function (res) {
-        getBtn.disabled = false; getBtn.textContent = getBtn.getAttribute("data-label");
-        if (res && res.ok === true) { pendingEmail = e; startResend(60); q(".ker-sentto").textContent = e; q(".ker-code").value = ""; show("code"); return; }
-        if (res && res.err === "soon" && pendingEmail === e) { q(".ker-sentto").textContent = e; startResend(res.after || 60); show("code"); return; }
-        authMsg.textContent = codeErr(res && res.err, res);
-      }).catch(function () { getBtn.disabled = false; getBtn.textContent = getBtn.getAttribute("data-label"); authMsg.textContent = codeErr("error"); });
-    }
-    getBtn.addEventListener("click", sendCode);
-    email.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); sendCode(); } });
-
-    var resend = q(".ker-resend");
-    function startResend(sec) {
-      clearInterval(resendT); var left = sec;
-      function upd() { resend.disabled = left > 0; resend.textContent = left > 0 ? "Új kódot kérhetsz " + left + " másodperc múlva" : "Új kódot kérek"; }
-      upd(); resendT = setInterval(function () { left--; upd(); if (left <= 0) { clearInterval(resendT); } }, 1000);
-    }
-    resend.addEventListener("click", function () {
-      if (resend.disabled) { return; }
-      resend.disabled = true;
-      post(api, { a: "code", email: pendingEmail, hp: "" }).then(function (res) {
-        if (res && res.ok === true) { q(".ker-code-msg").textContent = "Újabb kódot küldtem."; startResend(60); return; }
-        q(".ker-code-msg").textContent = codeErr(res && res.err, res); if (res && res.err === "soon") { startResend(res.after || 60); } else { resend.disabled = false; }
-      }).catch(function () { q(".ker-code-msg").textContent = codeErr("error"); resend.disabled = false; });
-    });
-    q(".ker-back").addEventListener("click", function () { clearInterval(resendT); show("auth"); });
-
-    var codeIn = q(".ker-code"), loginBtn = q(".ker-login");
-    codeIn.addEventListener("input", function () { codeIn.value = codeIn.value.replace(/\D/g, "").slice(0, 6); });
-    function loginErr(code, res) {
-      if (code === "badcode") { return "Nem ez a kód. Még " + ((res && res.left) || 0) + " próbálkozásod van."; }
-      if (code === "expired") { return "A kód lejárt, vagy elfogytak a próbálkozások. Kérj új kódot."; }
-      if (code === "banned") { return "Ezzel a címmel most nem tudsz belépni."; }
-      if (code === "full") { return "Most nem tudok új tagot fogadni."; }
-      if (code === "rate") { return "Most sokan lépnek be. Próbáld újra egy perc múlva."; }
-      return "Most nem sikerült a belépés. Próbáld újra egy kicsit később.";
-    }
-    function doLogin() {
-      var msgEl = q(".ker-code-msg"); msgEl.textContent = "";
-      var c = codeIn.value.replace(/\D/g, "");
-      if (c.length !== 6) { msgEl.textContent = "A kód 6 számjegyű."; codeIn.focus(); return; }
-      loginBtn.disabled = true; loginBtn.textContent = "Belépés…";
-      post(api, { a: "login", email: pendingEmail, code: c }).then(function (res) {
-        loginBtn.disabled = false; loginBtn.textContent = loginBtn.getAttribute("data-label");
-        if (res && res.ok === true) {
-          sess = { token: res.token, exp: res.exp, email: pendingEmail }; writeObj(SESS_KEY, sess);
-          clearInterval(resendT); codeIn.value = ""; email.value = ""; consent.checked = false; enter();
-          return;
-        }
-        msgEl.textContent = loginErr(res && res.err, res);
-        if (res && res.err === "expired") { codeIn.value = ""; }
-      }).catch(function () { loginBtn.disabled = false; loginBtn.textContent = loginBtn.getAttribute("data-label"); msgEl.textContent = loginErr("error"); });
-    }
-    loginBtn.addEventListener("click", doLogin);
-    codeIn.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); doLogin(); } });
+    /* ---- belépés (közös az oldalon, lásd bindAuth) */
+    bindAuth(root, api, { show: show, onLogin: function (ns) { sess = ns; enter(); } });
 
     /* ---- belépés után, az állapot a szerveren van */
     function enter() {
@@ -416,24 +445,120 @@
     }
     newBtn2.addEventListener("click", function () { clearInterval(tickT); me.q = null; me.next = 0; showAsk(); });
 
-    /* ---- fiók */
-    q(".ker-logout").addEventListener("click", function () { logout(false); q(".ker-auth-msg").textContent = ""; });
-    var delAsk = q(".ker-del-ask"), delBtn = q(".ker-delete"), delYes = q(".ker-del-yes"), delNo = q(".ker-del-no");
-    delBtn.addEventListener("click", function () { delAsk.hidden = false; delBtn.hidden = true; delYes.focus(); });
-    delNo.addEventListener("click", function () { delAsk.hidden = true; delBtn.hidden = false; });
-    delYes.addEventListener("click", function () {
-      delYes.disabled = true;
-      call({ a: "del" }).then(function (res) {
-        delYes.disabled = false; delAsk.hidden = true; delBtn.hidden = false;
-        if (res && res.ok === true) { dropKey(DRAW_KEY, sessionStorage); logout(true); show("msg", "A tagságodat és minden hozzá tartozó adatot töröltem."); return; }
-        if (authFail(res)) { return; }
-        show("msg", "Most nem sikerült a törlés. Próbáld újra egy kicsit később, vagy írj nekem a Kapcsolat oldalon.");
-      }).catch(function () { delYes.disabled = false; delAsk.hidden = true; delBtn.hidden = false; show("msg", "Most nem sikerült a törlés. Próbáld újra egy kicsit később."); });
-    });
+    /* ---- fiók (közös az oldalon, lásd bindAccount) */
+    bindAccount(root, { call: call, show: show, logout: logout, authFail: authFail, afterDelete: function () { dropKey(DRAW_KEY, sessionStorage); } });
     q(".ker-msg-back") && q(".ker-msg-back").addEventListener("click", function () { if (sess) { enter(); } else { show("auth"); } });
 
     // indulás
     if (sess) { show("msg", "Betöltés…"); enter(); } else { show("auth"); }
+  }
+
+  /* ---------------------------------------------------------------- kezdőlapi kihívás */
+  function letterCount(t) {
+    try { return (t.match(new RegExp("\\p{L}", "gu")) || []).length; } catch (e) { return (t.match(/[A-Za-zÀ-ɏ]/g) || []).length; }
+  }
+  function initChal(root, api) {
+    var q = function (sel) { return root.querySelector(sel); };
+    var CH = root.getAttribute("data-ch") || "";
+    var P = {};
+    ["form", "auth", "code", "send", "done", "msg"].forEach(function (s) { P[s] = root.querySelector('[data-state="' + s + '"]'); });
+    var acct = q(".ker-account"), acctMail = q(".ker-account-mail");
+    var sess = readObj(SESS_KEY);
+    if (sess && !(Number(sess.exp) > Date.now() && typeof sess.token === "string")) { dropKey(SESS_KEY); sess = null; }
+    var state = "", pendingText = "", pendingId = "", t0 = Date.now(), busy = false;
+
+    var quiet = true;      // az első megjelenítés nem görget és nem vesz el fókuszt
+    function show(s, text) {
+      state = s;
+      Object.keys(P).forEach(function (k) { P[k].hidden = k !== s; });
+      acct.hidden = !(sess && s !== "auth" && s !== "code" && s !== "msg");
+      if (sess) { acctMail.textContent = sess.email || ""; }
+      if (s === "msg") { q(".ker-msg-text").textContent = text || ""; }
+      var h = P[s].querySelector("h2");
+      if (h && !quiet) { h.setAttribute("tabindex", "-1"); h.focus(); }
+      quiet = false;
+    }
+    function call(obj) { if (sess) { obj.token = sess.token; } return post(api, obj); }
+    function logout(silent) { sess = null; dropKey(SESS_KEY); if (!silent) { show("form"); } }
+    function authFail(res) {
+      if (res && res.err === "auth") { logout(true); q(".ker-auth-msg").textContent = "A belépésed lejárt vagy megszűnt. Lépj be újra."; show("auth"); return true; }
+      if (res && res.err === "banned") { show("msg", "Ezzel a tagsággal most nem tudsz válaszolni."); return true; }
+      return false;
+    }
+
+    /* ---- a válasz */
+    var form = q('[data-state="form"] form'), area = q(".ker-area"), left = q(".ker-left"), note = q(".ker-note"), msg = q(".ker-chal-msg");
+    var bind = bindArea(area, left, note, MAXLEN_C, RE_CH, "A < és > jelet, valamint a vezérlő karaktereket nem tudtam átvenni.");
+    var dr = readObj(CH_KEY, sessionStorage);      // ha a böngésző közben újratöltődik (például a levelező appból visszatérve), a megírt válasz megmarad
+    if (dr && typeof dr.t === "string") { area.value = dr.t; bind.filter(); }
+    area.addEventListener("input", function () { writeObj(CH_KEY, { t: area.value }, sessionStorage); });
+    function check(text) {
+      if (text.length < MINLEN_C) { return "Írj legalább 10 karaktert."; }
+      if (text.length > MAXLEN_C) { return "Legfeljebb 600 karakter fér bele."; }
+      if (RE_CH_LINK.test(text)) { return "Linket és e-mail-címet nem fogadok el a válaszban."; }
+      if (letterCount(text) < 5) { return "Írd le szavakkal a válaszodat."; }
+      return "";
+    }
+    function errText(code) {
+      if (code === "short") { return "Írj legalább 10 karaktert."; }
+      if (code === "long") { return "Legfeljebb 600 karakter fér bele."; }
+      if (code === "forbidden") { return "A < és > jelet nem tudom átvenni."; }
+      if (code === "link") { return "Linket és e-mail-címet nem fogadok el a válaszban."; }
+      if (code === "letters") { return "Írd le szavakkal a válaszodat."; }
+      if (code === "rate" || code === "busy") { return "Most sokan válaszolnak. Próbáld újra egy perc múlva."; }
+      if (code === "full") { return "Most nem tudok újabb választ fogadni. Nézz vissza később."; }
+      if (code === "pending") { return "A tagságodat még nem hagytam jóvá."; }
+      if (code === "bot") { return "Nem sikerült elküldeni. Töltsd újra az oldalt, és próbáld újra."; }
+      return "Most nem sikerült elküldeni. Próbáld újra egy kicsit később.";
+    }
+    function backToForm(text) { show("form"); msg.textContent = text || ""; }
+    function finish(already, silent) {
+      dropKey(CH_KEY, sessionStorage); area.value = ""; bind.update(); pendingText = ""; pendingId = "";
+      q(".ker-done-new").hidden = !!already; q(".ker-done-old").hidden = !already;
+      if (silent) { quiet = true; }
+      show("done");
+    }
+    function send() {
+      if (busy) { return; }
+      busy = true; show("send");
+      if (!pendingId) { pendingId = "c" + hex(12); }
+      var id = pendingId, text = pendingText, wait = Math.max(0, MIN_FILL - (Date.now() - t0));
+      setTimeout(function () {
+        call({ a: "chal", ch: CH, id: id, text: text, hp: "", t: Date.now() - t0 }).then(function (res) {
+          busy = false;
+          if (res && (res.ok === true || res.err === "sent")) { finish(!!(res && res.err === "sent")); return; }
+          if (authFail(res)) { return; }
+          var code = res && res.err;
+          if (code === "short" || code === "long" || code === "forbidden" || code === "link" || code === "letters" || code === "full" || code === "bot") { pendingId = ""; }
+          backToForm(errText(code));
+        }).catch(function () { busy = false; backToForm(errText("error")); });
+      }, wait);
+    }
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      if (busy) { return; }
+      msg.textContent = ""; bind.filter();
+      var text = tidy(area.value, RE_CH), bad = check(text);
+      if (bad) { msg.textContent = bad; area.focus(); return; }
+      pendingText = text;
+      if (!sess) { q(".ker-auth-msg").textContent = ""; show("auth"); return; }
+      send();
+    });
+
+    /* ---- belépés és fiók (közös, lásd bindAuth és bindAccount) */
+    bindAuth(root, api, { show: show, onLogin: function (ns) { sess = ns; if (pendingText) { send(); } else { show("form"); } } });
+    bindAccount(root, { call: call, show: show, logout: logout, authFail: authFail, afterDelete: function () { dropKey(CH_KEY, sessionStorage); } });
+    q(".ker-msg-back").addEventListener("click", function () { show("form"); });
+
+    // indulás: az űrlap azonnal látszik, a belépett tagtól megkérdezzük, küldött-e már választ
+    show("form");
+    if (sess) {
+      call({ a: "me", ch: CH }).then(function (res) {
+        if (res && res.err === "auth") { logout(true); show("form"); return; }
+        if (res && res.err === "banned") { quiet = true; show("msg", "Ezzel a tagsággal most nem tudsz válaszolni."); return; }
+        if (res && res.ok === true && res.ch === true && state === "form") { finish(true, true); }
+      }).catch(function () {});
+    }
   }
 
   function boot() {
@@ -441,7 +566,8 @@
     for (var i = 0; i < roots.length; i++) {
       var api = roots[i].getAttribute("data-api") || "";
       if (!/^https?:\/\//.test(api)) { continue; }
-      if (roots[i].getAttribute("data-mode") === "live") { initLive(roots[i], api); } else { initReq(roots[i], api); }
+      var mode = roots[i].getAttribute("data-mode");
+      if (mode === "live") { initLive(roots[i], api); } else if (mode === "chal") { initChal(roots[i], api); } else { initReq(roots[i], api); }
     }
   }
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", boot); } else { boot(); }

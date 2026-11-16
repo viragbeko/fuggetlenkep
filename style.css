@@ -478,6 +478,24 @@ details.more p{margin:.6rem 0}
 .ker-card img{animation:ker-reveal .6s ease-out}
 @keyframes ker-reveal{from{transform:rotateY(90deg);opacity:.2}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.ker-card img{animation:none}}
+
+/* kihívás (kezdőlap, a sötét égbolt hátterén) */
+.chal{max-width:40rem}
+.chal-quote{margin:0;padding:.15rem 0 .15rem 1.2rem;border-left:4px solid var(--lamp)}
+.chal-quote p{margin:0;font-family:var(--display);font-size:clamp(1.2rem,4.3vw,1.45rem);line-height:1.5;color:#fff}
+.chal-quote footer{margin:.8rem 0 0;font-weight:700;color:var(--lamp-pale)}
+.hero .chal h1{max-width:none;margin:2.2rem 0 1rem;font-size:clamp(2.1rem,8vw,3.4rem)}
+.chal-text{margin:0 0 1.6rem;font-size:clamp(1.1rem,3.4vw,1.25rem);line-height:1.6;color:#DCE4F0}
+.chal-text a{color:var(--lamp-pale);text-decoration:underline;text-underline-offset:.2em}
+.ker-chal{margin:0 0 2.2rem}
+.ker-chal .ker-panel{color:var(--ink)}
+.ker-chal .ker-panel a{color:var(--link)}
+.ker-chal .ker-account{color:#DCE4F0}
+.ker-chal .ker-account b{color:#fff}
+.ker-chal .ker-account .ker-link{color:var(--lamp-pale)}
+.ker-chal .ker-account :focus-visible{outline-color:var(--lamp-pale)}
+.ker-chal .ker-status{margin:0;font-size:1.15rem}
+.hero .hero-grid .door--hero{margin-top:0}
 :root{--rose-img:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath d=%22M50.0 14.0A19.4 19.4 0 0 1 78.1 27.6A19.4 19.4 0 0 1 85.1 58.0A19.4 19.4 0 0 1 65.6 82.4A19.4 19.4 0 0 1 34.4 82.4A19.4 19.4 0 0 1 14.9 58.0A19.4 19.4 0 0 1 21.9 27.6A19.4 19.4 0 0 1 50.0 14.0Z%22 fill=%22%23EE93AE%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M62.7 23.9A18.0 18.0 0 0 1 78.9 48.0A18.0 18.0 0 0 1 66.2 74.0A18.0 18.0 0 0 1 37.3 76.1A18.0 18.0 0 0 1 21.1 52.0A18.0 18.0 0 0 1 33.8 26.0A18.0 18.0 0 0 1 62.7 23.9Z%22 fill=%22%23DC6C92%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M66.1 36.5A15.3 15.3 0 0 1 67.8 61.1A15.3 15.3 0 0 1 44.9 70.4A15.3 15.3 0 0 1 29.1 51.5A15.3 15.3 0 0 1 42.1 30.5A15.3 15.3 0 0 1 66.1 36.5Z%22 fill=%22%23C34F7C%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M54.4 37.8A11.4 11.4 0 0 1 62.2 54.4A11.4 11.4 0 0 1 45.6 62.2A11.4 11.4 0 0 1 37.8 45.6A11.4 11.4 0 0 1 54.4 37.8Z%22 fill=%22%23A83866%22 stroke=%22%236E1530%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M51.9 23.4A14.3 14.3 0 0 1 71.9 34.9A14.3 14.3 0 0 1 75.5 57.7A14.3 14.3 0 0 1 59.9 74.7A14.3 14.3 0 0 1 36.8 73.1A14.3 14.3 0 0 1 23.7 54.1A14.3 14.3 0 0 1 30.4 32.0A14.3 14.3 0 0 1 51.9 23.4Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M60.7 31.4A13.3 13.3 0 0 1 71.5 50.0A13.3 13.3 0 0 1 60.7 68.6A13.3 13.3 0 0 1 39.3 68.6A13.3 13.3 0 0 1 28.5 50.0A13.3 13.3 0 0 1 39.3 31.4A13.3 13.3 0 0 1 60.7 31.4Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M62.6 40.9A11.3 11.3 0 0 1 62.6 59.1A11.3 11.3 0 0 1 45.2 64.8A11.3 11.3 0 0 1 34.5 50.0A11.3 11.3 0 0 1 45.2 35.2A11.3 11.3 0 0 1 62.6 40.9Z%22 fill=%22none%22 stroke=%22%23FFD3E1%22 stroke-opacity=%22.6%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M50 50m-2.6 0a2.6 2.6 0 1 1 5.2 0a5.4 5.4 0 1 1-10.8 0%22 fill=%22none%22 stroke=%22%236E1530%22 stroke-width=%222.2%22 stroke-linecap=%22round%22/%3E%3C/svg%3E");--card-img:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 26 36%22%3E%3Crect x=%221.5%22 y=%221.5%22 width=%2223%22 height=%2233%22 rx=%223%22 fill=%22%2326345C%22 stroke=%22%23F4B860%22 stroke-width=%222%22/%3E%3Cpath d=%22M13 9L15 16L22 18L15 20L13 27L11 20L4 18L11 16Z%22 fill=%22%23FFE2A8%22/%3E%3C/svg%3E")}
 
 /* ---------- Szerelmi jóslás, a két fa szívkő (CSS 3D) ---------- */

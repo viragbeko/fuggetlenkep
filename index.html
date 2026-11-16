@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="hu_HU">
 <meta property="og:site_name" content="Lélekfény">
-<meta property="og:title" content="Lélekfény – Még mindig ragyogsz.">
+<meta property="og:title" content="Lélekfény – Okosabb vagy Lélekfénynél?">
 <meta property="og:description" content="Rövid önismereti tesztek és régi bibliai történetek azoknak, akik sok mindent átéltek. Találd meg a saját Lélekfényed.">
 <meta property="og:url" content="https://fuggetlenkep.hu/">
 <meta property="og:image" content="https://fuggetlenkep.hu/og.png">
@@ -37,11 +37,86 @@
 </nav>
 </header>
 <section class="hero">
-<div class="wrap hero-grid">
-<h1>Még mindig ragyogsz.</h1>
+<div class="wrap">
+<div class="chal">
+<blockquote class="chal-quote"><p>Ez nem a te logikád! Én is ugyanezt gondolom, csak te szőrszálakat hasogatsz. A tárgyaknak vannak feltételeik, amelyek teljesülése esetén „ajtónak” nevezhetjük őket. Ezek a feltételek: képes legyen elválasztani a tereket; a nyitó és záró funkciójának működnie kellett valamikor, még ha ma már nem is működik; ember alkotta kell legyen, nem a természeté. Én így határoznám meg az ajtót. Ami rendelkezik ezekkel a tulajdonságokkal, az az én szememben ajtó.</p><footer>– Lélekfény</footer></blockquote>
+<h1>Okosabb vagy Lélekfénynél?</h1>
+<p class="chal-text">Találj hibát a logikában, és add tudtára. A válaszod minimum 10, maximum 600 karakter hosszúságú lehet, és az internetes robottámadások elkerülése végett egy e-mail megerősítőkóddal tudod elküldeni a válaszod. E-mailed kezeléséről <a href="/adatvedelem">ide kattintva</a> olvashatsz. Az e-mail-cím csak a válaszadáshoz kell, az internetes támadások elkerülése végett, e-mailedet bármikor törölheted. Ha ezzel kapcsolatban mégis aggodalmad adódik, <a href="mailto:virag.beko@outlook.hu">ide kattintva</a> az e-mail-címen keresztül kapcsolatba léphetsz velem.</p>
+<div class="ker ker-chal" id="kihivas" data-api="https://script.google.com/macros/s/AKfycbyW0rXG_efZfNgn6p8IfbjlQR8Eyr-Zgd_lWXH_WSmmL6G2md-plDCqG2zPKMxeGS7XDQ/exec" data-mode="chal" data-ch="ajto">
+<div class="ker-account" hidden>
+<span>Belépve <b class="ker-account-mail"></b></span>
+<button class="ker-link ker-logout" type="button">Kilépés</button>
+<button class="ker-link ker-delete" type="button">Fiókom törlése</button>
+<span class="ker-del-ask" hidden>Biztosan törlöd a tagságodat és minden adatodat, a válaszodat is? Ezt nem lehet visszavonni.
+<button class="ker-link ker-del-yes" type="button">Igen, törlöm</button>
+<button class="ker-link ker-del-no" type="button">Mégsem</button></span>
+</div>
+
+<div class="ker-panel" data-state="form">
+<form novalidate>
+<div class="ker-field">
+<label for="ker-c-text">A válaszod</label>
+<textarea id="ker-c-text" class="ker-area ker-area--tall" rows="7" maxlength="600" autocomplete="off" aria-describedby="ker-c-help ker-c-left"></textarea>
+<p class="ker-help" id="ker-c-help">Minimum 10, maximum 600 karakter. Link és e-mail-cím nem fér bele.</p>
+<p class="ker-help ker-left" id="ker-c-left"></p>
+<p class="ker-note" role="status" aria-live="polite"></p>
+</div>
+<p class="ker-msg ker-chal-msg" role="status" aria-live="polite"></p>
+<button class="btn ker-send" type="submit">Elküldöm a válaszom</button>
+</form>
+</div>
+
+<div class="ker-panel" data-state="auth" hidden>
+<h2>Erősítsd meg az e-mail-címedet</h2>
+<p>Add meg az e-mail-címedet, küldök rá egy 6 jegyű kódot. Jelszó nincs. Az e-mail-cím csak a válaszadáshoz kell, az internetes támadások elkerülése végett. Hírlevelet nem küldök.</p>
+<div class="ker-field">
+<label for="ker-email">E-mail-címed</label>
+<input id="ker-email" class="ker-input ker-email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="100">
+</div>
+<div class="ker-hp" aria-hidden="true"><label>Ne töltsd ki <input type="text" name="hp" tabindex="-1" autocomplete="off"></label></div>
+<label class="ker-check"><input type="checkbox" class="ker-consent"><span>Elmúltam 16 éves, és hozzájárulok, hogy az e-mail-címemet és a válaszomat a Lélekfény kezelje. A tagságom 60 nap inaktivitás után törlődik. Részletek az <a href="/adatvedelem">adatvédelmi tájékoztatóban</a>.</span></label>
+<p class="ker-msg ker-auth-msg" role="status" aria-live="polite"></p>
+<button class="btn ker-getcode" type="button" data-label="Kérem a kódot">Kérem a kódot</button>
+</div>
+
+<div class="ker-panel" data-state="code" hidden>
+<h2>Add meg a kódot</h2>
+<p>Küldtem egy 6 jegyű kódot erre a címre: <b class="ker-sentto"></b>. Nézd meg a spam mappát is. A kód 10 percig érvényes. A válaszod a kód megadása után automatikusan elmegy.</p>
+<div class="ker-field">
+<label for="ker-code">A kód</label>
+<input id="ker-code" class="ker-input ker-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*">
+</div>
+<p class="ker-msg ker-code-msg" role="status" aria-live="polite"></p>
+<div class="ker-row">
+<button class="btn ker-login" type="button" data-label="Elküldöm a választ">Elküldöm a választ</button>
+<button class="ker-link ker-resend" type="button" disabled>Új kódot kérek</button>
+<button class="ker-link ker-back" type="button">Másik cím</button>
+</div>
+</div>
+
+<div class="ker-panel" data-state="send" hidden>
+<p class="ker-status" role="status" aria-live="polite">Küldöm a válaszodat…</p>
+</div>
+
+<div class="ker-panel" data-state="done" hidden>
+<h2>Megkaptam, köszönöm.</h2>
+<p class="ker-done-new">Elolvasom a válaszodat.</p>
+<p class="ker-done-old" hidden>Erre a kihívásra már küldtél választ, köszönöm.</p>
+</div>
+
+<div class="ker-panel" data-state="msg" hidden>
+<h2>Tájékoztatás</h2>
+<p class="ker-msg-text"></p>
+<button class="ker-link ker-msg-back" type="button">Tovább</button>
+</div>
+</div>
+</div>
+<script src="/kerdesek.js" defer></script>
+<div class="hero-grid">
 <p class="lead">Rövid kérdések és régi történetek azoknak, akik sok mindent átéltek, és szívesen emlékeznek magukra.</p>
 <a class="door door--hero" href="/joslas"><span class="door-art"><svg class="" viewBox="22 20 76 86" aria-hidden="true" focusable="false"><g transform="rotate(-20 60 96)"><rect x="40.0" y="32" width="40" height="64" rx="5" fill="#26345C" stroke="#F4B860" stroke-width="2.2"/><rect x="44.5" y="36.5" width="31" height="55" rx="2.5" fill="none" stroke="#F4B860" stroke-opacity=".55" stroke-width="1"/><path d="M60 49L63.4 60.6L75 60L63.4 64.6L60 76L56.6 64.6L45 60L56.6 60.6Z" fill="#FFE2A8"/></g><g transform="rotate(20 60 96)"><rect x="40.0" y="32" width="40" height="64" rx="5" fill="#26345C" stroke="#F4B860" stroke-width="2.2"/><rect x="44.5" y="36.5" width="31" height="55" rx="2.5" fill="none" stroke="#F4B860" stroke-opacity=".55" stroke-width="1"/><path d="M60 49L63.4 60.6L75 60L63.4 64.6L60 76L56.6 64.6L45 60L56.6 60.6Z" fill="#FFE2A8"/></g><g transform="rotate(0 60 96)"><rect x="40.0" y="32" width="40" height="64" rx="5" fill="#26345C" stroke="#F4B860" stroke-width="2.2"/><rect x="44.5" y="36.5" width="31" height="55" rx="2.5" fill="none" stroke="#F4B860" stroke-opacity=".55" stroke-width="1"/><path d="M60 49L63.4 60.6L75 60L63.4 64.6L60 76L56.6 64.6L45 60L56.6 60.6Z" fill="#FFE2A8"/></g></svg></span><span class="door-txt"><strong>Jóslás</strong><span>Tarot és szerelmi szív jóslás</span></span></a>
 <p class="actions"><a class="btn" href="/teszt-lelekfeny">Kezdd az első teszttel</a><a class="textlink" href="/tortenetek">Olvass egy történetet</a></p>
+</div>
 </div>
 </section>
 </div>
@@ -72,7 +147,7 @@
 <div class="wrap">
 <h2>Erről az oldalról</h2>
 <div class="prose">
-<p>A Lélekfényt egy magánszemély készíti. A tesztek szórakoztató játékok, nem pszichológiai vizsgálatok, és nem helyettesítik a szakember segítségét.</p>
+<p>A Lélekfényt egy magánszemély készíti. A tesztek az önismeretet segítik, nem pszichológiai vizsgálatok, és nem helyettesítik a szakember segítségét.</p>
 <p>Kérdésed vagy észrevételed van? <a href="/kapcsolat">Írj nekem</a>.</p>
 </div>
 </div>
